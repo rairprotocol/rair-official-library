@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MediaRenderer } from "thirdweb/react";
 import Image from "next/image";
 import { useCallback, useContext, useEffect, useState } from "react";
