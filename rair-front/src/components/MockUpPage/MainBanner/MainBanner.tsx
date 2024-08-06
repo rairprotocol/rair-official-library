@@ -31,7 +31,7 @@ const MainBanner = ({ mainBannerInfo }) => {
             ? `${changeIPFSLink(mainBannerInfo?.collectionBanner)}`
             : hotdropsVar === 'true'
               ? hotDropsDefaultBanner
-              : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg'
+              : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg?url'
         }
       />
       {mainBannerInfo && (

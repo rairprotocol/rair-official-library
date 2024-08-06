@@ -21,7 +21,7 @@ import { checkIPFSanimation } from '../../../utils/checkIPFSanimation';
 import { getRGBValue } from '../../../utils/determineColorRange';
 import { rFetch } from '../../../utils/rFetch';
 import ResaleModal from '../../nft/PersonalProfile/PersonalProfileMyNftTab/ResaleModal/ResaleModal';
-import defaultImage from '../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultImage from '../../UserProfileSettings/images/defaultUserPictures.png?url';
 import { ImageLazy } from '../ImageLazy/ImageLazy';
 import {
   INftItemForCollectionView,

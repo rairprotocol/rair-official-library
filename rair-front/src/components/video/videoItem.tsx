@@ -26,7 +26,7 @@ import { SvgLock } from '../MockUpPage/NftList/SvgLock';
 import CustomButton from '../MockUpPage/utils/button/CustomButton';
 import { ModalContentCloseBtn } from '../MockUpPage/utils/button/ShowMoreItems';
 import { playImagesColored } from '../SplashPage/images/greyMan/grayMan';
-import defaultAvatar from '../UserProfileSettings/images/defaultUserPictures.png';
+import defaultAvatar from '../UserProfileSettings/images/defaultUserPictures.png?url';
 import YotiPage from '../YotiPage/YotiPage';
 
 Modal.setAppElement('#root');

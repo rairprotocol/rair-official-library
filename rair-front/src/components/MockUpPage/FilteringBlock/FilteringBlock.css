@@ -180,7 +180,7 @@ select.select-price {
   height: 48px;
   margin-right: 16px;
   background: none;
-  background-image: url('./Vector.png');
+  background-image: url('./Vector.png?url');
   background-repeat: no-repeat;
   background-position: center right;
   appearance: none;

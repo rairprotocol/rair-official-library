@@ -1,14 +1,14 @@
-import greymanRose from './greyman.webp';
-import greyMan from './greyman1.webp';
-import greyManNotFun from './not-fun.webp';
-import flyinggreyman from './pic1.webp';
-import greymanVariants from './pic2.webp';
-import greymanMonument from './pic3.webp';
-import greymanArmy from './pic5.webp';
-import greymanMatrix from './pic6.webp';
-import greyManTimes from './pic7.webp';
-import PlayImages from './playImg.webp';
-import PlayImagesColored from './playImgColored.webp';
+import greymanRose from './greyman.webp?url';
+import greyMan from './greyman1.webp?url';
+import greyManNotFun from './not-fun.webp?url';
+import flyinggreyman from './pic1.webp?url';
+import greymanVariants from './pic2.webp?url';
+import greymanMonument from './pic3.webp?url';
+import greymanArmy from './pic5.webp?url';
+import greymanMatrix from './pic6.webp?url';
+import greyManTimes from './pic7.webp?url';
+import PlayImages from './playImg.webp?url';
+import PlayImagesColored from './playImgColored.webp?url';
 
 export const GreyMan = greyMan;
 export const playImages = PlayImages;

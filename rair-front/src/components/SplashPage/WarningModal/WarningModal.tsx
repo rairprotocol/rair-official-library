@@ -3,8 +3,8 @@ import React from 'react';
 import { ImageLazy } from '../../MockUpPage/ImageLazy/ImageLazy';
 import { IWarningModal } from '../splashPage.types';
 
-import warning1 from './../images/splashPageImages/warning_1.webp';
-import warning2 from './../images/splashPageImages/warning_2.webp';
+import warning1 from './../images/splashPageImages/warning_1.webp?url';
+import warning2 from './../images/splashPageImages/warning_2.webp?url';
 
 const WarningModal: React.FC<IWarningModal> = ({ className, bad, good }) => {
   return (

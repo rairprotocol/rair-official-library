@@ -40,7 +40,7 @@ import { Timeline } from '../Timeline/Timeline';
 import { Countdown } from '../Timer/CountDown';
 import TokenLeftGreyman from '../TokenLeft/TokenLeftGreyman';
 
-import GreymanFavicon from './../images/favicons/greyman-favicon.ico';
+import GreymanFavicon from './../images/favicons/greyman-favicon.ico?url';
 
 import './../SplashPage.css';
 import './GreymanSplashPageMobile.css';

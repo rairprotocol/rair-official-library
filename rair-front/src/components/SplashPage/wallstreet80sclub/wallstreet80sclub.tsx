@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { teamWallstreetArray } from './AboutUsTeam';
 
-import RairFavicon from '../../../components/MockUpPage/assets/rair_favicon.ico';
+import RairFavicon from '../../../components/MockUpPage/assets/rair_favicon.ico?url';
 import { RootState } from '../../../ducks';
 import { setRealChain } from '../../../ducks/contracts/actions';
 import { ContractsInitialType } from '../../../ducks/contracts/contracts.types';

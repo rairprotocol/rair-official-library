@@ -247,7 +247,7 @@ const NftDataPageMain: React.FC<INftDataPageMain> = ({
           src={
             ownerInfo && ownerInfo?.bannerImage
               ? `${changeIPFSLink(ownerInfo?.bannerImage)}`
-              : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg'
+              : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg?url'
           }
         />
       </div>

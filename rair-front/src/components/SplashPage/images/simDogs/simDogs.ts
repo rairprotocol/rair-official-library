@@ -1,8 +1,8 @@
-import simdog0 from './SimDogs0.webp';
-import simdog1 from './SimDogs1.webp';
-import simdog2 from './SimDogs2.webp';
-import simdog3 from './SimDogs3.webp';
-import simdog4 from './SimDogs4.webp';
+import simdog0 from './SimDogs0.webp?url';
+import simdog1 from './SimDogs1.webp?url';
+import simdog2 from './SimDogs2.webp?url';
+import simdog3 from './SimDogs3.webp?url';
+import simdog4 from './SimDogs4.webp?url';
 
 export const SimDogs0 = simdog0;
 export const SimDogs1 = simdog1;

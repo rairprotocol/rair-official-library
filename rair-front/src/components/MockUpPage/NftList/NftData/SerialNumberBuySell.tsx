@@ -22,7 +22,7 @@ import { rFetch } from '../../../../utils/rFetch';
 import { ContractType } from '../../../adminViews/adminView.types';
 import useServerSettings from '../../../adminViews/useServerSettings';
 import ResaleModal from '../../../nft/PersonalProfile/PersonalProfileMyNftTab/ResaleModal/ResaleModal';
-import defaultImage from '../../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultImage from '../../../UserProfileSettings/images/defaultUserPictures.png?url';
 import { ImageLazy } from '../../ImageLazy/ImageLazy';
 import { ISerialNumberBuySell } from '../../mockupPage.types';
 import SelectNumber from '../../SelectBox/SelectNumber/SelectNumber';

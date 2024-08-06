@@ -19,7 +19,7 @@ import { rFetch } from '../../utils/rFetch';
 import { ContractType } from '../adminViews/adminView.types';
 import { SvgKey } from '../MockUpPage/NftList/SvgKey';
 import { gettingPrice } from '../MockUpPage/NftList/utils/gettingPrice';
-import defaultAvatar from '../UserProfileSettings/images/defaultUserPictures.png';
+import defaultAvatar from '../UserProfileSettings/images/defaultUserPictures.png?url';
 
 const ItemOfferComponent: React.FC<INftItemComponent> = ({
   price,

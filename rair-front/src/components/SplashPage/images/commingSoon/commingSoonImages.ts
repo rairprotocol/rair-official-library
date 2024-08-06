@@ -1,5 +1,5 @@
-import logoAuthor from './colab.webp';
-import nutsMain from './nuts-main.webp';
+import logoAuthor from './colab.webp?url';
+import nutsMain from './nuts-main.webp?url';
 
 export const LogoAuthor = logoAuthor;
 export const NutsMain = nutsMain;

@@ -1,14 +1,14 @@
-import vv_background from './vaporverse_authorcard_background.webp';
-import vv_videoBackground from './vaporverse_video_background.webp';
-import vv0 from './vv_NFT_0.webp';
-import vv1 from './vv_NFT_1.webp';
-import vv2 from './vv_NFT_2.webp';
-import vv3 from './vv_NFT_3.webp';
-import vv4 from './vv_NFT_4.webp';
-import teammate_VV from './vv_Rair_logo.webp';
-import vv_test_transmission from './vv_test_transmission.webp';
-import vv_warning_1 from './vv_warning_1.webp';
-import vv_warning_2 from './vv_warning_2.webp';
+import vv_background from './vaporverse_authorcard_background.webp?url';
+import vv_videoBackground from './vaporverse_video_background.webp?url';
+import vv0 from './vv_NFT_0.webp?url';
+import vv1 from './vv_NFT_1.webp?url';
+import vv2 from './vv_NFT_2.webp?url';
+import vv3 from './vv_NFT_3.webp?url';
+import vv4 from './vv_NFT_4.webp?url';
+import teammate_VV from './vv_Rair_logo.webp?url';
+import vv_test_transmission from './vv_test_transmission.webp?url';
+import vv_warning_1 from './vv_warning_1.webp?url';
+import vv_warning_2 from './vv_warning_2.webp?url';
 
 export const VV0 = vv0;
 export const VV1 = vv1;

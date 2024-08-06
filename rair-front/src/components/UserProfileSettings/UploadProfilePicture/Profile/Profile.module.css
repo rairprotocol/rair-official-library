@@ -12,7 +12,7 @@
   background: #383637;
 
   /* --- */
-  /* background-image: url('../assets/leaf2.png'), url('../assets/leaf2.png');
+  /* background-image: url('../assets/leaf2.png?url'), url('../assets/leaf2.png?url');
     background-repeat: no-repeat, no-repeat; */
   background-position:
     120% -5%,

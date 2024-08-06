@@ -26,7 +26,7 @@ import chainData from '../../../utils/blockchainData';
 import { checkIPFSanimation } from '../../../utils/checkIPFSanimation';
 import { ImageLazy } from '../ImageLazy/ImageLazy';
 
-import defaultAvatar from './../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultAvatar from './../../UserProfileSettings/images/defaultUserPictures.png?url';
 import { gettingPrice } from './utils/gettingPrice';
 
 const NftItemComponent: React.FC<INftItemComponent> = ({

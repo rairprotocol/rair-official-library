@@ -36,7 +36,7 @@ import TeamMeet from '../TeamMeet/TeamMeetList';
 import TokenLeftTemplate from '../TokenLeft/TokenLeftTemplate';
 
 import MetaTags from './../../SeoTags/MetaTags';
-import faviconUkraine from './../images/favicons/favicon-ukraine.ico';
+import faviconUkraine from './../images/favicons/favicon-ukraine.ico?url';
 
 import '../SplashPageTemplate/AuthorCard/AuthorCard.css';
 import '../../AboutPage/AboutPageNew/AboutPageNew.css';

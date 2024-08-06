@@ -18,7 +18,7 @@ import useWeb3Tx from '../../../../hooks/useWeb3Tx';
 import chainData from '../../../../utils/blockchainData';
 import { rFetch } from '../../../../utils/rFetch';
 import useServerSettings from '../../../adminViews/useServerSettings';
-import defaultImage from '../../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultImage from '../../../UserProfileSettings/images/defaultUserPictures.png?url';
 import { ImageLazy } from '../../ImageLazy/ImageLazy';
 import { ISellButton } from '../../mockupPage.types';
 

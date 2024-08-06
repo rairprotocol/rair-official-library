@@ -32,7 +32,7 @@ import {
   NftImage
 } from '../images/nutcrackers/nutcrackers';
 import { PoweredRair } from '../images/splashPageImages/splashPage';
-// import photoNut from '../images/block-nuts-photos.png';
+// import photoNut from '../images/block-nuts-photos.png?url';
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
 const Nutcrackers = ({ connectUserData, setIsSplashPage }) => {

@@ -7,7 +7,7 @@ import MobileEditProfile from './MobileEditProfile';
 
 import { UserType } from '../../../ducks/users/users.types';
 
-import defaultPictures from './../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultPictures from './../../UserProfileSettings/images/defaultUserPictures.png?url';
 import {
   List,
   ListProfileItem,

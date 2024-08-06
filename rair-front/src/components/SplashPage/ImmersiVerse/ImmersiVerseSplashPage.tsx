@@ -17,7 +17,7 @@ import NotCommercialGeneric from '../NotCommercial/NotCommercialGeneric';
 import { ISplashPageProps, TSplashPageIsActive } from '../splashPage.types';
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
-import favion_Immersil from './../images/favicons/ImmersiverseATX.ico';
+import favion_Immersil from './../images/favicons/ImmersiverseATX.ico?url';
 
 /* importing Components*/
 import './../SplashPage.css';

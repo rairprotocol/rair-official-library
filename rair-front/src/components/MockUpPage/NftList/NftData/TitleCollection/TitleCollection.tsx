@@ -11,7 +11,7 @@ import chainData from '../../../../../utils/blockchainData';
 import { rFetch } from '../../../../../utils/rFetch';
 import { ContractType } from '../../../../adminViews/adminView.types';
 import { TooltipBox } from '../../../../common/Tooltip/TooltipBox';
-import defaultImage from '../../../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultImage from '../../../../UserProfileSettings/images/defaultUserPictures.png?url';
 import EtherScanCollectionLogo from '../../../assets/EtherScanCollectionLogo.svg?react';
 import { ImageLazy } from '../../../ImageLazy/ImageLazy';
 import {

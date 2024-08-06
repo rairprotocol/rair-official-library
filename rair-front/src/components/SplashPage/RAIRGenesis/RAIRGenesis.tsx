@@ -15,7 +15,7 @@ import { useSplashData } from '../../../utils/infoSplashData/rairGenesis';
 import { TEmbeddedParams, TModeType } from '../../MockUpPage/mockupPage.types';
 import { NftDataCommonLink } from '../../MockUpPage/NftList/NftData/NftDataCommonLink';
 import MetaTags from '../../SeoTags/MetaTags';
-import NFTNYC_favicon from '../images/favicons/NFTNYX_TITLE.ico';
+import NFTNYC_favicon from '../images/favicons/NFTNYX_TITLE.ico?url';
 import { Genesis_TV, GenesisMember } from '../images/rairGenesis/rairGenesis';
 import NotCommercialTemplate2 from '../NotCommercial-2/NotCommercialTemplate-2';
 import { INumberedCircle, ISplashPageProps } from '../splashPage.types';

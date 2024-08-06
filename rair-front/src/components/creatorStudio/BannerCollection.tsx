@@ -82,7 +82,7 @@ export const BannerCollection = ({ item, getContractData }) => {
             backgroundImage: `url(${
               item && item?.bannerImage
                 ? changeIPFSLink(item.bannerImage)
-                : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg'
+                : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg?url'
             })`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',

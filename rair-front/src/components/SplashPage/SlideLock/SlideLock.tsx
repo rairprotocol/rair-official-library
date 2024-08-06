@@ -40,7 +40,7 @@ import './SlideLock.css';
 // import MetaTags from '../../SeoTags/MetaTags'
 // import StaticTiles from '../SplashPageTemplate/VideoTiles/StaticTiles';
 // import NFTLA_Video from "../images/NFT-LA-RAIR-2021.mp4"
-// import nftCountUkraine from '../images/UkrainianSoldierswithMedical/nftCountUkraine.jpeg';
+// import nftCountUkraine from '../images/UkrainianSoldierswithMedical/nftCountUkraine.jpeg?url';
 
 // Google Analytics
 //const TRACKING_ID = 'UA-209450870-5'; // YOUR_OWN_TRACKING_ID

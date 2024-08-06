@@ -39,7 +39,7 @@ import { useGetProducts } from '../splashPageProductsHook';
 import ModalHelp from '../SplashPageTemplate/ModalHelp';
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
-import KohlerFavicon from './assets/favicon.ico';
+import KohlerFavicon from './assets/favicon.ico?url';
 
 import './markKohler.css';
 

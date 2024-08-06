@@ -15,7 +15,7 @@ import { ImageLazy } from '../../../../MockUpPage/ImageLazy/ImageLazy';
 import BtnMyFavorite from '../BtnMyFavorite/BtnMyFavorite';
 import { IMyfavoriteItem } from '../myFavorites.types';
 
-import defaultAvatar from './../../../../UserProfileSettings/images/defaultUserPictures.png';
+import defaultAvatar from './../../../../UserProfileSettings/images/defaultUserPictures.png?url';
 
 const MyfavoriteItem: React.FC<IMyfavoriteItem> = ({
   item,

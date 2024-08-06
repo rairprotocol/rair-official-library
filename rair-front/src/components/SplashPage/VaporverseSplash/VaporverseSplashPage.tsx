@@ -34,7 +34,7 @@ import VideoPlayerModule from '../SplashPageTemplate/VideoPlayer/VideoPlayerModu
 /* importing Components*/
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
-import favion_Vaporverse from './../images/favicons/vv_Rair_logo.ico';
+import favion_Vaporverse from './../images/favicons/vv_Rair_logo.ico?url';
 
 import '../SplashPageTemplate/AuthorCard/AuthorCard.css';
 import '../../AboutPage/AboutPageNew/AboutPageNew.css';

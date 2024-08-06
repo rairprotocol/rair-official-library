@@ -20,7 +20,7 @@ import { TooltipBox } from '../common/Tooltip/TooltipBox';
 
 import useWeb3Tx from './../../hooks/useWeb3Tx';
 import EditMode from './EditMode/EditMode';
-import defaultPictures from './images/defaultUserPictures.png';
+import defaultPictures from './images/defaultUserPictures.png?url';
 import {
   SvgFactoryIcon,
   SvgUpload,

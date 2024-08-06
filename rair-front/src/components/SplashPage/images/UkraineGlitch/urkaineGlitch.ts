@@ -1,13 +1,13 @@
-import ukr4 from './4.webp';
-import ukr5 from './5.gif';
-import ukr126 from './126.webp';
-import ukr497 from './497.webp';
-import ukr1294 from './1294.webp';
-import ukr1989 from './1989.webp';
-import video_background from './metamask-vid-final.webp';
-import nft_countUkraine from './nftCountUkraine.webp';
-import ukr_rounded from './rounded_corners.webp';
-import teammate_7 from './soldier.jpeg';
+import ukr4 from './4.webp?url';
+import ukr5 from './5.gif?url';
+import ukr126 from './126.webp?url';
+import ukr497 from './497.webp?url';
+import ukr1294 from './1294.webp?url';
+import ukr1989 from './1989.webp?url';
+import video_background from './metamask-vid-final.webp?url';
+import nft_countUkraine from './nftCountUkraine.webp?url';
+import ukr_rounded from './rounded_corners.webp?url';
+import teammate_7 from './soldier.jpeg?url';
 
 export const UKR_rounded = ukr_rounded;
 export const UKR4 = ukr4;

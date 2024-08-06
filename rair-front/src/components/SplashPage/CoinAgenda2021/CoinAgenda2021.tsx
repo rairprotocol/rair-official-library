@@ -25,7 +25,7 @@ import ModalHelp from '../SplashPageTemplate/ModalHelp';
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
 /* importing Components*/
-import favicon_CoinAgenda21 from './../images/favicons/coinagenda.ico';
+import favicon_CoinAgenda21 from './../images/favicons/coinagenda.ico?url';
 
 import '../SplashPageTemplate/AuthorCard/AuthorCard.css';
 import '../../AboutPage/AboutPageNew/AboutPageNew.css';

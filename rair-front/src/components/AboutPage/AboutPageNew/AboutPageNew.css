@@ -452,7 +452,7 @@
 
 .left-tokens.about-page .block-left-tokens {
   background-color: #fff;
-  background-image: url('./../assets/rair-prod.webp');
+  background-image: url('./../assets/rair-prod.webp?url');
   background-size: 277px 347px;
   background-repeat: no-repeat;
   width: 476px;
@@ -1903,7 +1903,7 @@ button.btn-show-more {
   }
 
   .home-about--page .information-author {
-    background-image: url('./../assets/aboutPage_bg-1.webp');
+    background-image: url('./../assets/aboutPage_bg-1.webp?url');
     background-repeat: no-repeat;
     background-size: 500px auto;
     background-position: center 115px;

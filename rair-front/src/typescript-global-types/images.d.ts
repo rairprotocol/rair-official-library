@@ -1,4 +1,4 @@
-declare module '*.ico';
+declare module '*.ico?url';
 
 declare module '*.mp4' {
   const src: string;

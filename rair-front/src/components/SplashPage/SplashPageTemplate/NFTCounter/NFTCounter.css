@@ -13,7 +13,7 @@
   height: 472px;
   margin-right: 91px;
   overflow: hidden;
-  /* background: url('./images/left-tokens.jpeg') center center; */
+  /* background: url('./images/left-tokens.jpeg?url') center center; */
   background-size: 472px auto;
   position: relative;
 }
@@ -24,7 +24,7 @@
 
 /*
 .left-tokens.greyman-page .block-left-tokens {
-    background: url('./images/greyman1.png') center center;
+    background: url('./images/greyman1.png?url') center center;
     background-size: cover;
 }
 

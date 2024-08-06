@@ -94,7 +94,7 @@ const NftCollectionPageComponent: React.FC<INftCollectionPageComponent> = ({
   const defaultCollectionBanner =
     hotdropsVar === 'true'
       ? hotDropsDefaultBanner
-      : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg';
+      : 'https://storage.googleapis.com/rair_images/1683038949498-1548817833.jpeg?url';
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

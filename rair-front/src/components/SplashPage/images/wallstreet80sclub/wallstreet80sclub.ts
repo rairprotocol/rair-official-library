@@ -1,13 +1,13 @@
-import wallstreetImg from './wallstreet.webp';
-import wallstreet1 from './wallstreet1.webp';
-import wallstreet2 from './wallstreet2.webp';
-import wallstreetA from './wallstreetA.webp';
-import wallstreetB from './wallstreetB.webp';
-import wallstreetC from './wallstreetC.webp';
-import wallstreetCounter from './wallstreetCounter.webp';
-import wallstreetD from './wallstreetD.webp';
-import wallstreetE from './wallstreetE.webp';
-import wallstreetF from './wallstreetF.webp';
+import wallstreetImg from './wallstreet.webp?url';
+import wallstreet1 from './wallstreet1.webp?url';
+import wallstreet2 from './wallstreet2.webp?url';
+import wallstreetA from './wallstreetA.webp?url';
+import wallstreetB from './wallstreetB.webp?url';
+import wallstreetC from './wallstreetC.webp?url';
+import wallstreetCounter from './wallstreetCounter.webp?url';
+import wallstreetD from './wallstreetD.webp?url';
+import wallstreetE from './wallstreetE.webp?url';
+import wallstreetF from './wallstreetF.webp?url';
 
 export const WallstreetImg = wallstreetImg;
 export const WallstreetCounter = wallstreetCounter;

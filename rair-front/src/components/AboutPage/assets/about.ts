@@ -1,15 +1,15 @@
-import aboutPagebg1 from './aboutPage_bg-1.webp';
-import carstonImage from './carston-hs.webp';
-import davidImage from './David.webp';
-import edImage from './Ed.webp';
-import garrettImage from './GARRETT.webp';
-import guntherImage from './Gunther.webp';
-import juliaImage from './JULIA.webp';
-import martinImage from './Martin.webp';
-import matthewImage from './Matthew.webp';
-import michaelImage from './MICHAEL.webp';
-import rairProd from './rair-prod.webp';
-import sethImage from './Seth.webp';
+import aboutPagebg1 from './aboutPage_bg-1.webp?url';
+import carstonImage from './carston-hs.webp?url';
+import davidImage from './David.webp?url';
+import edImage from './Ed.webp?url';
+import garrettImage from './GARRETT.webp?url';
+import guntherImage from './Gunther.webp?url';
+import juliaImage from './JULIA.webp?url';
+import martinImage from './Martin.webp?url';
+import matthewImage from './Matthew.webp?url';
+import michaelImage from './MICHAEL.webp?url';
+import rairProd from './rair-prod.webp?url';
+import sethImage from './Seth.webp?url';
 
 export const aboutPageBackground = aboutPagebg1;
 export const David = davidImage;

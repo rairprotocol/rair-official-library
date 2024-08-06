@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SearchPanel from './SearchPanel';
 
-// import RairFavicon from './assets/rair_favicon.ico';
+// import RairFavicon from './assets/rair_favicon.ico?url';
 import { RootState } from '../../ducks';
 import { ColorStoreType } from '../../ducks/colors/colorStore.types';
 import { setShowSidebarTrue } from '../../ducks/metadata/actions';

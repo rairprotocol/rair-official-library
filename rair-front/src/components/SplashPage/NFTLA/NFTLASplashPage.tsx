@@ -25,7 +25,7 @@ import VideoPlayerModule from '../SplashPageTemplate/VideoPlayer/VideoPlayerModu
 /* importing Components*/
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
-import NFTfavicon from './../images/favicons/NFT_favicon.ico';
+import NFTfavicon from './../images/favicons/NFT_favicon.ico?url';
 
 import '../../AboutPage/AboutPageNew/AboutPageNew.css';
 import './../SplashPageTemplate/AuthorCard/AuthorCard.css';

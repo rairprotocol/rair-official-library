@@ -6,7 +6,7 @@ import { teamSimDogsArray } from './AboutUsTeam';
 import { BackStorySimDogs } from './InformationText';
 
 import { TFileType, TNftFilesResponse } from '../../../axios.responseTypes';
-import RairFavicon from '../../../components/MockUpPage/assets/rair_favicon.ico';
+import RairFavicon from '../../../components/MockUpPage/assets/rair_favicon.ico?url';
 import { RootState } from '../../../ducks';
 import { setRealChain } from '../../../ducks/contracts/actions';
 import { setInfoSEO } from '../../../ducks/seo/actions';
@@ -38,7 +38,7 @@ import ModalHelp from '../SplashPageTemplate/ModalHelp';
 import TeamMeet from '../TeamMeet/TeamMeetList';
 
 /* importing Components*/
-import favion_SimDogs from './../images/favicons/favicon-simdogs.ico';
+import favion_SimDogs from './../images/favicons/favicon-simdogs.ico?url';
 
 import '../SplashPageTemplate/AuthorCard/AuthorCard.css';
 import '../../AboutPage/AboutPageNew/AboutPageNew.css';

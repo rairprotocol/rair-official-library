@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../ducks';
 import { ColorStoreType } from '../../../ducks/colors/colorStore.types';
 
-// import IconRemove from './images/icon-remove.png';
+// import IconRemove from './images/icon-remove.png?url';
 
 // import { useSelector } from 'react-redux';
 import './NotificationPage.css';

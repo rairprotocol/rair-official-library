@@ -20,7 +20,7 @@
     justify-content: center;
     box-shadow: 15px 10px 25px 0px  #3fa1a9;
     background: #fff;
-    background-image: url('./assets/leaf2.png'), url('./assets/leaf2.png');
+    background-image: url('./assets/leaf2.png?url'), url('./assets/leaf2.png?url');
     background-repeat: no-repeat, no-repeat;
     background-position: 120% -5%, 200% -40%;
     background-size: 40%, 80%;

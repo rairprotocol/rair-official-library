@@ -1,8 +1,8 @@
 import { TInfoSeo, TSeoActionTypes } from './seo.types';
 import * as types from './types';
 
-import HotDropsFavicon from '../../components/MockUpPage/assets/Hotdrops-favicon.ico';
-import RairFavicon from '../../components/MockUpPage/assets/rair_favicon.ico';
+import HotDropsFavicon from '../../components/MockUpPage/assets/Hotdrops-favicon.ico?url';
+import RairFavicon from '../../components/MockUpPage/assets/rair_favicon.ico?url';
 
 const hotDropsVar = import.meta.env.VITE_TESTNET;
 
@@ -19,7 +19,7 @@ if (hotDropsVar === 'true') {
       'HotDrops is a Blockchain-based digital rights management platform that uses NFTs to gate access to streaming content',
     ogDescription: 'Encrypted, Streaming NFTs',
     twitterDescription: 'Encrypted, Streaming NFTs',
-    image: 'https://hotdrops.live/static/media/hotdrops-default.e7c4e7eb.png',
+    image: 'https://hotdrops.live/static/media/hotdrops-default.e7c4e7eb.png?url',
     favicon: HotDropsFavicon,
     faviconMobile: HotDropsFavicon
   };

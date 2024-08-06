@@ -13,7 +13,7 @@ import { useNFTNYC } from '../../../utils/infoSplashData/nftnyc';
 import { ImageLazy } from '../../MockUpPage/ImageLazy/ImageLazy';
 import CustomButton from '../../MockUpPage/utils/button/CustomButton';
 import MetaTags from '../../SeoTags/MetaTags';
-import NFTNYC_favicon from '../images/favicons/NFTNYX_TITLE.ico';
+import NFTNYC_favicon from '../images/favicons/NFTNYX_TITLE.ico?url';
 import { NFTNYC_TITLE, warning0 } from '../images/NFTNYC/nftnyc';
 import NotCommercialTemplate from '../NotCommercial/NotCommercialTemplate';
 import { ISplashPageProps } from '../splashPage.types';
