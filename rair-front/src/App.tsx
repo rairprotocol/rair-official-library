@@ -700,15 +700,15 @@ function App() {
                     content: ImportExternalContracts,
                     constraint: loggedIn && !creatorViewsDisabled
                   },
-                  {
-                    path: '/about-page',
-                    content: AboutPageNew,
-                    props: {
-                      headerLogoWhite: headerLogoWhite,
-                      headerLogoBlack: headerLogoBlack,
-                      setIsSplashPage: setIsSplashPage
-                    }
-                  },
+                  // {
+                  //   path: '/about-page',
+                  //   content: AboutPageNew,
+                  //   props: {
+                  //     headerLogoWhite: headerLogoWhite,
+                  //     headerLogoBlack: headerLogoBlack,
+                  //     setIsSplashPage: setIsSplashPage
+                  //   }
+                  // },
 
                   // Public Facing Routes
                   {
