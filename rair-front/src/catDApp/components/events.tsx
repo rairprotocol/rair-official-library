@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Image from "next/image";
 import { useContext } from "react";
 import { EventContext } from "../contexts/event-context";

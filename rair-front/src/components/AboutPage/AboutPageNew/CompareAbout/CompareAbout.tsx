@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from 'react';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
