@@ -106,7 +106,7 @@ const Events: React.FC = () => {
 export function EventSkeleton() {
 	return (
 		<div
-			className="animate-pulse flex border border-neutral-600 justify-start rounded-lg w-full overflow-hidden gap-4"
+			className="animate-pulse flex border-neutral-600 justify-start rounded-lg w-full overflow-hidden gap-4"
 			style={{
 				height: "68px",
 			}}
