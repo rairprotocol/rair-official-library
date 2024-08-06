@@ -449,85 +449,85 @@ function App() {
 										complex than just a boolean
 									*/}
                 {[
-                  {
-                    path: '/simdogs-splash',
-                    content: SimDogsSplashPage
-                  },
-                  {
-                    path: '/markkohler-splash',
-                    content: MarkKohler,
-                    props: { setIsSplashPage }
-                  },
-                  {
-                    path: '/genesis-splash',
-                    content: RAIRGenesisSplashPage
-                  },
-                  {
-                    path: '/wallstreet80sclub',
-                    content: Wallstreet80sClubSplashPage
-                  },
-                  {
-                    path: '/coinagenda2021',
-                    content: CoinAgenda2021SplashPage
-                  },
-                  {
-                    path: '/immersiverse-splash',
-                    content: ImmersiVerseSplashPage
-                  },
-                  {
-                    path: '/nftnyc-splash',
-                    content: NFTNYCSplashPage
-                  },
-                  {
-                    path: '/video-tiles-test',
-                    content: VideoTilesTest
-                  },
-                  {
-                    path: '/nftla-splash',
-                    content: NFTLASplashPage
-                  },
-                  {
-                    path: '/ukraineglitch',
-                    content: UkraineSplashPage
-                  },
-                  {
-                    path: '/vaporverse-splash',
-                    content: VaporverseSplashPage
-                  },
-                  {
-                    path: '/greyman-splash',
-                    content: GreymanSplashPage
-                  },
-                  {
-                    path: '/nutcrackers-splash',
-                    content: Nutcrackers
-                  },
-                  {
-                    path: '/nipsey-splash',
-                    content: SplashPage
-                  },
-                  {
-                    path: '/cat-app',
-                    content: HomeCat,
-                    exact: true
-                  },
-                  {
-                    path: '/slidelock',
-                    content: SlideLock
-                  },
-                  {
-                    path: '/yoti-page',
-                    content: YotiPage
-                  },
-                  {
-                    path: '/about-page',
-                    content: AboutPageNew,
-                    props: {
-                      headerLogoWhite: headerLogoWhite,
-                      headerLogoBlack: headerLogoBlack,
-                      setIsSplashPage: setIsSplashPage
-                    }
-                  },
+                  // {
+                  //   path: '/simdogs-splash',
+                  //   content: SimDogsSplashPage
+                  // },
+                  // {
+                  //   path: '/markkohler-splash',
+                  //   content: MarkKohler,
+                  //   props: { setIsSplashPage }
+                  // },
+                  // {
+                  //   path: '/genesis-splash',
+                  //   content: RAIRGenesisSplashPage
+                  // },
+                  // {
+                  //   path: '/wallstreet80sclub',
+                  //   content: Wallstreet80sClubSplashPage
+                  // },
+                  // {
+                  //   path: '/coinagenda2021',
+                  //   content: CoinAgenda2021SplashPage
+                  // },
+                  // {
+                  //   path: '/immersiverse-splash',
+                  //   content: ImmersiVerseSplashPage
+                  // },
+                  // {
+                  //   path: '/nftnyc-splash',
+                  //   content: NFTNYCSplashPage
+                  // },
+                  // {
+                  //   path: '/video-tiles-test',
+                  //   content: VideoTilesTest
+                  // },
+                  // {
+                  //   path: '/nftla-splash',
+                  //   content: NFTLASplashPage
+                  // },
+                  // {
+                  //   path: '/ukraineglitch',
+                  //   content: UkraineSplashPage
+                  // },
+                  // {
+                  //   path: '/vaporverse-splash',
+                  //   content: VaporverseSplashPage
+                  // },
+                  // {
+                  //   path: '/greyman-splash',
+                  //   content: GreymanSplashPage
+                  // },
+                  // {
+                  //   path: '/nutcrackers-splash',
+                  //   content: Nutcrackers
+                  // },
+                  // {
+                  //   path: '/nipsey-splash',
+                  //   content: SplashPage
+                  // },
+                  // {
+                  //   path: '/cat-app',
+                  //   content: HomeCat,
+                  //   exact: true
+                  // },
+                  // {
+                  //   path: '/slidelock',
+                  //   content: SlideLock
+                  // },
+                  // {
+                  //   path: '/yoti-page',
+                  //   content: YotiPage
+                  // },
+                  // {
+                  //   path: '/about-page',
+                  //   content: AboutPageNew,
+                  //   props: {
+                  //     headerLogoWhite: headerLogoWhite,
+                  //     headerLogoBlack: headerLogoBlack,
+                  //     setIsSplashPage: setIsSplashPage
+                  //   }
+                  // },
                   {
                     path: '/main-page',
                     content: MainPage,
@@ -700,15 +700,15 @@ function App() {
                     content: ImportExternalContracts,
                     constraint: loggedIn && !creatorViewsDisabled
                   },
-                  {
-                    path: '/about-page',
-                    content: AboutPageNew,
-                    props: {
-                      headerLogoWhite: headerLogoWhite,
-                      headerLogoBlack: headerLogoBlack,
-                      setIsSplashPage: setIsSplashPage
-                    }
-                  },
+                  // {
+                  //   path: '/about-page',
+                  //   content: AboutPageNew,
+                  //   props: {
+                  //     headerLogoWhite: headerLogoWhite,
+                  //     headerLogoBlack: headerLogoBlack,
+                  //     setIsSplashPage: setIsSplashPage
+                  //   }
+                  // },
 
                   // Public Facing Routes
                   {
