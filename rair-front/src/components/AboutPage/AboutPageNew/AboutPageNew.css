@@ -20,7 +20,7 @@
   justify-content: flex-start;
   width: 100%;
   /* height: 694px; */
-  background-image: url('./../assets/aboutPage_bg-1.webp');
+  background-image: url('./../assets/aboutPage_bg-1.webp?url');
   background-repeat: no-repeat;
   background-size: 67% auto;
   background-position: 120% center;
