@@ -113,8 +113,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, close, level }) => {
 						<h1 className="text-2xl font-bold leading-none">{text.title}</h1>
 						<p className="text-gray-500 mt-4">{text?.description}</p>
 					</div>
-					<button className="ml-auto" onClick={close} type="button">
-						<Image src="/icons/close.svg" width={24} height={24} alt="Close" />
+					<button style={{
+						borderRadius: "12px",
+						background: "#000",
+						padding: "10px",
+						border: "none",
+						color: "#fff"
+					}} className="ml-auto" onClick={close} type="button">
+						close
+						{/* <Image src="/icons/close.svg" width={24} height={24} alt="Close" /> */}
 					</button>
 				</div>
 				{level !== 2 && (
@@ -141,7 +148,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, close, level }) => {
 							<p className="text-xs text-gray-500">
 								Click on an address to set it as your target.
 							</p>
-							<Players />
+							{/* <Players /> */}
 						</div>
 					</>
 				)}
@@ -229,7 +236,7 @@ const Cat: React.FC<CatProps> = ({ cat }) => {
 
 	const openModal = useCallback(() => {
 		setIsOpen(true);
-		document.body.classList.add("overflow-hidden");
+		// document.body.classList.add("overflow-hidden");
 	}, []);
 
 	const closeModal = useCallback(() => {
@@ -247,7 +254,7 @@ const Cat: React.FC<CatProps> = ({ cat }) => {
 					</span>
 				)}
 				<div
-					className="border rounded-t-lg w-80 h-80 flex justify-center items-center"
+					className="rounded-t-lg w-80 h-80 flex justify-center items-center"
 					style={{ borderColor: color }}
 				>
 					<MediaRenderer
@@ -257,7 +264,7 @@ const Cat: React.FC<CatProps> = ({ cat }) => {
 						src={cat.metadata.image}
 					/>
 				</div>
-				<div className="border border-t-0 rounded-b-lg border-gray-700 w-full py-4 px-8 flex flex-col items-center text-center">
+				<div className="border-t-0 rounded-b-lg border-gray-700 w-full py-4 px-8 flex flex-col items-center text-center">
 					<p className="font-bold text-xs leading-tight" style={{ color }}>
 						Level {level}
 					</p>
@@ -269,9 +276,19 @@ const Cat: React.FC<CatProps> = ({ cat }) => {
 					</p>
 					<button
 						type="button"
-						className="!bg-white !text-black !border-0 !py-2.5 px-5 rounded-lg w-full font-semibold leading-6"
+						className="!text-black !border-0 !py-2.5 px-5 rounded-lg w-full font-semibold leading-6"
 						style={{ minWidth: 200, height: 50 }}
 						onClick={openModal}
+						style={{
+							background:
+								"linear-gradient(to right, rgb(232, 130, 213), rgb(114, 91, 219))",
+								outline: "none",
+								border: "none",
+								color: "#fff",
+								borderRadius: "12px",
+								height: "40px",
+								width: "200px"
+						}}
 					>
 						{level === 1 && "Transfer"}
 						{level === 2 && "Burn it"}

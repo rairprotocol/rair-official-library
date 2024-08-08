@@ -3,14 +3,18 @@ import Image from "next/image";
 const Footer = () => {
 	return (
 		<>
-			<div className="flex flex-col space-y-2 w-full max-w-xs justify-center">
+			<div style={{
+				margin: "100px"
+			}} className="flex flex-col space-y-2 w-full max-w-xs justify-center">
 				<a
 					href="https://thirdweb.com/joenrv.eth/CatAttackNFT"
 					target="_blank"
 					className="p-3 text-xs font-semibold border border-white/20 rounded flex items-center justify-center space-x-1 hover:bg-white/10 transition"
 					rel="noreferrer"
 				>
-					<Image src="/icons/rocket.svg" width={12} height={12} alt="Zap" />
+					<Image style={{
+						marginRight: "10px"
+					}} src="https://catattack.thirdweb.com/icons/rocket.svg" width={20} height={20} alt="Zap" />
 					<span>Deploy your own CatAttack contract</span>
 				</a>
 				<a
@@ -18,8 +22,13 @@ const Footer = () => {
 					target="_blank"
 					className="p-3 text-xs font-semibold border border-white/20 rounded flex items-center justify-center space-x-1 hover:bg-white/10 transition"
 					rel="noreferrer"
+					style={{
+						marginLeft: "10px"
+					}}
 				>
-					<Image src="/icons/github.svg" width={12} height={12} alt="Zap" />
+					<Image style={{
+						marginRight: "10px"
+					}} src="https://catattack.thirdweb.com/icons/github.svg" width={20} height={20} alt="Zap" />
 					<span>Check out the code on github</span>
 				</a>
 			</div>
