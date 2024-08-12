@@ -1,4 +1,4 @@
-![Banner](/rair-infra/assets/img/banner.webp)
+![Banner](https://github.com/rairprotocol/rair-dapp/blob/main/rair-infra/assets/img/banner.webp)
 [![RAIRmarket](https://img.shields.io/badge/RAIR-market-C67FD1)](https://rair.market)
 [![RAIRprotocol](https://img.shields.io/badge/RAIR-protocol-C67FD1)](https://rairprotocol.org)
 ![License](https://img.shields.io/badge/License-Apache2.0-yellow)
@@ -6,7 +6,7 @@
 [![Twitter](https://img.shields.io/twitter/follow/rairprotocol)](https://twitter.com/rairprotocol)
 
 # rair-templates
-Official repositoy for first-party simple distributed application templates new users can deploy
+Official repository for first-party simple distributed application templates new users can deploy
 
 ## how it works
 
