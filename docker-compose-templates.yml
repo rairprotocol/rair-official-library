@@ -189,10 +189,10 @@ services:
       - 6379:6379
     networks:
       - rair-local
-  rair-front:
-    container_name: rair-front
+  rair-thirdweb-cat-attack:
+    container_name: rair-thirdweb-cat-attack
     build:
-      context: rair-front
+      context: rair-thirdweb-cat-attack
       dockerfile: Dockerfile.prod
     environment:
       VITE_SENTRY_ENABLED: ${sentry_enabled}
