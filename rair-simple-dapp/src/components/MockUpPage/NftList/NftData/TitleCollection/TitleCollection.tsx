@@ -1,0 +1,390 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import Popup from 'reactjs-popup';
+
+import { RootState } from '../../../../../ducks';
+import { ColorStoreType } from '../../../../../ducks/colors/colorStore.types';
+import useWindowDimensions from '../../../../../hooks/useWindowDimensions';
+import { rFetch } from '../../../../../utils/rFetch';
+import { ContractType } from '../../../../adminViews/adminView.types';
+import useServerSettings from '../../../../adminViews/useServerSettings';
+import { TooltipBox } from '../../../../common/Tooltip/TooltipBox';
+import defaultImage from '../../../../UserProfileSettings/images/defaultUserPictures.png';
+import EtherScanCollectionLogo from '../../../assets/EtherScanCollectionLogo.svg?react';
+import { ImageLazy } from '../../../ImageLazy/ImageLazy';
+import {
+  ITitleCollection,
+  TParamsTitleCollection
+} from '../../../mockupPage.types';
+import CustomButton from '../../../utils/button/CustomButton';
+import CustomShareButton from '../CustomShareButton';
+
+import MintPopUpCollection from './MintPopUpCollection/MintPopUpCollection';
+import SharePopUp from './SharePopUp/SharePopUp';
+
+import './TitleCollection.css';
+
+const TitleCollection: React.FC<ITitleCollection> = ({
+  title,
+  userName,
+  someUsersData,
+  selectedData,
+  offerDataCol,
+  mainBannerInfo,
+  showOnlyMintButton,
+  // collectionAttributes,
+  // toggleMetadataFilter
+}) => {
+  const { contract, tokenId, blockchain } = useParams<TParamsTitleCollection>();
+  const { primaryColor, primaryButtonColor } = useSelector<
+    RootState,
+    ColorStoreType
+  >((store) => store.colorStore);
+
+  const [mintPopUp, setMintPopUp] = useState<boolean>(false);
+  const [purchaseStatus, setPurchaseStatus] = useState<boolean>(false);
+  const [contractData, setContractData] = useState<ContractType>();
+
+  const location = useLocation();
+
+  const [selectedValue, setSelectedValue] = useState<number>(0);
+  const [external, setExternal] = useState<boolean | undefined>(undefined);
+  const [open, setOpen] = useState<boolean>(false);
+  const [isCollectionPathExist, setIsCollectionPathExist] =
+    useState<boolean>(true);
+
+  const { width } = useWindowDimensions();
+
+  const handleClose = (value: number) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
+
+  const { getBlockchainData } = useServerSettings();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleTitleColor = () => {
+    if (title) {
+      if (title.includes('#')) {
+        const val = title.slice(title.indexOf('#'));
+        return (
+          <>
+            <span>{title.slice(0, title.indexOf('#'))}</span>{' '}
+            <span className="block-title-purple">{val}</span>
+          </>
+        );
+      } else {
+        return title;
+      }
+    }
+  };
+
+  const disableBuyBtn = useCallback(() => {
+    if (offerDataCol) {
+      if (!contractData || !offerDataCol[0]?.offerIndex) {
+        return true;
+      } else if (contractData.diamond) {
+        return !offerDataCol[0].diamondRangeIndex;
+      } else {
+        return !offerDataCol[0].offerPool;
+      }
+    }
+  }, [offerDataCol, contractData]);
+
+  const getContractInfo = useCallback(async () => {
+    let response;
+    if(mainBannerInfo) {
+      response = await rFetch(
+        `/api/contracts/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}`
+      );
+      if (response.success) {
+        setExternal(response.contract.external);
+        setContractData(response.contract);
+      }
+    }
+    else {
+      if (blockchain && contract) {
+        const response = await rFetch(
+          `/api/contracts/network/${blockchain}/${contract}`
+        );
+  
+        if (response.success) {
+          setExternal(response.contract.external);
+          setContractData(response.contract);
+        }
+      }
+    }
+  }, [blockchain, contract, mainBannerInfo]);
+
+  useEffect(() => {
+    getContractInfo();
+
+    return () => {
+      setExternal(undefined);
+    };
+  }, [getContractInfo]);
+
+  return (
+    <div
+      className={`title-collection-container ${offerDataCol ? 'minted' : ''}`}>
+      {showOnlyMintButton ? 
+        <>
+        {/* {disableBuyBtn() === false && external === false && ( */}
+          <>
+            {width >= 500 ? (
+              <CustomButton
+                onClick={() => {
+                  if (purchaseStatus) {
+                    return;
+                  } else {
+                    setMintPopUp(true);
+                  }
+                }}
+                width="250px"
+                height="70px"
+                // margin="20px 0 0 0"
+                text="Mint!"
+                fontSize="22px"
+                background={`${
+                  primaryColor === '#dedede'
+                    ? import.meta.env.VITE_TESTNET === 'true'
+                      ? 'var(--hot-drops)'
+                      : 'linear-gradient(to right, #e882d5, #725bdb)'
+                    : import.meta.env.VITE_TESTNET === 'true'
+                      ? primaryButtonColor ===
+                        'linear-gradient(to right, #e882d5, #725bdb)'
+                        ? 'var(--hot-drops)'
+                        : primaryButtonColor
+                      : primaryButtonColor
+                }`}
+                hoverBackground={`${
+                  purchaseStatus ? 'rgb(74, 74, 74)' : ''
+                }`}
+              />
+            ) : (
+              <CustomButton
+                onClick={() => {
+                  if (purchaseStatus) {
+                    return;
+                  } else {
+                    setMintPopUp(true);
+                  }
+                }}
+                width="120px"
+                height="40px"
+                // margin="20px 0 0 0"
+                text="Mint!"
+                background={`${
+                  primaryColor === '#dedede'
+                    ? import.meta.env.VITE_TESTNET === 'true'
+                      ? 'var(--hot-drops)'
+                      : 'linear-gradient(to right, #e882d5, #725bdb)'
+                    : import.meta.env.VITE_TESTNET === 'true'
+                      ? primaryButtonColor ===
+                        'linear-gradient(to right, #e882d5, #725bdb)'
+                        ? 'var(--hot-drops)'
+                        : primaryButtonColor
+                      : primaryButtonColor
+                }`}
+                hoverBackground={`${
+                  purchaseStatus ? 'rgb(74, 74, 74)' : ''
+                }`}
+              />
+            )}
+          </>
+        {/* )} */}
+        <Popup
+          // className="popup-settings-block"
+          open={mintPopUp}
+          // position="right center"
+          closeOnDocumentClick
+          onClose={() => {
+            setMintPopUp(false);
+          }}>
+          {offerDataCol && (
+            <MintPopUpCollection
+              blockchain={mainBannerInfo ? mainBannerInfo.blockchain : blockchain}
+              offerDataCol={offerDataCol}
+              primaryColor={primaryColor}
+              contractAddress={contract}
+              setPurchaseStatus={setPurchaseStatus}
+            />
+          )}
+        </Popup>
+      </>
+      : <div className="title-collection-wrapper" style={{
+        justifyContent: `${mainBannerInfo ? 'center' : 'space-between'}`
+      }}>
+        {!mainBannerInfo && <div className="container-title-collection">
+          <div className="block-title-share">
+            <h2
+              className={title && title !== 'none' ? '' : 'block-title-purple'}>
+              {title === 'none' ? `#${tokenId}` : handleTitleColor()}
+            </h2>
+          </div>
+          <NavLink
+            to={`/${someUsersData ? someUsersData.publicAddress : userName}`}>
+            <div className="block-user-creator">
+              <span>by:</span>
+              <ImageLazy
+                src={
+                  someUsersData?.avatar ? someUsersData.avatar : defaultImage
+                }
+                alt="User Avatar"
+              />
+              <h5>
+                {(someUsersData &&
+                someUsersData.nickName &&
+                someUsersData.nickName.length > 20
+                  ? someUsersData.nickName.slice(0, 5) +
+                    '....' +
+                    someUsersData.nickName.slice(length - 4)
+                  : someUsersData && someUsersData.nickName) ||
+                  (userName &&
+                    userName.slice(0, 4) + '....' + userName.slice(length - 4))}
+              </h5>
+            </div>
+          </NavLink>
+        </div>}
+        <div
+          style={{
+            width: mainBannerInfo ? "225px" : "400px"
+          }}
+          className={
+            isCollectionPathExist
+              ? `collection-authenticity-link-share ${
+                  external || disableBuyBtn() === true ? 'external' : ''
+                }`
+              : 'tokens-share'
+          }>
+          {/* {isCollectionPathExist && ( */}
+            {!mainBannerInfo && <>
+              {/* {disableBuyBtn() === false && external === false && ( */}
+                <>
+                  {width >= 500 ? (
+                    <CustomButton
+                      onClick={() => {
+                        if (purchaseStatus) {
+                          return;
+                        } else {
+                          setMintPopUp(true);
+                        }
+                      }}
+                      width="161px"
+                      height="48px"
+                      // margin="20px 0 0 0"
+                      text="Mint!"
+                      background={`${
+                        primaryColor === '#dedede'
+                          ? import.meta.env.VITE_TESTNET === 'true'
+                            ? 'var(--hot-drops)'
+                            : 'linear-gradient(to right, #e882d5, #725bdb)'
+                          : import.meta.env.VITE_TESTNET === 'true'
+                            ? primaryButtonColor ===
+                              'linear-gradient(to right, #e882d5, #725bdb)'
+                              ? 'var(--hot-drops)'
+                              : primaryButtonColor
+                            : primaryButtonColor
+                      }`}
+                      hoverBackground={`${
+                        purchaseStatus ? 'rgb(74, 74, 74)' : ''
+                      }`}
+                    />
+                  ) : (
+                    <CustomButton
+                      onClick={() => {
+                        if (purchaseStatus) {
+                          return;
+                        } else {
+                          setMintPopUp(true);
+                        }
+                      }}
+                      width="120px"
+                      height="40px"
+                      // margin="20px 0 0 0"
+                      text="Mint!"
+                      background={`${
+                        primaryColor === '#dedede'
+                          ? import.meta.env.VITE_TESTNET === 'true'
+                            ? 'var(--hot-drops)'
+                            : 'linear-gradient(to right, #e882d5, #725bdb)'
+                          : import.meta.env.VITE_TESTNET === 'true'
+                            ? primaryButtonColor ===
+                              'linear-gradient(to right, #e882d5, #725bdb)'
+                              ? 'var(--hot-drops)'
+                              : primaryButtonColor
+                            : primaryButtonColor
+                      }`}
+                      hoverBackground={`${
+                        purchaseStatus ? 'rgb(74, 74, 74)' : ''
+                      }`}
+                    />
+                  )}
+                </>
+              {/* )} */}
+              <Popup
+                // className="popup-settings-block"
+                open={mintPopUp}
+                // position="right center"
+                closeOnDocumentClick
+                onClose={() => {
+                  setMintPopUp(false);
+                }}>
+                {offerDataCol && (
+                  <MintPopUpCollection
+                    blockchain={mainBannerInfo ? mainBannerInfo.blockchain : blockchain}
+                    offerDataCol={offerDataCol}
+                    primaryColor={primaryColor}
+                    contractAddress={contract}
+                    setPurchaseStatus={setPurchaseStatus}
+                  />
+                )}
+              </Popup>
+            </>}
+          {isCollectionPathExist && (
+            <a
+              href={`${
+                mainBannerInfo ? getBlockchainData(mainBannerInfo.blockchain)?.blockExplorerGateway :  blockchain &&
+                getBlockchainData(blockchain)?.blockExplorerGateway
+              }address/${contract}`}
+              target="_blank"
+              rel="noreferrer">
+              <div
+                className={`etherscan-icon ${
+                  import.meta.env.VITE_TESTNET === 'true'
+                    ? 'hotdrops-border'
+                    : ''
+                }`}>
+                <TooltipBox title="Link to Contract Review">
+                  <EtherScanCollectionLogo className="etherscan-collection-icon" />
+                </TooltipBox>
+              </div>
+            </a>
+          )}
+          <div className="share-button-linear-border">
+            <CustomShareButton
+              title="Share"
+              handleClick={handleClickOpen}
+              primaryColor={primaryColor}
+              isCollectionPathExist={isCollectionPathExist}
+            />
+            <SharePopUp
+              primaryColor={primaryColor}
+              selectedValue={selectedValue}
+              open={open}
+              onClose={handleClose}
+              selectedData={selectedData}
+            />
+          </div>
+        </div>
+      </div>}
+    </div>
+  );
+};
+
+export default TitleCollection;
