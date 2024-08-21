@@ -1,24 +1,28 @@
 import axios, { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IOffersResponseType, TNftItemResponse } from '../../axios.responseTypes';
 import { RootState } from '../../ducks';
 import { ColorStoreType } from '../../ducks/colors/colorStore.types';
+import { setChainId } from '../../ducks/contracts/actions';
 import { TUsersInitialState } from '../../ducks/users/users.types';
 import useConnectUser from '../../hooks/useConnectUser';
 import { rFetch } from '../../utils/rFetch';
 import { ContractType } from '../adminViews/adminView.types';
+import useServerSettings from '../adminViews/useServerSettings';
 import { OnboardingButton } from '../common/OnboardingButton/OnboardingButton';
 import { TOfferType } from '../marketplace/marketplace.types';
 import MainBanner from '../MockUpPage/MainBanner/MainBanner';
 import TitleCollection from '../MockUpPage/NftList/NftData/TitleCollection/TitleCollection';
 
 const SimpleDApp = () => {
-    const { connectUserData } = useConnectUser();
+    const { connectUserData, logoutUser } = useConnectUser();
+    const dispatch = useDispatch();
     const [mainBannerInfo, setMainBannerInfo] = useState<any>(undefined);
     const [offerDataInfo, setOfferDataInfo] = useState<TOfferType[]>();
     const [metamaskInstalled, setMetamaskInstalled] = useState(false);
     const [tokenData, setTokenData] = useState<any>();
+    const {blockchainSettings} = useServerSettings();
     const [contractData, setContractData] = useState<ContractType>();
     const {
         primaryColor,
@@ -37,7 +41,7 @@ const SimpleDApp = () => {
       }, [setMetamaskInstalled]);
 
       const getContractInfo = useCallback(async () => {
-        if (mainBannerInfo.blockchain && mainBannerInfo.contract) {
+        if (mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.contract) {
           const response = await rFetch(
             `/api/contracts/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}`
           );
@@ -51,7 +55,7 @@ const SimpleDApp = () => {
       const getAllProduct = useCallback(
         async () => {
     
-         if(mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
+         if(mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
             let responseAllProduct;
             responseAllProduct = await axios.get<TNftItemResponse>(
               `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}`
@@ -91,7 +95,7 @@ const SimpleDApp = () => {
 
       const getParticularOffer = useCallback(async () => {
         try {
-         if(mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
+         if(mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
             const response = await axios.get<IOffersResponseType>(
                 `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}/offers`
               );
@@ -117,6 +121,22 @@ const SimpleDApp = () => {
       useEffect(() => {
         getCollectionBanner();
       }, []);
+
+
+
+      useEffect(() => {
+        if (window.ethereum) {
+          const foo = async (chainId) => {
+            dispatch(setChainId(chainId, blockchainSettings));
+          };
+          window.ethereum.on('chainChanged', foo);
+          window.ethereum.on('accountsChanged', logoutUser);
+          return () => {
+            window.ethereum.off('chainChanged', foo);
+            window.ethereum.off('accountsChanged', logoutUser);
+          };
+        }
+      }, [dispatch, logoutUser, blockchainSettings]);
   return (
     <div>
     {!loggedIn && (
