@@ -207,7 +207,7 @@ services:
       VITE_MATIC_MAIN_DIAMOND_MARKETPLACE: ${matic_mainnet_diamond_marketplace_address}
       VITE_NODE_SOCKET_URI: ${front_socket_uri}
     volumes:
-      - ./rair-front/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./$TEMPLATE/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./data/certbot/conf:/etc/letsencrypt 
       - ./data/certbot/www:/var/www/certbot 
     ports:
