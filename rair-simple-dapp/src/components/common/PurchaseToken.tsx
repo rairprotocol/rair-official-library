@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider, useSelector, useStore } from 'react-redux';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -215,6 +215,133 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
     });
   };
 
+  const onClickPurchaseHandle = async () => {
+    if (!requiredBlockchain) {
+      return;
+    }
+    setBuyingToken(true);
+    if (setPurchaseStatus) {
+      setPurchaseStatus(true);
+    }
+    // If currentUserAddress isn't set then the user hasn't connected their wallet
+    if (!currentUserAddress) {
+      connectUserData?.();
+      setBuyingToken(false);
+      if (setPurchaseStatus) {
+        setPurchaseStatus(false);
+      }
+      return;
+    }
+
+    // If the currentChain is different from the contract's chain, switch
+    if (!correctBlockchain(requiredBlockchain)) {
+      await web3Switch(requiredBlockchain);
+      setBuyingToken(false);
+      if (setPurchaseStatus) {
+        setPurchaseStatus(false);
+      }
+      return;
+    }
+
+    setButtonMessage('Connecting to contract...');
+    // Create the instance of the function
+    const contractInstance = contractCreator?.(
+      contractAddress,
+      diamond ? erc721Abi : diamondFactoryAbi
+    );
+
+    setButtonMessage('Finding mintable NFT...');
+
+    let rangeData: IRangeDataType | undefined;
+    if (!blockchainOnly) {
+      // Get the range's data (start token, ending token, price)
+      rangeData = await queryRangeDataFromDatabase(
+        contractInstance,
+        requiredBlockchain,
+        offerIndex,
+        diamond
+      );
+    }
+
+    if (!rangeData && !databaseOnly) {
+      // Get the range's data from the blockchain if the db has no data
+      rangeData = await queryRangeDataFromBlockchain(
+        diamond ? diamondMarketplaceInstance : minterInstance,
+        offerIndex,
+        diamond
+      );
+    }
+
+    if (!rangeData) {
+      reactSwal.fire('Error', 'An error has ocurred.', 'error');
+      if (setPurchaseStatus) {
+        setPurchaseStatus(false);
+      }
+      return;
+    }
+
+    const { start, end, product, price, sponsored } = rangeData;
+
+    const nextToken = await findNextToken(
+      contractInstance,
+      start,
+      end,
+      product,
+      amountOfTokensToPurchase
+    );
+
+    if (!nextToken) {
+      reactSwal.fire(
+        'Error',
+        "Couldn't find enough tokens to mint!",
+        'error'
+      );
+      if (setPurchaseStatus) {
+        setPurchaseStatus(false);
+      }
+      return;
+    }
+
+    if (nextToken?.length) {
+      setButtonMessage(`Minting tokens ${nextToken.join(',')}`);
+    } else {
+      setButtonMessage(`Minting token #${nextToken.toString()}`);
+    }
+
+    if (
+      (
+        await contractInstance?.provider.getBalance(currentUserAddress)
+      )?.lt(BigNumber.from(price).mul(amountOfTokensToPurchase))
+    ) {
+      if (setPurchaseStatus) {
+        setPurchaseStatus(false);
+      }
+      reactSwal.fire('Error', 'Insufficient funds!', 'error');
+      return;
+    }
+
+    const purchaseResult = await purchaseFunction(
+      diamond ? diamondMarketplaceInstance : minterInstance,
+      offerIndex,
+      nextToken,
+      price,
+      diamond,
+      sponsored
+    );
+
+    if (purchaseResult && customSuccessAction) {
+      customSuccessAction(nextToken.length ? nextToken[0] : nextToken);
+    }
+    setBuyingToken(false);
+    if (setPurchaseStatus) {
+      setPurchaseStatus(false);
+    }
+  }
+
+  useEffect(() => {
+    onClickPurchaseHandle();
+  }, [])
+
   return (
     <div className={`text-${textColor}`}>
       <div className={`${!collection ? 'py-4 w-100 row' : ''}`}>
@@ -294,126 +421,7 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
             color: textColor
           }}
           onClick={async () => {
-            if (!requiredBlockchain) {
-              return;
-            }
-            setBuyingToken(true);
-            if (setPurchaseStatus) {
-              setPurchaseStatus(true);
-            }
-            // If currentUserAddress isn't set then the user hasn't connected their wallet
-            if (!currentUserAddress) {
-              connectUserData?.();
-              setBuyingToken(false);
-              if (setPurchaseStatus) {
-                setPurchaseStatus(false);
-              }
-              return;
-            }
-
-            // If the currentChain is different from the contract's chain, switch
-            if (!correctBlockchain(requiredBlockchain)) {
-              await web3Switch(requiredBlockchain);
-              setBuyingToken(false);
-              if (setPurchaseStatus) {
-                setPurchaseStatus(false);
-              }
-              return;
-            }
-
-            setButtonMessage('Connecting to contract...');
-            // Create the instance of the function
-            const contractInstance = contractCreator?.(
-              contractAddress,
-              diamond ? erc721Abi : diamondFactoryAbi
-            );
-
-            setButtonMessage('Finding mintable NFT...');
-
-            let rangeData: IRangeDataType | undefined;
-            if (!blockchainOnly) {
-              // Get the range's data (start token, ending token, price)
-              rangeData = await queryRangeDataFromDatabase(
-                contractInstance,
-                requiredBlockchain,
-                offerIndex,
-                diamond
-              );
-            }
-
-            if (!rangeData && !databaseOnly) {
-              // Get the range's data from the blockchain if the db has no data
-              rangeData = await queryRangeDataFromBlockchain(
-                diamond ? diamondMarketplaceInstance : minterInstance,
-                offerIndex,
-                diamond
-              );
-            }
-
-            if (!rangeData) {
-              reactSwal.fire('Error', 'An error has ocurred.', 'error');
-              if (setPurchaseStatus) {
-                setPurchaseStatus(false);
-              }
-              return;
-            }
-
-            const { start, end, product, price, sponsored } = rangeData;
-
-            const nextToken = await findNextToken(
-              contractInstance,
-              start,
-              end,
-              product,
-              amountOfTokensToPurchase
-            );
-
-            if (!nextToken) {
-              reactSwal.fire(
-                'Error',
-                "Couldn't find enough tokens to mint!",
-                'error'
-              );
-              if (setPurchaseStatus) {
-                setPurchaseStatus(false);
-              }
-              return;
-            }
-
-            if (nextToken?.length) {
-              setButtonMessage(`Minting tokens ${nextToken.join(',')}`);
-            } else {
-              setButtonMessage(`Minting token #${nextToken.toString()}`);
-            }
-
-            if (
-              (
-                await contractInstance?.provider.getBalance(currentUserAddress)
-              )?.lt(BigNumber.from(price).mul(amountOfTokensToPurchase))
-            ) {
-              if (setPurchaseStatus) {
-                setPurchaseStatus(false);
-              }
-              reactSwal.fire('Error', 'Insufficient funds!', 'error');
-              return;
-            }
-
-            const purchaseResult = await purchaseFunction(
-              diamond ? diamondMarketplaceInstance : minterInstance,
-              offerIndex,
-              nextToken,
-              price,
-              diamond,
-              sponsored
-            );
-
-            if (purchaseResult && customSuccessAction) {
-              customSuccessAction(nextToken.length ? nextToken[0] : nextToken);
-            }
-            setBuyingToken(false);
-            if (setPurchaseStatus) {
-              setPurchaseStatus(false);
-            }
+            onClickPurchaseHandle();
           }}>
           <wbr />{' '}
           {currentUserAddress

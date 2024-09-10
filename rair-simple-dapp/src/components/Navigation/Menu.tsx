@@ -254,7 +254,7 @@ const MenuNavigation: React.FC<IMenuNavigation> = ({
           <div>
             {!loggedIn ? (
               <div>
-                <div>
+                {/* <div>
                   {isAboutPage ? null : (
                     <button
                       className={`btn rair-button btn-connect-wallet-mobile`}
@@ -277,7 +277,7 @@ const MenuNavigation: React.FC<IMenuNavigation> = ({
                       {loginProcess ? 'Please wait...' : 'Connect'}
                     </button>
                   )}
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="social-media">

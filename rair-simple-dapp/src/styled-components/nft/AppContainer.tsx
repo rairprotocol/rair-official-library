@@ -8,7 +8,7 @@ import {
 export const AppContainerFluid = styled.div<IAppContainerFluidStyled>`
   ${(props) => props.backgroundImageEffect};
   background-size: 100vw 100vh;
-  min-height: 100vh;
+  min-height: 75vh;
   position: relative;
   background-color: ${(props) =>
     props.primaryColor === '#dedede'

@@ -37,6 +37,10 @@ import rairTechLogoWhite from './rairTechLogoWhite.webp';
 import rarible from './rarible-logo.webp';
 import verifiedIcon from './verify-icon.png';
 import yotiLogo from './yoti-logo.png';
+import googleLogo from './google-icon.svg';
+import mailIcon from './email-1-svgrepo-com.svg';
+import xIcon from './icons8-x.svg';
+import appleIcon from './icons8-apple.svg';
 
 // images
 export const bgLogoBlack = blackBg;
@@ -68,6 +72,10 @@ export const KidWait = kigGif;
 export const YotiLogo = yotiLogo;
 export const RairBackground = newDefaultRairBG;
 export const RairTokenLogo = tokenLogoRair;
+export const GoogleIcon = googleLogo;
+export const AppleIcon = appleIcon;
+export const XIcon = xIcon;
+export const MailIcon = mailIcon;
 
 // Icons
 export const discrodIconNoBorder = discordIconWhiteNoBorder;

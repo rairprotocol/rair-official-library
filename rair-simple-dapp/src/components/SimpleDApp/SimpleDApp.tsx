@@ -7,6 +7,7 @@ import { ColorStoreType } from '../../ducks/colors/colorStore.types';
 import { setChainId } from '../../ducks/contracts/actions';
 import { TUsersInitialState } from '../../ducks/users/users.types';
 import useConnectUser from '../../hooks/useConnectUser';
+import { AppleIcon, GoogleIcon, MailIcon, metaMaskIcon, XIcon } from '../../images';
 import { rFetch } from '../../utils/rFetch';
 import { ContractType } from '../adminViews/adminView.types';
 import useServerSettings from '../adminViews/useServerSettings';
@@ -142,10 +143,6 @@ const SimpleDApp = () => {
     {!loggedIn && (
             <div>
                 <>
-              <div style={{
-                fontSize: "35px"
-              }}>Please select a login method</div>
-              <hr />
               {!metamaskInstalled ? (
                 <OnboardingButton />
               ) : (
@@ -165,27 +162,84 @@ const SimpleDApp = () => {
                           : primaryButtonColor
                     }`,
                     color: textColor,
-                    fontSize: "18px"
+                    borderRadius: "10px",
+                    fontSize: "18px",
+                    width: "270px",
+                    height: "170px",
                   }}
-                  onClick={() => connectUserData('metamask')}
+                  onClick={() => connectUserData('web3auth')}
                   >
-                  Connect
+                  <div style={{
+                    fontSize: "30px",
+                    marginBottom: "30px"
+                  }}>
+                  Start Here
+                  </div>
+                  <div style={{
+                    background: "#fff",
+                    borderRadius: "10px",
+                    height: "40px",
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center"
+                  }}>
+                  <img style={{
+                    width: "35px",
+                    height: "auto"
+                  }} src={GoogleIcon} alt="metamask-logo" />
+                  <img style={{
+                    width: "35px",
+                    height: "auto"
+                  }} src={AppleIcon} alt="metamask-logo" />
+                  <img style={{
+                    width: "35px",
+                    height: "auto"
+                  }} src={XIcon} alt="metamask-logo" />
+                  <img style={{
+                    width: "35px",
+                    height: "auto"
+                  }} src={MailIcon} alt="metamask-logo" />
+                  </div>
                 </button>
               )}
               <hr />
               <button
-                className="btn btn-light"
-                onClick={() => connectUserData('web3auth')}
+                className={`btn btn-${primaryColor === '#dedede' ? 'dark' : "light" }`}
+                style={{
+                  width: "270px"
+                }}
+                onClick={() => connectUserData('metamask')}
                 >
-                Social Logins
+                  <img style={{
+                    width: "40px",
+                    height: "auto"
+                  }} src={metaMaskIcon} alt="metamask-logo" />
               </button>
-              <div className="login-modal-down-text">
-                <div>Each social login creates a unique wallet address</div>
-                <div>
-                  If you login with a different account, you won’t see purchases
-                  in your other wallets
-                </div>
+              <div>
+              For native Web3 users
               </div>
+
+              <div style={{
+                marginTop: "40px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%"
+              }}>
+              <h2 style={{
+                textAlign: "center",
+                fontSize: "25px",
+                width: "400px",
+                marginBottom: "20px"
+              }}>
+              Welcome to RAIRprotocol
+              </h2>
+              </div>
+
+              <div>Welcome to RAIRprotocol. Learn more about</div>
+              <div>Welcome to RAIRprotocol. Learn more about</div>
+              <div>Welcome to RAIRprotocol. Learn more about</div>
+              <div>Welcome to RAIRprotocol. Learn more about</div>
             </>
                 {/* <button
                     className="btn rair-button btn-connect-wallet"
