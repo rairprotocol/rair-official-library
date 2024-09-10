@@ -44,6 +44,7 @@ export interface IPurchaseTokenButtonProps {
 
 export interface IRangeDataType {
   start: string;
+  _id?: string;
   end: string;
   product: string;
   price: string;
