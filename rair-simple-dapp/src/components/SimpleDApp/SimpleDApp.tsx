@@ -1,175 +1,151 @@
-import axios, { AxiosError } from 'axios';
+// @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { IOffersResponseType, TNftItemResponse } from '../../axios.responseTypes';
-import { RootState } from '../../ducks';
-import { ColorStoreType } from '../../ducks/colors/colorStore.types';
-import { setChainId } from '../../ducks/contracts/actions';
-import { TUsersInitialState } from '../../ducks/users/users.types';
+import { TNftItemResponse } from '../../axios.responseTypes';
 import useConnectUser from '../../hooks/useConnectUser';
-import { AppleIcon, GoogleIcon, MailIcon, metaMaskIcon, XIcon } from '../../images';
+import { useAppSelector } from '../../hooks/useReduxHooks';
+import { AppleIcon, GoogleIcon, MailIcon, metaMaskIcon, XIcon } from '../../images/index';
+import { dataStatuses } from '../../redux/commonTypes';
+import axios from 'axios';
 import { rFetch } from '../../utils/rFetch';
 import { ContractType } from '../adminViews/adminView.types';
-import useServerSettings from '../adminViews/useServerSettings';
 import { OnboardingButton } from '../common/OnboardingButton/OnboardingButton';
 import { TOfferType } from '../marketplace/marketplace.types';
 import MainBanner from '../MockUpPage/MainBanner/MainBanner';
 import TitleCollection from '../MockUpPage/NftList/NftData/TitleCollection/TitleCollection';
 
 const SimpleDApp = () => {
-    const { connectUserData, logoutUser } = useConnectUser();
-    const dispatch = useDispatch();
-    const [mainBannerInfo, setMainBannerInfo] = useState<any>(undefined);
-    const [offerDataInfo, setOfferDataInfo] = useState<TOfferType[]>();
-    const [metamaskInstalled, setMetamaskInstalled] = useState(false);
-    const [tokenData, setTokenData] = useState<any>();
-    const {blockchainSettings} = useServerSettings();
-    const [contractData, setContractData] = useState<ContractType>();
-    const {
-        primaryColor,
-        primaryButtonColor,
-        textColor,
-      } = useSelector<RootState, ColorStoreType>((store) => store.colorStore);
-      const {loggedIn, loginProcess } = useSelector<
-        RootState,
-        TUsersInitialState
-      >((store) => store.userStore);
+  const { connectUserData } = useConnectUser();
+  const { isLoggedIn } = useAppSelector(
+    (store) => store.user
+  );
+  
+  const {
+    primaryColor,
+    primaryButtonColor,
+    textColor,
+  } = useAppSelector((store) => store.colors);
 
-      const checkMetamask = useCallback(() => {
-        // @ts-ignore
-        setMetamaskInstalled(window?.ethereum && window?.ethereum?.isMetaMask);
-        
-      }, [setMetamaskInstalled]);
+  const [metamaskInstalled, setMetamaskInstalled] = useState(false);
+  const [mainBannerInfo, setMainBannerInfo] = useState<any>(undefined);
+  const [tokenData, setTokenData] = useState<any>();
+  const [contractData, setContractData] = useState<ContractType>();
+  const [offerDataInfo, setOfferDataInfo] = useState<TOfferType[]>();
+  
 
-      const getContractInfo = useCallback(async () => {
-        if (mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.contract) {
-          const response = await rFetch(
-            `/api/contracts/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}`
-          );
-    
-          if (response.success) {
-            setContractData(response.contract);
-          }
-        }
-      }, [mainBannerInfo]);
+  const getCollectionBanner = async () => {
+    const response = await rFetch(`/api/settings/featured`);
+    if (response.success) {
+      setMainBannerInfo(response.data);
+    }
+  };
 
-      const getAllProduct = useCallback(
-        async () => {
-    
-         if(mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
-            let responseAllProduct;
-            responseAllProduct = await axios.get<TNftItemResponse>(
-              `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}`
-            );
-    
-          const tokenMapping = {};
-          if (responseAllProduct.data.success && responseAllProduct.data.result) {
-            responseAllProduct.data.result.tokens.forEach((item) => {
-              tokenMapping[item.token] = item;
-            });
-          }
-    
-        setTokenData(tokenMapping)
-         }
-        },
-        [mainBannerInfo]
+  const getContractInfo = useCallback(async () => {
+    if (mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.contract) {
+      const response = await rFetch(
+        `/api/contracts/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}`
       );
 
-      useEffect(() => {
-        getContractInfo();
-      }, [getContractInfo])
+      if (response.success) {
+        setContractData(response.contract);
+      }
+    }
+  }, [mainBannerInfo]);
 
-      useEffect(() => {
-        checkMetamask();
-      }, [checkMetamask]);
+  const getAllProduct = useCallback(
+    async () => {
 
+     if(mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
+        let responseAllProduct;
+        responseAllProduct = await axios.get(
+          `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}`
+        );
 
+      const tokenMapping = {};
+      if (responseAllProduct.data.success && responseAllProduct.data.result) {
+        responseAllProduct.data.result.tokens.forEach((item) => {
+          tokenMapping[item.token] = item;
+        });
+      }
 
+    setTokenData(tokenMapping)
+     }
+    },
+    [mainBannerInfo]
+  );
 
-      const getCollectionBanner = async () => {
-        const response = await rFetch(`/api/settings/featured`);
-        if (response.success) {
-          setMainBannerInfo(response.data);
-        }
-      };
+  const getParticularOffer = useCallback(async () => {
+    try {
+     if(mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
+        const response = await axios.get(
+            `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}/offers`
+          );
+          if (response.data.success) {
+            setOfferDataInfo(response.data.product.offers);
+     }
+      }
+    } catch (err) {
+      // console.error(error?.message);
+    }
+  }, [mainBannerInfo]);
 
-
-      const getParticularOffer = useCallback(async () => {
-        try {
-         if(mainBannerInfo && mainBannerInfo.blockchain && mainBannerInfo.product && mainBannerInfo.contract) {
-            const response = await axios.get<IOffersResponseType>(
-                `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}/offers`
-              );
-              if (response.data.success) {
-                setOfferDataInfo(response.data.product.offers);
-         }
-          }
-        } catch (err) {
-          const error = err as AxiosError;
-          console.error(error?.message);
-        }
-      }, [mainBannerInfo]);
-
-      useEffect(() => {
-        getAllProduct();
-      }, [getAllProduct])
-
-      useEffect(() => {
-        getParticularOffer();
-      }, [getParticularOffer]);
+  const checkMetamask = useCallback(() => {
+    // @ts-ignore
+    setMetamaskInstalled(window?.ethereum && window?.ethereum?.isMetaMask);
     
-    
-      useEffect(() => {
-        getCollectionBanner();
-      }, []);
+  }, [setMetamaskInstalled]);
+
+  useEffect(() => {
+    getAllProduct();
+  }, [getAllProduct])
+
+  useEffect(() => {
+    getParticularOffer();
+  }, [getParticularOffer]);
 
 
+  useEffect(() => {
+    getCollectionBanner();
+  }, []);
 
-      useEffect(() => {
-        if (window.ethereum) {
-          const foo = async (chainId) => {
-            dispatch(setChainId(chainId, blockchainSettings));
-          };
-          window.ethereum.on('chainChanged', foo);
-          window.ethereum.on('accountsChanged', logoutUser);
-          return () => {
-            window.ethereum.off('chainChanged', foo);
-            window.ethereum.off('accountsChanged', logoutUser);
-          };
-        }
-      }, [dispatch, logoutUser, blockchainSettings]);
+  useEffect(() => {
+    getContractInfo();
+  }, [getContractInfo])
+
+  useEffect(() => {
+    checkMetamask();
+  }, [checkMetamask]);
+
+  console.info(offerDataInfo, 'offerDataInfo')
+
   return (
     <div>
-    {!loggedIn && (
-            <div>
-                <>
-              {!metamaskInstalled ? (
+      {!isLoggedIn ? (
+          <div>
+              { !metamaskInstalled ? (
                 <OnboardingButton />
-              ) : (
-                <button
-                  className="btn rair-button"
-                  style={{
-                    background: `${
-                      primaryColor === '#dedede'
-                        ? import.meta.env.VITE_TESTNET === 'true'
+              ) : <button
+                className="btn rair-button"
+                style={{
+                  background: `${
+                    primaryColor === '#dedede'
+                      ? import.meta.env.VITE_TESTNET === 'true'
+                        ? 'var(--hot-drops)'
+                        : 'linear-gradient(to right, #e882d5, #725bdb)'
+                      : import.meta.env.VITE_TESTNET === 'true'
+                        ? primaryButtonColor ===
+                          'linear-gradient(to right, #e882d5, #725bdb)'
                           ? 'var(--hot-drops)'
-                          : 'linear-gradient(to right, #e882d5, #725bdb)'
-                        : import.meta.env.VITE_TESTNET === 'true'
-                          ? primaryButtonColor ===
-                            'linear-gradient(to right, #e882d5, #725bdb)'
-                            ? 'var(--hot-drops)'
-                            : primaryButtonColor
                           : primaryButtonColor
-                    }`,
-                    color: textColor,
-                    borderRadius: "10px",
-                    fontSize: "18px",
-                    width: "270px",
-                    height: "170px",
-                  }}
-                  onClick={() => connectUserData('web3auth')}
-                  >
-                  <div style={{
+                        : primaryButtonColor
+                  }`,
+                  color: textColor,
+                  borderRadius: "10px",
+                  fontSize: "18px",
+                  width: "270px",
+                  height: "170px",
+                }}
+                onClick={() => connectUserData('web3auth')}>
+                <div style={{
                     fontSize: "30px",
                     marginBottom: "30px"
                   }}>
@@ -200,8 +176,7 @@ const SimpleDApp = () => {
                     height: "auto"
                   }} src={MailIcon} alt="metamask-logo" />
                   </div>
-                </button>
-              )}
+              </button> }
               <hr />
               <button
                 className={`btn btn-${primaryColor === '#dedede' ? 'dark' : "light" }`}
@@ -240,63 +215,32 @@ const SimpleDApp = () => {
               <div>Welcome to RAIRprotocol. Learn more about</div>
               <div>Welcome to RAIRprotocol. Learn more about</div>
               <div>Welcome to RAIRprotocol. Learn more about</div>
-            </>
-                {/* <button
-                    className="btn rair-button btn-connect-wallet"
-                    style={{
-                    background: `${
-                        primaryColor === '#dedede'
-                        ? import.meta.env.VITE_TESTNET === 'true'
-                            ? 'var(--hot-drops)'
-                            : 'linear-gradient(to right, #e882d5, #725bdb)'
-                        : import.meta.env.VITE_TESTNET === 'true'
-                            ? primaryButtonColor ===
-                            'linear-gradient(to right, #e882d5, #725bdb)'
-                            ? 'var(--hot-drops)'
-                            : primaryButtonColor
-                            : primaryButtonColor
-                    }`,
-                    width: "300px",
-                    height: "80px",
-                    fontSize: "22px",
-                    borderRadius: "12px",
-                    color: textColor
-                    }}
-                    onClick={() => connectUserData()}>
-                    {loginProcess ? 'Please wait...' : 'Connect'}
-                </button> */}
-    </div>
-    )}
-   {loggedIn && <div className="main-wrapper">
-      <div className="col-12 mt-3 row">
-        <div className={'mock-up-page-wrapper'}>
-                <MainBanner mainBannerInfo={mainBannerInfo} />
-                <div style={{
-                    position:"absolute"
-                }}>
-                {tokenData && <TitleCollection
-             selectedData={tokenData[0]?.metadata}
+          </div>
+        ) : <>
+        <div className="main-wrapper">
+  <div className="col-12 mt-3 row">
+    <div className={'mock-up-page-wrapper'}>
+            <MainBanner mainBannerInfo={mainBannerInfo} />
+            <div style={{
+                position:"absolute"
+            }}>
+              {tokenData && <TitleCollection
              title={mainBannerInfo.collectionName}
              someUsersData={mainBannerInfo.user}
-             userName={mainBannerInfo.user.publicAddress}
              mainBannerInfo={mainBannerInfo}
+             userName={mainBannerInfo.user.publicAddress}
              offerDataCol={offerDataInfo}
-             showOnlyMintButton
-             // toggleMetadataFilter={toggleMetadataFilter}
+             showOnlyMintButton={true}
        />}
-                </div>
-        </div>
-            
-        <div className={'mock-up-page-wrapper'}>
-           {tokenData  &&
-
-            <div
+      </div>
+   </div>
+   <div className={'mock-up-page-wrapper'}>
+   {tokenData  && <div
            className="wrapper-collection" style={{
             width: "1200px",
             padding: "0rem 2rem"
            }}>
-             <TitleCollection
-             selectedData={tokenData[0]?.metadata}
+              <TitleCollection
              title={mainBannerInfo.collectionName}
              someUsersData={mainBannerInfo.user}
              userName={mainBannerInfo.user.publicAddress}
@@ -304,12 +248,13 @@ const SimpleDApp = () => {
              offerDataCol={offerDataInfo}
              // toggleMetadataFilter={toggleMetadataFilter}
        />
-       </div>
-       
-           }
-           </div>
-      </div>
-    </div>}
+            </div>}
+   </div>
+   </div>
+   </div>
+      </>}
+        <div>
+        </div>
     </div>
   )
 }

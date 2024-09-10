@@ -1,14 +1,13 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { FC } from 'react';
 
 import { ShowMoreContainer, ShowMoreItem, ShowMoreText } from './ShowMoreItems';
 
-import { RootState } from '../../../../ducks';
+import { useAppSelector } from '../../../../hooks/useReduxHooks';
 import { ICustomButton } from '../../NftList/nftList.types';
 
 import cl from './CustomButton.module.css';
 
-const CustomButton: React.FC<ICustomButton> = ({
+const CustomButton: FC<ICustomButton> = ({
   text,
   width,
   height,
@@ -19,12 +18,9 @@ const CustomButton: React.FC<ICustomButton> = ({
   background,
   hoverBackground,
   padding,
-  loading = false,
-  fontSize = "1rem",
+  loading = false
 }) => {
-  const primaryColor = useSelector<RootState, string>(
-    (store) => store.colorStore.primaryColor
-  );
+  const { primaryColor } = useAppSelector((store) => store.colors);
 
   return (
     <ShowMoreContainer
@@ -49,7 +45,7 @@ const CustomButton: React.FC<ICustomButton> = ({
           <ShowMoreText
             className={cl.nftDataPageShowMoreText}
             font={font}
-            fontSize={fontSize}
+            fontSize={'1rem'}
             fontColor={'#fff'}>
             {text}
           </ShowMoreText>
@@ -63,7 +59,7 @@ const CustomButton: React.FC<ICustomButton> = ({
           <ShowMoreText
             className={cl.nftDataPageShowMoreText}
             font={font}
-            fontSize={fontSize}
+            fontSize={'1rem'}
             fontColor={'#fff'}>
             {text}
           </ShowMoreText>

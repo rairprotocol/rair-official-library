@@ -1,16 +1,13 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
+import useServerSettings from '../../../hooks/useServerSettings';
 import { defaultAvatar, hotDropsDefaultBanner } from '../../../images';
-import useServerSettings from '../../adminViews/useServerSettings';
 import { ImageLazy } from '../ImageLazy/ImageLazy';
 import { changeIPFSLink } from '../NftList/utils/changeIPFSLink';
 
 const MainBanner = ({ mainBannerInfo }) => {
   const hotdropsVar = import.meta.env.VITE_TESTNET;
-
-  const { width } = useWindowDimensions();
 
   const navigate = useNavigate();
   const { getBlockchainData } = useServerSettings();
@@ -26,9 +23,6 @@ const MainBanner = ({ mainBannerInfo }) => {
   return (
     <div
       className={`collection-background main-banner`}
-      style={{
-        marginBottom: width <= 850 ? "0px" : ''
-      }}
       onClick={() => goMainCollection()}>
       <ImageLazy
         className="picture-banner"

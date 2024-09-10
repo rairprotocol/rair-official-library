@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 
 import { MintPopUpCollectionContainer } from './StyledMintPopUpCollection';
