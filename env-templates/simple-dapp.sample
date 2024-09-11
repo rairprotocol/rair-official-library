@@ -20,11 +20,11 @@ VITE_NODE_SOCKET_URI=:5000
 
 VITE_TESTNET=false
 
-VITE_HTML_META_TITLE=RAIR Collectible Marketplace
+VITE_HTML_META_TITLE=RAIR Official License 
 VITE_HTML_META_FAVICON_URI=./favicons/loading-favicon.svg
-VITE_HTML_META_IMAGE_URL=https://proofof.s3.filebase.com/rairmarket.webp
-VITE_HTML_META_AUTHOR=RAIR Collectible Marketplace
-VITE_HTML_META_DESCRIPTION=We help IP owners make their content collectible through private label marketplaces. Mint, stream, sell digital assets.
+VITE_HTML_META_IMAGE_URL=https://raw.githubusercontent.com/rairprotocol/RAIRdocs/main/RAIRprotocol%20Brand%20Kit/PNG/RAIR%20Protocol%20Logo%202024.png
+VITE_HTML_META_AUTHOR=RAIRprotocol
+VITE_HTML_META_DESCRIPTION=RAIRprotocol is the open deployment layer for Web3. Fully open-source infrastructure to #buidl and scale enterprise-grade Web3 Applications. Devs + Integration Partners + Open Source = 1000x more adoption
 VITE_IPFS_GATEWAY=http://rair.myfilebase.com/ipfs/
 
 VITE_DEFAULT_BLOCKCHAIN=0x2105
