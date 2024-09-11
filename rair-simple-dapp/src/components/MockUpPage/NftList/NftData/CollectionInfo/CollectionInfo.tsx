@@ -38,10 +38,8 @@ const EasyMintRow = ({
   const rSwal = useSwal();
   const hotdropsVar = import.meta.env.VITE_TESTNET;
   const [tokensToMint, setTokensToMint] = useState('1');
-
   const remainingCopies = token.copies - token.soldCopies;
   const navigate = useNavigate();
-  const params = useParams<TParamsNftItemForCollectionView>();
   const { getBlockchainData } = useServerSettings();
   return (
     <BlockItemCollection className="block-item-collection">
@@ -134,7 +132,7 @@ const EasyMintRow = ({
                   .then((result) => {
                     if (result.isConfirmed || result.isDismissed) {
                       navigate(
-                        `/tokens/${blockchain}/${params.contract}/${params.product}/${purchasedTokens}`
+                        `/tokens/${blockchain}/${contractAddress}/${token?.product || 0}/${purchasedTokens}`
                       );
                     }
                   });
