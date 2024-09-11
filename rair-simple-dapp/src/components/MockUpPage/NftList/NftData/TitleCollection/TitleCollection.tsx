@@ -50,6 +50,7 @@ const TitleCollection: React.FC<ITitleCollection> = ({
   const [isCollectionPathExist, setIsCollectionPathExist] =
     useState<boolean>(false);
 
+  console.info(mainBannerInfo, 'mainBannerInfo')
   const { width } = useWindowDimensions();
 
   const handleClose = (value: number) => {
@@ -221,6 +222,7 @@ const TitleCollection: React.FC<ITitleCollection> = ({
               primaryColor={primaryColor}
               contractAddress={contract}
               setPurchaseStatus={setPurchaseStatus}
+              mainBannerInfo={mainBannerInfo}
             />
           )}
         </Popup>

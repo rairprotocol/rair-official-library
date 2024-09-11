@@ -12,6 +12,7 @@ interface IMintPopUpCollection {
   contractAddress: any;
   setPurchaseStatus: any;
   closeModal?: any;
+  mainBannerInfo?: any;
 }
 
 const MintPopUpCollection: React.FC<IMintPopUpCollection> = ({
@@ -20,7 +21,8 @@ const MintPopUpCollection: React.FC<IMintPopUpCollection> = ({
   primaryColor,
   contractAddress,
   setPurchaseStatus,
-  closeModal
+  closeModal,
+  mainBannerInfo
 }) => {
   return (
     <MintPopUpCollectionContainer primaryColor={primaryColor}>
@@ -30,6 +32,7 @@ const MintPopUpCollection: React.FC<IMintPopUpCollection> = ({
         offerData={offerDataCol}
         openTitle={false}
         mintToken={true}
+        mainBannerInfo={mainBannerInfo}
         contractAddress={contractAddress}
         setPurchaseStatus={setPurchaseStatus}
       />

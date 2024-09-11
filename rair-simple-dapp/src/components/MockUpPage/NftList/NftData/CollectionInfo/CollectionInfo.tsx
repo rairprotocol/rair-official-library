@@ -155,7 +155,8 @@ const CollectionInfo: FC<ICollectionInfo> = ({
   mintToken,
   contractAddress,
   setPurchaseStatus,
-  closeModal
+  closeModal,
+  mainBannerInfo
 }) => {
   const { primaryColor, isDarkMode } = useAppSelector((store) => store.colors);
   const params = useParams<TParamsNftItemForCollectionView>();
@@ -173,13 +174,13 @@ const CollectionInfo: FC<ICollectionInfo> = ({
 
   const getTokens = async () => {
     const { data } = await axios.get<TNftItemResponse>(
-      `/api/nft/network/${params.blockchain}/${params.contract}/${params.product}?fromToken=0&toToken=1`
+      `/api/nft/network/${mainBannerInfo ? mainBannerInfo.blockchain : params.blockchain}/${mainBannerInfo ? mainBannerInfo.contract : params.contract}/${mainBannerInfo ? mainBannerInfo.product : params.product}?fromToken=0&toToken=1`
     );
 
     if (data && data.success) {
       const count = data.result.totalCount;
       const response = await axios.get<TNftItemResponse>(
-        `/api/nft/network/${params.blockchain}/${params.contract}/${params.product}?fromToken=0&toToken=${count}`
+        `/api/nft/network/${mainBannerInfo ? mainBannerInfo.blockchain : params.blockchain}/${mainBannerInfo ? mainBannerInfo.contract : params.contract}/${mainBannerInfo ? mainBannerInfo.product : params.product}?fromToken=0&toToken=${count}`
       );
 
       if (response.data.success) {
