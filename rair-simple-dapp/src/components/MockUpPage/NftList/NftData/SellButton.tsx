@@ -218,7 +218,7 @@ const SellButton: FC<ISellButton> = ({
           />
         );
       } else if (selectedToken) {
-        const ownerData = currentCollection?.[selectedToken].ownerData;
+        const ownerData = currentCollection?.[selectedToken]?.ownerData;
         return (
           <div className="container-sell-button-user">
             Owned by{' '}
