@@ -425,10 +425,10 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
   }, []);
 
   useEffect(() => {
-    if (diamondMarketplaceInstance) {
+    if (diamondMarketplaceInstance && !buyingToken) {
       newPurchaseHandle();
     }
-  }, [diamondMarketplaceInstance, newPurchaseHandle]);
+  }, [diamondMarketplaceInstance, newPurchaseHandle, buyingToken]);
 
   return (
     <div className={`text-${textColor}`}>
