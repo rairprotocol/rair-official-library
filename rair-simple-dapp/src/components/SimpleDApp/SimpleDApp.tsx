@@ -210,11 +210,10 @@ const SimpleDApp = () => {
               Welcome to RAIRprotocol
               </h2>
               </div>
-
-              <div>Welcome to RAIRprotocol. Learn more about</div>
-              <div>Welcome to RAIRprotocol. Learn more about</div>
-              <div>Welcome to RAIRprotocol. Learn more about</div>
-              <div>Welcome to RAIRprotocol. Learn more about</div>
+              <div>Step 1. Login with socials or Metamask</div>
+              <div>Step 2. Mint free License by clicking "Buy". Gas sponsored is 100% free. Or you can pay your own gas and mint more.</div>
+              <div>Step 3. Deploy your own dApp using your new access NFT!</div>
+              <div>Learn more @ github.com/rairprotocol</div>
           </div>
         ) : <>
         <div className="main-wrapper">
