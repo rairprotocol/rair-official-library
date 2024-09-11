@@ -17,7 +17,6 @@ export interface IAgreementsPropsType {
   databaseOnly?: boolean;
   collection?: boolean | undefined;
   setPurchaseStatus?: any;
-  web3TxHandler: any;
 }
 
 export interface IPurchaseTokenButtonProps {

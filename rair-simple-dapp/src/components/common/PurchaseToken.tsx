@@ -368,20 +368,6 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
       setButtonMessage(`Minting token #${nextToken.toString()}`);
     }
 
-    if (
-      contractInstance?.runner?.provider?.getBalance &&
-      (await contractInstance?.runner?.provider?.getBalance(
-        currentUserAddress
-      )) <
-        BigInt(price) * BigInt(amountOfTokensToPurchase)
-    ) {
-      if (setPurchaseStatus) {
-        setPurchaseStatus(false);
-      }
-      reactSwal.fire('Error', 'Insufficient funds!', 'error');
-      return;
-    }
-
     const purchaseResult = await purchaseFunction(
       diamondMarketplaceInstance,
       offerIndex,
@@ -397,6 +383,13 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
     setBuyingToken(false);
     if (setPurchaseStatus) {
       setPurchaseStatus(false);
+    }
+    if (!purchaseResult) {
+      reactSwal.fire(
+        'Error',
+        'There was an error minting your token, please try again later',
+        'error'
+      );
     }
   }, [
     amountOfTokensToPurchase,
@@ -425,10 +418,20 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
   }, []);
 
   useEffect(() => {
-    if (diamondMarketplaceInstance && !buyingToken) {
+    if (
+      diamondMarketplaceInstance &&
+      !buyingToken &&
+      correctBlockchain(requiredBlockchain)
+    ) {
       newPurchaseHandle();
     }
-  }, [diamondMarketplaceInstance, newPurchaseHandle, buyingToken]);
+  }, [
+    diamondMarketplaceInstance,
+    newPurchaseHandle,
+    buyingToken,
+    requiredBlockchain,
+    correctBlockchain
+  ]);
 
   return (
     <div className={`text-${textColor}`}>
@@ -504,11 +507,11 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
             )
           }
           className="col-12 col-sm-8 col-md-4 rounded-rair my-4 btn rair-button"
+          onClick={() => web3Switch(requiredBlockchain)}
           style={{
             background: primaryButtonColor,
             color: textColor
           }}>
-          <wbr />{' '}
           {currentUserAddress
             ? !correctBlockchain(requiredBlockchain)
               ? `Switch to ${
@@ -556,7 +559,6 @@ const PurchaseTokenButton: React.FC<IPurchaseTokenButtonProps> = ({
     (store) => store.colors
   );
 
-  const { web3TxHandler } = useWeb3Tx();
   const reactSwal = useSwal();
 
   const fireAgreementModal = () => {
@@ -582,8 +584,7 @@ const PurchaseTokenButton: React.FC<IPurchaseTokenButtonProps> = ({
               blockchainOnly,
               databaseOnly,
               collection,
-              setPurchaseStatus,
-              web3TxHandler
+              setPurchaseStatus
             }}
           />
         </Provider>
