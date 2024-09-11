@@ -375,6 +375,34 @@ const MainHeader: FC<IMainHeader> = ({
         </i>
       </div>
       <div className="box-header-info">
+        {!isLoggedIn && (
+          <div>
+            {isAboutPage ? null : (
+              <button
+                className="btn rair-button btn-connect-wallet"
+                style={{
+                  background: `${
+                    primaryColor === '#dedede'
+                      ? import.meta.env.VITE_TESTNET === 'true'
+                        ? 'var(--hot-drops)'
+                        : 'linear-gradient(to right, #e882d5, #725bdb)'
+                      : import.meta.env.VITE_TESTNET === 'true'
+                        ? primaryButtonColor ===
+                          'linear-gradient(to right, #e882d5, #725bdb)'
+                          ? 'var(--hot-drops)'
+                          : primaryButtonColor
+                        : primaryButtonColor
+                  }`,
+                  color: textColor
+                }}
+                onClick={() => connectUserData()}>
+                {loginStatus === dataStatuses.Loading
+                  ? 'Please wait...'
+                  : 'Connect'}
+              </button>
+            )}
+          </div>
+        )}
         <div className="box-connect-btn">
           {(adminRights || superAdmin) && currentUserAddress && (
             <TooltipBox title="Admin Panel">

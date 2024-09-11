@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom';
@@ -50,7 +49,6 @@ const TitleCollection: React.FC<ITitleCollection> = ({
   const [isCollectionPathExist, setIsCollectionPathExist] =
     useState<boolean>(false);
 
-  console.info(mainBannerInfo, 'mainBannerInfo')
   const { width } = useWindowDimensions();
 
   const handleClose = (value: number) => {

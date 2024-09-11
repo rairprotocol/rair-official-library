@@ -209,14 +209,14 @@ const useConnectUser = () => {
     ]
   );
 
-  const connectUserData = useCallback(async (method?: string | undefined) => {
+  const connectUserData = useCallback(async () => {
     let loginData: {
       userAddress?: Hex;
       blockchain?: Hex;
       userDetails?: any;
     };
     const dispatchStack: Array<Action> = [];
-    const loginMethod: string | undefined = method !== undefined ? method : await selectMethod();
+    const loginMethod: string = await selectMethod();
     reactSwal.close();
     try {
       switch (loginMethod) {

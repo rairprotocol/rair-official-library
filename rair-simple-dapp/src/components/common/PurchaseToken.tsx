@@ -1,10 +1,11 @@
-// @ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Provider, useStore } from 'react-redux';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Contract } from 'ethers';
 import { Hex } from 'viem';
+
+import LoadingComponent from './LoadingComponent';
 
 import { diamondFactoryAbi, erc721Abi } from '../../contracts';
 import useConnectUser from '../../hooks/useConnectUser';
@@ -29,6 +30,9 @@ const queryRangeDataFromDatabase = async (
   offerIndex: string[] | undefined,
   diamond = false
 ): Promise<undefined | IRangeDataType> => {
+  if (!contractInstance) {
+    return;
+  }
   const { success, products } = await rFetch(
     `/api/contracts/network/${network}/${await contractInstance?.getAddress()}/offers`,
     undefined,
@@ -73,61 +77,6 @@ const queryRangeDataFromDatabase = async (
   }
 };
 
-const findNextToken = async (
-  contractInstance: Contract | undefined,
-  start: string,
-  end: string,
-  product: string,
-  amountOfTokensToPurchase = '1',
-  offerId?: string
-) => {
-  if (offerId) {
-    const { success, availableTokens } = await rFetch(
-      `/api/offers/${offerId}/available`
-    );
-    if (success) {
-      if (BigInt(amountOfTokensToPurchase) > BigInt(availableTokens.length)) {
-        return;
-      } else if (
-        BigInt(amountOfTokensToPurchase) === BigInt(availableTokens.length)
-      ) {
-        return availableTokens.map((item) => item.token);
-      }
-      const selectedTokens: Array<bigint> = Array(
-        Number(amountOfTokensToPurchase)
-      ).fill(BigInt(0));
-
-      selectedTokens.forEach((_, index) => {
-        let randomNumber: bigint;
-        do {
-          randomNumber = BigInt(
-            availableTokens[Math.floor(Math.random() * availableTokens.length)]
-              .token
-          );
-        } while (selectedTokens.includes(randomNumber));
-        selectedTokens[index] = randomNumber;
-      });
-      return selectedTokens;
-    }
-  }
-  // Fallback to sequential minting if there's no offer ID or the api call fails
-
-
-  if (BigInt(1) === BigInt(amountOfTokensToPurchase)) {
-    return await contractInstance?.getNextSequentialIndex(product, start, end);
-  } else {
-    const array: string[] = [];
-    for (let i = BigInt(start); i <= BigInt(end); i = i + BigInt(1)) {
-      i = await contractInstance?.getNextSequentialIndex(product, i, end);
-      array.push(i.toString());
-      if (BigInt(array.length) === BigInt(amountOfTokensToPurchase)) {
-        return array;
-      }
-    }
-    return;
-  }
-};
-
 const Agreements: React.FC<IAgreementsPropsType> = ({
   amountOfTokensToPurchase,
   presaleMessage,
@@ -151,11 +100,84 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
   const { web3Switch, correctBlockchain, web3TxHandler } = useWeb3Tx();
   const { getBlockchainData } = useServerSettings();
 
-  const { diamondMarketplaceInstance, contractCreator } = useContracts();
+  const { diamondMarketplaceInstance, contractCreator, refreshSigner } =
+    useContracts();
 
   const { currentUserAddress } = useAppSelector((store) => store.web3);
   const { textColor, primaryButtonColor } = useAppSelector(
     (store) => store.colors
+  );
+
+  useEffect(() => {
+    refreshSigner();
+  }, []);
+
+  const findNextToken = useCallback(
+    async (
+      contractInstance: Contract,
+      start: string,
+      end: string,
+      product: string,
+      amountOfTokensToPurchase = '1',
+      offerId
+    ) => {
+      if (offerId) {
+        const { success, availableTokens } = await rFetch(
+          `/api/offers/${offerId}/available`
+        );
+        if (success) {
+          if (
+            BigInt(amountOfTokensToPurchase) > BigInt(availableTokens.length)
+          ) {
+            return;
+          } else if (
+            BigInt(amountOfTokensToPurchase) === BigInt(availableTokens.length)
+          ) {
+            return availableTokens.map((item) => item.token);
+          }
+          const selectedTokens: Array<bigint> = Array(
+            Number(amountOfTokensToPurchase)
+          ).fill(BigInt(0));
+
+          selectedTokens.forEach((_, index) => {
+            let randomNumber: bigint;
+            do {
+              randomNumber = BigInt(
+                availableTokens[
+                  Math.floor(Math.random() * availableTokens.length)
+                ].token
+              );
+            } while (selectedTokens.includes(randomNumber));
+            selectedTokens[index] = randomNumber;
+          });
+          return selectedTokens;
+        }
+      }
+      // Fallback to sequential minting if there's no offer ID or the api call fails
+      if (BigInt(1) === BigInt(amountOfTokensToPurchase)) {
+        const singleNextToken = await web3TxHandler(
+          contractInstance,
+          'getNextSequentialIndex',
+          [product, start, end]
+        );
+        return singleNextToken;
+      } else {
+        const array: string[] = [];
+        for (let i = BigInt(start); i <= BigInt(end); i = i + BigInt(1)) {
+          i = await web3TxHandler(contractInstance, 'getNextSequentialIndex', [
+            product,
+            i,
+            end
+          ]);
+          array.push(i.toString());
+          if (BigInt(array.length) === BigInt(amountOfTokensToPurchase)) {
+            return array;
+          }
+        }
+        return;
+      }
+    },
+    [web3TxHandler]
   );
 
   const queryRangeDataFromBlockchain = async (
@@ -210,8 +232,8 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
   ) => {
     if (!minterInstance) {
       reactSwal.fire({
-        title: 'An error has ocurred',
-        html: 'Please try again later',
+        title: 'Error',
+        html: 'Could not connect to marketplace contract, please try again later',
         icon: 'info'
       });
       return;
@@ -541,9 +563,6 @@ const PurchaseTokenButton: React.FC<IPurchaseTokenButtonProps> = ({
       }
     });
   };
-
-
-  
 
   if (altButtonFormat) {
     return (

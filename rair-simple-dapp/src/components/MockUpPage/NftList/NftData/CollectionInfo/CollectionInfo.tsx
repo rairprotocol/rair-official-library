@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
