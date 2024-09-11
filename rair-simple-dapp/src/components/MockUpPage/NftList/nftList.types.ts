@@ -142,6 +142,7 @@ export interface ICollectionInfo {
   contractAddress?: string;
   setPurchaseStatus?: any;
   closeModal?: any;
+  mainBannerInfo: any;
 }
 
 export type TCollectionInfoBody = {

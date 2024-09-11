@@ -32,10 +32,16 @@ const TitleCollection: React.FC<ITitleCollection> = ({
   showOnlyMintButton,
   mainBannerInfo
 }) => {
-  const { contract, tokenId, blockchain } = useParams<TParamsTitleCollection>();
+  let { contract, tokenId, blockchain } = useParams<TParamsTitleCollection>();
   const { primaryColor, primaryButtonColor } = useAppSelector(
     (store) => store.colors
   );
+
+  if (!contract || !tokenId || !blockchain) {
+    blockchain = mainBannerInfo.blockchain;
+    contract = mainBannerInfo.contract;
+    tokenId = '0';
+  }
 
   const [mintPopUp, setMintPopUp] = useState<boolean>(false);
   const [purchaseStatus, setPurchaseStatus] = useState<boolean>(false);
@@ -100,7 +106,7 @@ const TitleCollection: React.FC<ITitleCollection> = ({
 
   const getContractInfo = useCallback(async () => {
     let response;
-    if(mainBannerInfo) {
+    if (mainBannerInfo) {
       response = await rFetch(
         `/api/contracts/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}`
       );
@@ -108,13 +114,12 @@ const TitleCollection: React.FC<ITitleCollection> = ({
         setExternal(response.contract.external);
         setContractData(response.contract);
       }
-    }
-    else {
+    } else {
       if (blockchain && contract) {
         const response = await rFetch(
           `/api/contracts/network/${blockchain}/${contract}`
         );
-  
+
         if (response.success) {
           setExternal(response.contract.external);
           setContractData(response.contract);
@@ -139,9 +144,9 @@ const TitleCollection: React.FC<ITitleCollection> = ({
   return (
     <div
       className={`title-collection-container ${offerDataCol ? 'minted' : ''}`}>
-      {showOnlyMintButton ? 
+      {showOnlyMintButton ? (
         <>
-        {/* {disableBuyBtn() === false && external === false && ( */}
+          {/* {disableBuyBtn() === false && external === false && ( */}
           <>
             {width >= 500 ? (
               <CustomButton
@@ -156,7 +161,6 @@ const TitleCollection: React.FC<ITitleCollection> = ({
                 height="70px"
                 // margin="20px 0 0 0"
                 text="Mint!"
-                fontSize="22px"
                 background={`${
                   primaryColor === '#dedede'
                     ? import.meta.env.VITE_TESTNET === 'true'
@@ -169,9 +173,7 @@ const TitleCollection: React.FC<ITitleCollection> = ({
                         : primaryButtonColor
                       : primaryButtonColor
                 }`}
-                hoverBackground={`${
-                  purchaseStatus ? 'rgb(74, 74, 74)' : ''
-                }`}
+                hoverBackground={`${purchaseStatus ? 'rgb(74, 74, 74)' : ''}`}
               />
             ) : (
               <CustomButton
@@ -198,81 +200,93 @@ const TitleCollection: React.FC<ITitleCollection> = ({
                         : primaryButtonColor
                       : primaryButtonColor
                 }`}
-                hoverBackground={`${
-                  purchaseStatus ? 'rgb(74, 74, 74)' : ''
-                }`}
+                hoverBackground={`${purchaseStatus ? 'rgb(74, 74, 74)' : ''}`}
               />
             )}
           </>
-        {/* )} */}
-        <Popup
-          // className="popup-settings-block"
-          open={mintPopUp}
-          // position="right center"
-          closeOnDocumentClick
-          onClose={() => {
-            setMintPopUp(false);
-          }}>
-          {offerDataCol && (
-            <MintPopUpCollection
-              blockchain={mainBannerInfo ? mainBannerInfo.blockchain : blockchain}
-              offerDataCol={offerDataCol}
-              primaryColor={primaryColor}
-              contractAddress={contract}
-              setPurchaseStatus={setPurchaseStatus}
-              mainBannerInfo={mainBannerInfo}
-            />
-          )}
-        </Popup>
-      </>
-      : <div className="title-collection-wrapper" style={{
-        justifyContent: `${mainBannerInfo ? 'center' : 'space-between'}`
-      }}>
-        {!mainBannerInfo && <div className="container-title-collection">
-          <div className="block-title-share">
-            <h2
-              className={title && title !== 'none' ? '' : 'block-title-purple'}>
-              {title === 'none' ? `#${tokenId}` : handleTitleColor()}
-            </h2>
-          </div>
-          <NavLink
-            to={`/${someUsersData ? someUsersData.publicAddress : userName}`}>
-            <div className="block-user-creator">
-              <span>by:</span>
-              <ImageLazy
-                src={
-                  someUsersData?.avatar ? someUsersData.avatar : defaultImage
+          {/* )} */}
+          <Popup
+            // className="popup-settings-block"
+            open={mintPopUp}
+            // position="right center"
+            closeOnDocumentClick
+            onClose={() => {
+              setMintPopUp(false);
+            }}>
+            {offerDataCol && (
+              <MintPopUpCollection
+                blockchain={
+                  mainBannerInfo ? mainBannerInfo.blockchain : blockchain
                 }
-                alt="User Avatar"
+                offerDataCol={offerDataCol}
+                primaryColor={primaryColor}
+                contractAddress={contract}
+                setPurchaseStatus={setPurchaseStatus}
+                mainBannerInfo={mainBannerInfo}
               />
-              <h5>
-                {(someUsersData &&
-                someUsersData.nickName &&
-                someUsersData.nickName.length > 20
-                  ? someUsersData.nickName.slice(0, 5) +
-                    '....' +
-                    someUsersData.nickName.slice(length - 4)
-                  : someUsersData && someUsersData.nickName) ||
-                  (userName &&
-                    userName.slice(0, 4) + '....' + userName.slice(length - 4))}
-              </h5>
-            </div>
-          </NavLink>
-        </div>}
+            )}
+          </Popup>
+        </>
+      ) : (
         <div
+          className="title-collection-wrapper"
           style={{
-            width: mainBannerInfo ? "" : "400px"
-          }}
-          className={
-            isCollectionPathExist
-              ? `collection-authenticity-link-share ${
-                  external || disableBuyBtn() === true ? 'external' : ''
-                }`
-              : 'tokens-share'
-          }>
-          {/* {isCollectionPathExist && ( */}
-            {!mainBannerInfo && <>
-              {/* {disableBuyBtn() === false && external === false && ( */}
+            justifyContent: `${mainBannerInfo ? 'center' : 'space-between'}`
+          }}>
+          {!mainBannerInfo && (
+            <div className="container-title-collection">
+              <div className="block-title-share">
+                <h2
+                  className={
+                    title && title !== 'none' ? '' : 'block-title-purple'
+                  }>
+                  {title === 'none' ? `#${tokenId}` : handleTitleColor()}
+                </h2>
+              </div>
+              <NavLink
+                to={`/${someUsersData ? someUsersData.publicAddress : userName}`}>
+                <div className="block-user-creator">
+                  <span>by:</span>
+                  <ImageLazy
+                    src={
+                      someUsersData?.avatar
+                        ? someUsersData.avatar
+                        : defaultImage
+                    }
+                    alt="User Avatar"
+                  />
+                  <h5>
+                    {(someUsersData &&
+                    someUsersData.nickName &&
+                    someUsersData.nickName.length > 20
+                      ? someUsersData.nickName.slice(0, 5) +
+                        '....' +
+                        someUsersData.nickName.slice(length - 4)
+                      : someUsersData && someUsersData.nickName) ||
+                      (userName &&
+                        userName.slice(0, 4) +
+                          '....' +
+                          userName.slice(length - 4))}
+                  </h5>
+                </div>
+              </NavLink>
+            </div>
+          )}
+          <div
+            style={{
+              width: mainBannerInfo ? '' : '400px'
+            }}
+            className={
+              isCollectionPathExist
+                ? `collection-authenticity-link-share ${
+                    external || disableBuyBtn() === true ? 'external' : ''
+                  }`
+                : 'tokens-share'
+            }>
+            {/* {isCollectionPathExist && ( */}
+            {!mainBannerInfo && (
+              <>
+                {/* {disableBuyBtn() === false && external === false && ( */}
                 <>
                   {width >= 500 ? (
                     <CustomButton
@@ -334,62 +348,69 @@ const TitleCollection: React.FC<ITitleCollection> = ({
                     />
                   )}
                 </>
-              {/* )} */}
-              <Popup
-                // className="popup-settings-block"
-                open={mintPopUp}
-                // position="right center"
-                closeOnDocumentClick
-                onClose={() => {
-                  setMintPopUp(false);
-                }}>
-                {offerDataCol && (
-                  <MintPopUpCollection
-                    blockchain={mainBannerInfo ? mainBannerInfo.blockchain : blockchain}
-                    offerDataCol={offerDataCol}
-                    primaryColor={primaryColor}
-                    contractAddress={contract}
-                    setPurchaseStatus={setPurchaseStatus}
-                  />
-                )}
-              </Popup>
-            </>}
-          {isCollectionPathExist && (
-            <a
-              href={`${
-                mainBannerInfo ? getBlockchainData(mainBannerInfo.blockchain)?.blockExplorerGateway :  blockchain &&
-                getBlockchainData(blockchain)?.blockExplorerGateway
-              }address/${contract}`}
-              target="_blank"
-              rel="noreferrer">
-              <div
-                className={`etherscan-icon ${
-                  import.meta.env.VITE_TESTNET === 'true'
-                    ? 'hotdrops-border'
-                    : ''
-                }`}>
-                <TooltipBox title="Link to Contract Review">
-                  <EtherScanCollectionLogo className="etherscan-collection-icon" />
-                </TooltipBox>
-              </div>
-            </a>
-          )}
-          <div className="share-button-linear-border">
-            <CustomShareButton
-              title="Share"
-              handleClick={handleClickOpen}
-              primaryColor={primaryColor}
-              isCollectionPathExist={isCollectionPathExist}
-            />
-            <SharePopUp
-              primaryColor={primaryColor}
-              selectedValue={selectedValue}
-              open={open}
-              onClose={handleClose}
-            />
+                {/* )} */}
+                <Popup
+                  // className="popup-settings-block"
+                  open={mintPopUp}
+                  // position="right center"
+                  closeOnDocumentClick
+                  onClose={() => {
+                    setMintPopUp(false);
+                  }}>
+                  {offerDataCol && (
+                    <MintPopUpCollection
+                      blockchain={
+                        mainBannerInfo ? mainBannerInfo.blockchain : blockchain
+                      }
+                      offerDataCol={offerDataCol}
+                      primaryColor={primaryColor}
+                      contractAddress={contract}
+                      setPurchaseStatus={setPurchaseStatus}
+                    />
+                  )}
+                </Popup>
+              </>
+            )}
+            {isCollectionPathExist && (
+              <a
+                href={`${
+                  mainBannerInfo
+                    ? getBlockchainData(mainBannerInfo.blockchain)
+                        ?.blockExplorerGateway
+                    : blockchain &&
+                      getBlockchainData(blockchain)?.blockExplorerGateway
+                }address/${contract}`}
+                target="_blank"
+                rel="noreferrer">
+                <div
+                  className={`etherscan-icon ${
+                    import.meta.env.VITE_TESTNET === 'true'
+                      ? 'hotdrops-border'
+                      : ''
+                  }`}>
+                  <TooltipBox title="Link to Contract Review">
+                    <div>
+                      <EtherScanCollectionLogo className="etherscan-collection-icon" />
+                    </div>
+                  </TooltipBox>
+                </div>
+              </a>
+            )}
+            <div className="share-button-linear-border">
+              <CustomShareButton
+                title="Share"
+                handleClick={handleClickOpen}
+                isCollectionPathExist={isCollectionPathExist}
+              />
+              <SharePopUp
+                selectedValue={selectedValue}
+                open={open}
+                onClose={handleClose}
+              />
+            </div>
           </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };

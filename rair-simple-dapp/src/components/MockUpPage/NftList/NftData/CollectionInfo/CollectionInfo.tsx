@@ -177,13 +177,13 @@ const CollectionInfo: FC<ICollectionInfo> = ({
     );
 
     if (data && data.success) {
-      const count = data.result.totalCount;
+      const count = data.totalCount;
       const response = await axios.get<TNftItemResponse>(
         `/api/nft/network/${mainBannerInfo ? mainBannerInfo.blockchain : params.blockchain}/${mainBannerInfo ? mainBannerInfo.contract : params.contract}/${mainBannerInfo ? mainBannerInfo.product : params.product}?fromToken=0&toToken=${count}`
       );
 
       if (response.data.success) {
-        setTokenData(response.data.result.tokens);
+        setTokenData(response.data.tokens);
       }
     }
   };
