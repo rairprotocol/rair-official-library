@@ -28,18 +28,19 @@ const SellButton: FC<ISellButton> = ({
 }) => {
   const { contractCreator, diamondMarketplaceInstance } = useContracts();
   const { currentUserAddress } = useAppSelector((store) => store.web3);
-  const { currentCollection } = useAppSelector((store) => store.tokens);
-
-  let { blockchain, contract, tokenId } = useParams();
+  const { currentCollection, currentCollectionMetadata } = useAppSelector(
+    (store) => store.tokens
+  );
 
   const xMIN = Number(0.0001);
   const yMAX = item?.contract?.blockchain === '0x1' ? 10 : 10000.0;
 
-  if (!blockchain && !contract && !tokenId) {
-    blockchain = item.contract.blockchain;
-    contract = item.contract.contractAddress;
-    tokenId = item.uniqueIndexInContract;
-  }
+  const blockchain =
+    item?.contract?.blockchain || currentCollectionMetadata?.blockchain;
+  const contract =
+    item?.contract?.contractAddress ||
+    currentCollectionMetadata?.contractAddress;
+  const tokenId = item?.uniqueIndexInContract;
 
   const reactSwal = useSwal();
   const { web3TxHandler, web3Switch, correctBlockchain } = useWeb3Tx();
@@ -53,8 +54,10 @@ const SellButton: FC<ISellButton> = ({
       web3Switch(blockchain as Hex);
       return;
     }
-    const tokenInformation =
-      item || (selectedToken && currentCollection?.[selectedToken]);
+    const tokenInformation = item || {
+      ...(selectedToken && currentCollection?.[selectedToken]),
+      contract: currentCollectionMetadata
+    };
     if (
       !contractCreator ||
       !sellingPrice ||
@@ -93,8 +96,8 @@ const SellButton: FC<ISellButton> = ({
           'setApprovalForAll',
           [await diamondMarketplaceInstance.getAddress(), true],
           {
-            intendedBlockchain: item.contract.blockchain,
-            sponsored: tokenInformation.range.sponsored
+            intendedBlockchain: tokenInformation.contract.blockchain,
+            sponsored: tokenInformation.offer.sponsored
           }
         ))
       ) {
@@ -140,14 +143,14 @@ const SellButton: FC<ISellButton> = ({
           nodeAddress // Node address
         ],
         {
-          intendedBlockchain: item.contract.blockchain,
-          sponsored: tokenInformation.range.sponsored
+          intendedBlockchain: tokenInformation.contract.blockchain,
+          sponsored: tokenInformation.offer.sponsored
         }
       )
     ) {
       response = { success: true };
     }
-    if (response.success) {
+    if (response?.success) {
       reactSwal.fire({
         title: 'Success',
         html: `Users will be able to purchase your NFT on the marketplace`,
@@ -173,7 +176,8 @@ const SellButton: FC<ISellButton> = ({
     selectedToken,
     nodeAddress,
     getBlockchainData,
-    databaseResales
+    databaseResales,
+    currentCollectionMetadata
   ]);
 
   const openInputField = useCallback(() => {

@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import useWindowDimensions from '../../../../hooks/useWindowDimensions';
+import { NftItemToken } from '../../../../types/commonTypes';
 import LoadingComponent from '../../../common/LoadingComponent';
 import { MobileCloseBtn } from '../../../GlobalModal/FilterModal/FilterModalIcons';
 import { HomePageModalFilter } from '../../../GlobalModal/FilterModal/HomePAgeModal';
@@ -11,7 +12,7 @@ import { NftItemForCollectionView } from '../../../MockUpPage/NftList/NftItemFor
 import './PersonalProfileMyNftTab.css';
 
 interface IPersonalProfileMyNftTabComponent {
-  filteredData: any;
+  filteredData?: NftItemToken[];
   openModal?: any;
   setSelectedData?: any;
   defaultImg: string;
@@ -120,9 +121,7 @@ const PersonalProfileMyNftTabComponent: React.FC<
                     return (
                       <NftItemForCollectionView
                         id={`collection-view-${index}`}
-                        key={`${
-                          item._id + '-' + item.uniqueIndexInContract + index
-                        }`}
+                        key={index}
                         metadataFilter={metadataFilter}
                         pict={item.metadata.image}
                         metadata={item.metadata}
