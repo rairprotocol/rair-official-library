@@ -179,9 +179,9 @@ const useWeb3Tx = () => {
         handleReceipt(txHash, options?.callback);
         return true;
       } catch (err: any) {
-        const stringified = err.toString();
+        const stringified = err.toString().toLowerCase();
         if (
-          stringified.includes('Failed to find transaction for User Operation')
+          stringified.includes('failed to find transaction for user operation')
         ) {
           reactSwal.fire('Please wait', 'Verifying user operation', 'info');
           return await verifyAAUserOperation(
