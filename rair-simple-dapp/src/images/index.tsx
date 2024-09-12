@@ -4,19 +4,24 @@ import baseMainnet from './base-logo.svg';
 import binance from './binance-diamond.svg';
 import blackBg from './BlackBg.webp';
 import whiteBg from './ClayBg.webp';
+import coreIdLogo from './coreNewIcon.png';
 import curios from './curios.webp';
 import dapper from './dapper-logo.webp';
 import newDefaultRairBG from './Default-RairTech.webp';
 import avatar from './defaultAvatarProfile.webp';
 import discordIconWhiteNoBorder from './discord-white-no-border.webp';
 import documentIcon from './documentIcon.svg';
+import mailIcon from './email-1-svgrepo-com.svg';
 import ethereum from './ethereum-logo.svg';
 import tokenLogoRair from './favicon2.png';
+import googleLogo from './google-icon.svg';
 import grandpaGif from './grandpa.gif';
 import hotdropsDefaultBanner from './hotDrops_defaultBanner.png';
 import defaultHotDropsImg from './hotdrops-default.png';
 import HotdropsFaviconDefault from './Hotdrops-favicon.ico';
 import logoHotDropsLight from './HotdropsLogoLight.png';
+import appleIcon from './icons8-apple.svg';
+import xIcon from './icons8-x.svg';
 import kigGif from './kid.gif';
 import lennyGif from './lenny.gif';
 import loadingFavicon from './loading-favicon.svg';
@@ -38,10 +43,6 @@ import rarible from './rarible-logo.webp';
 import soniumLogo from './sonium_logo.svg';
 import verifiedIcon from './verify-icon.png';
 import yotiLogo from './yoti-logo.png';
-import googleLogo from './google-icon.svg';
-import mailIcon from './email-1-svgrepo-com.svg';
-import xIcon from './icons8-x.svg';
-import appleIcon from './icons8-apple.svg';
 
 import { useAppSelector } from '../hooks/useReduxHooks';
 
@@ -75,6 +76,7 @@ export const KidWait = kigGif;
 export const YotiLogo = yotiLogo;
 export const RairBackground = newDefaultRairBG;
 export const RairTokenLogo = tokenLogoRair;
+export const CoreIdLogo = coreIdLogo;
 
 // Icons
 export const discrodIconNoBorder = discordIconWhiteNoBorder;

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -39,10 +38,8 @@ const EasyMintRow = ({
   const rSwal = useSwal();
   const hotdropsVar = import.meta.env.VITE_TESTNET;
   const [tokensToMint, setTokensToMint] = useState('1');
-
   const remainingCopies = token.copies - token.soldCopies;
   const navigate = useNavigate();
-  const params = useParams<TParamsNftItemForCollectionView>();
   const { getBlockchainData } = useServerSettings();
   return (
     <BlockItemCollection className="block-item-collection">
@@ -135,7 +132,7 @@ const EasyMintRow = ({
                   .then((result) => {
                     if (result.isConfirmed || result.isDismissed) {
                       navigate(
-                        `/tokens/${blockchain}/${params.contract}/${params.product}/${purchasedTokens}`
+                        `/tokens/${blockchain}/${contractAddress}/${token?.product || 0}/${purchasedTokens}`
                       );
                     }
                   });
@@ -178,13 +175,13 @@ const CollectionInfo: FC<ICollectionInfo> = ({
     );
 
     if (data && data.success) {
-      const count = data.result.totalCount;
+      const count = data.totalCount;
       const response = await axios.get<TNftItemResponse>(
         `/api/nft/network/${mainBannerInfo ? mainBannerInfo.blockchain : params.blockchain}/${mainBannerInfo ? mainBannerInfo.contract : params.contract}/${mainBannerInfo ? mainBannerInfo.product : params.product}?fromToken=0&toToken=${count}`
       );
 
       if (response.data.success) {
-        setTokenData(response.data.result.tokens);
+        setTokenData(response.data.tokens);
       }
     }
   };

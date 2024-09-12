@@ -15,11 +15,12 @@ import axios from 'axios';
 import { isAddress, ZeroAddress } from 'ethers';
 import { Hex } from 'viem';
 
-import { TContract, TUserResponse } from '../../axios.responseTypes';
+import { TUserResponse } from '../../axios.responseTypes';
 import { useAppSelector } from '../../hooks/useReduxHooks';
 import useSwal from '../../hooks/useSwal';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { VideoIcon } from '../../images';
+import { NftItemToken } from '../../types/commonTypes';
 import { User } from '../../types/databaseTypes';
 import { rFetch } from '../../utils/rFetch';
 import InputField from '../common/InputField';
@@ -29,7 +30,6 @@ import FilteringBlock from '../MockUpPage/FilteringBlock/FilteringBlock';
 import { ImageLazy } from '../MockUpPage/ImageLazy/ImageLazy';
 import CustomShareButton from '../MockUpPage/NftList/NftData/CustomShareButton';
 import SharePopUp from '../MockUpPage/NftList/NftData/TitleCollection/SharePopUp/SharePopUp';
-import { TDiamondTokensType } from '../nft/nft.types';
 import { PersonalProfileMyNftTab } from '../nft/PersonalProfile/PersonalProfileMyNftTab/PersonalProfileMyNftTab';
 import { PersonalProfileMyVideoTab } from '../nft/PersonalProfile/PersonalProfileMyVideoTab/PersonalProfileMyVideoTab';
 import { TSortChoice } from '../ResalePage/listOffers.types';
@@ -47,11 +47,10 @@ const UserProfilePage: React.FC = () => {
   const { userAddress } = useParams();
   const { currentUserAddress } = useAppSelector((store) => store.web3);
   const [copyState, setCopyState] = useState(false);
-  const [userData, setUserData] = useState<User | null | undefined>(undefined);
-  const [, /*tokens*/ setTokens] = useState<TDiamondTokensType[]>([]);
+  const [userData, setUserData] = useState<User | undefined>(undefined);
   const [collectedTokens, setCollectedTokens] = useState<
-    TDiamondTokensType[] | null
-  >(null);
+    NftItemToken[] | undefined
+  >(undefined);
   const [createdContracts, setCreatedContracts] = useState([]);
   const [fileUpload, setFileUpload] = useState<File | null>(null);
   const [loadingBg, setLoadingBg] = useState(false);
@@ -91,27 +90,8 @@ const UserProfilePage: React.FC = () => {
           `/api/nft/${userAddress}?itemsPerPage=${number}&pageNum=${page}&onResale=${onResale}`
         );
         if (response.success) {
-          const tokenData: TDiamondTokensType[] = [];
           setTotalCount(response.totalCount);
-          for await (const token of response.result) {
-            if (!token.contract._id) {
-              return;
-            }
-            const contractData = await rFetch(
-              `/api/contracts/${token.contract._id}`
-            );
-            tokenData.push({
-              ...token,
-              ...contractData.contract._id
-            });
-          }
-
-          const newCollectedTokens = tokenData.filter(
-            (el) => el.isMinted === true
-          );
-
-          setTokens(tokenData);
-          setCollectedTokens(newCollectedTokens);
+          setCollectedTokens(response.result.filter((token) => token.isMinted));
           setIsLoading(false);
           setIsResaleLoding(false);
         }
@@ -138,26 +118,7 @@ const UserProfilePage: React.FC = () => {
         (el) => el.user === userAddress
       );
 
-      const covers = contractsFiltered.map((item: TContract) => ({
-        id: item._id,
-        productId: item.products?._id,
-        blockchain: item.blockchain,
-        collectionIndexInContract: item.products.collectionIndexInContract,
-        contract: item.contractAddress,
-        cover: item.products.cover,
-        title: item.title,
-        name: item.products.name,
-        user: item.user,
-        copiesProduct: item.products.copies,
-        offerData: item.products.offers?.map((elem) => ({
-          price: elem.price,
-          offerName: elem.offerName,
-          offerIndex: elem.offerIndex,
-          productNumber: elem.product
-        }))
-      }));
-
-      setCreatedContracts(covers);
+      setCreatedContracts(contractsFiltered);
     }
   }, [userAddress]);
 
@@ -188,7 +149,7 @@ const UserProfilePage: React.FC = () => {
           setUserData(defaultUser);
         }
       } else {
-        setUserData(null);
+        setUserData(undefined);
       }
     }
   }, [userAddress]);
@@ -550,7 +511,7 @@ const UserProfilePage: React.FC = () => {
               <div className="user-page-main-tab-block">
                 <TabPanel>
                   <PersonalProfileMyNftTab
-                    filteredData={collectedTokens && collectedTokens}
+                    filteredData={collectedTokens}
                     defaultImg={`${process.env.REACT_APP_IPFS_GATEWAY}/QmNtfjBAPYEFxXiHmY5kcPh9huzkwquHBcn9ZJHGe7hfaW`}
                     textColor={textColor}
                     getMyNft={getMyNft}

@@ -5,12 +5,11 @@ import { Hex } from 'viem';
 
 import {
   TAttributes,
-  TContract,
-  TNftItemResult,
   TOfferPool,
   TProducts,
   TTokenData
 } from '../../axios.responseTypes';
+import { CatalogItem } from '../../redux/tokenSlice';
 import { MediaFile } from '../../types/databaseTypes';
 import { ContractType } from '../adminViews/adminView.types';
 import { OptionsType } from '../common/commonTypes/InputSelectTypes.types';
@@ -81,7 +80,7 @@ export interface ITokenURIRow {
 export interface IIBlockchainURIManager {
   contractData: TContractData;
   collectionIndex: string;
-  refreshNFTMetadata: () => Promise<TNftItemResult | undefined>;
+  refreshNFTMetadata: () => Promise<TTokenData[] | undefined>;
   changeFile: boolean;
 }
 export type TParamsBatchMetadata = {
@@ -163,7 +162,7 @@ export type TWorkflowProduct = TProducts & {
   tokenLock: TTokenLock | undefined;
 };
 
-export type TContractData = Omit<TContract, 'product' | 'offerPool'> & {
+export type TContractData = Omit<CatalogItem, 'product' | 'offerPool'> & {
   instance: ethers.Contract;
   nfts: TTokenData[];
   product: TWorkflowProduct;
@@ -207,7 +206,7 @@ export type TListOffersProductType = Omit<TProducts, 'offers'> & {
   offers: TMarketplaceOfferConfigArrayItem[];
 };
 
-export type TDiamondContractData = Omit<TContract, 'product' | 'offerPool'> &
+export type TDiamondContractData = Omit<CatalogItem, 'product' | 'offerPool'> &
   TMetadataExtra & {
     instance: ethers.Contract;
     nfts: TTokenData[];
@@ -327,7 +326,7 @@ export interface IBatchMetadataParser {
   gotoNextStep: () => void;
   goBack: () => void;
   simpleMode: boolean;
-  refreshNFTMetadata: () => Promise<TNftItemResult | undefined>;
+  refreshNFTMetadata: () => Promise<TTokenData[] | undefined>;
 }
 
 export interface ICustomizeFees {

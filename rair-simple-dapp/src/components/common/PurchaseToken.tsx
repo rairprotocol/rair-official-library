@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Provider, useStore } from 'react-redux';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,6 +28,9 @@ const queryRangeDataFromDatabase = async (
   offerIndex: string[] | undefined,
   diamond = false
 ): Promise<undefined | IRangeDataType> => {
+  if (!contractInstance) {
+    return;
+  }
   const { success, products } = await rFetch(
     `/api/contracts/network/${network}/${await contractInstance?.getAddress()}/offers`,
     undefined,
@@ -73,61 +75,6 @@ const queryRangeDataFromDatabase = async (
   }
 };
 
-const findNextToken = async (
-  contractInstance: Contract | undefined,
-  start: string,
-  end: string,
-  product: string,
-  amountOfTokensToPurchase = '1',
-  offerId?: string
-) => {
-  if (offerId) {
-    const { success, availableTokens } = await rFetch(
-      `/api/offers/${offerId}/available`
-    );
-    if (success) {
-      if (BigInt(amountOfTokensToPurchase) > BigInt(availableTokens.length)) {
-        return;
-      } else if (
-        BigInt(amountOfTokensToPurchase) === BigInt(availableTokens.length)
-      ) {
-        return availableTokens.map((item) => item.token);
-      }
-      const selectedTokens: Array<bigint> = Array(
-        Number(amountOfTokensToPurchase)
-      ).fill(BigInt(0));
-
-      selectedTokens.forEach((_, index) => {
-        let randomNumber: bigint;
-        do {
-          randomNumber = BigInt(
-            availableTokens[Math.floor(Math.random() * availableTokens.length)]
-              .token
-          );
-        } while (selectedTokens.includes(randomNumber));
-        selectedTokens[index] = randomNumber;
-      });
-      return selectedTokens;
-    }
-  }
-  // Fallback to sequential minting if there's no offer ID or the api call fails
-
-
-  if (BigInt(1) === BigInt(amountOfTokensToPurchase)) {
-    return await contractInstance?.getNextSequentialIndex(product, start, end);
-  } else {
-    const array: string[] = [];
-    for (let i = BigInt(start); i <= BigInt(end); i = i + BigInt(1)) {
-      i = await contractInstance?.getNextSequentialIndex(product, i, end);
-      array.push(i.toString());
-      if (BigInt(array.length) === BigInt(amountOfTokensToPurchase)) {
-        return array;
-      }
-    }
-    return;
-  }
-};
-
 const Agreements: React.FC<IAgreementsPropsType> = ({
   amountOfTokensToPurchase,
   presaleMessage,
@@ -151,100 +98,179 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
   const { web3Switch, correctBlockchain, web3TxHandler } = useWeb3Tx();
   const { getBlockchainData } = useServerSettings();
 
-  const { diamondMarketplaceInstance, contractCreator } = useContracts();
+  const { diamondMarketplaceInstance, contractCreator, refreshSigner } =
+    useContracts();
 
   const { currentUserAddress } = useAppSelector((store) => store.web3);
   const { textColor, primaryButtonColor } = useAppSelector(
     (store) => store.colors
   );
 
-  const queryRangeDataFromBlockchain = async (
-    marketplaceInstance: Contract | undefined,
-    offerIndex: string[] | undefined,
-    diamond: boolean | undefined
-  ): Promise<undefined | IRangeDataType> => {
-    let minterOfferPool;
-    if (!marketplaceInstance) {
-      return;
-    }
-    if (!diamond) {
-      minterOfferPool = await web3TxHandler(
+  useEffect(() => {
+    refreshSigner();
+  }, []);
+
+  const findNextToken = useCallback(
+    async (
+      contractInstance: Contract,
+      start: string,
+      end: string,
+      product: string,
+      amountOfTokensToPurchase = '1',
+      offerId
+    ) => {
+      if (offerId) {
+        const { success, availableTokens } = await rFetch(
+          `/api/offers/${offerId}/available`
+        );
+        if (success) {
+          if (
+            BigInt(amountOfTokensToPurchase) > BigInt(availableTokens.length)
+          ) {
+            return;
+          } else if (
+            BigInt(amountOfTokensToPurchase) === BigInt(availableTokens.length)
+          ) {
+            return availableTokens.map((item) => item.token);
+          }
+          const selectedTokens: Array<bigint> = Array(
+            Number(amountOfTokensToPurchase)
+          ).fill(BigInt(0));
+
+          selectedTokens.forEach((_, index) => {
+            let randomNumber: bigint;
+            do {
+              randomNumber = BigInt(
+                availableTokens[
+                  Math.floor(Math.random() * availableTokens.length)
+                ].token
+              );
+            } while (selectedTokens.includes(randomNumber));
+            selectedTokens[index] = randomNumber;
+          });
+          return selectedTokens;
+        }
+      }
+      // Fallback to sequential minting if there's no offer ID or the api call fails
+      if (BigInt(1) === BigInt(amountOfTokensToPurchase)) {
+        const singleNextToken = await web3TxHandler(
+          contractInstance,
+          'getNextSequentialIndex',
+          [product, start, end]
+        );
+        return singleNextToken;
+      } else {
+        const array: string[] = [];
+        for (let i = BigInt(start); i <= BigInt(end); i = i + BigInt(1)) {
+          i = await web3TxHandler(contractInstance, 'getNextSequentialIndex', [
+            product,
+            i,
+            end
+          ]);
+          array.push(i.toString());
+          if (BigInt(array.length) === BigInt(amountOfTokensToPurchase)) {
+            return array;
+          }
+        }
+        return;
+      }
+    },
+    [web3TxHandler]
+  );
+
+  const queryRangeDataFromBlockchain = useCallback(
+    async (
+      marketplaceInstance: Contract | undefined,
+      offerIndex: string[] | undefined,
+      diamond: boolean | undefined
+    ): Promise<undefined | IRangeDataType> => {
+      let minterOfferPool;
+      if (!marketplaceInstance) {
+        return;
+      }
+      if (!diamond) {
+        minterOfferPool = await web3TxHandler(
+          marketplaceInstance,
+          'getOfferInfo',
+          [offerIndex?.[0]]
+        );
+      }
+      const minterOffer = await web3TxHandler(
         marketplaceInstance,
-        'getOfferInfo',
-        [offerIndex?.[0]]
+        diamond ? 'getOfferInfo' : 'getOfferRangeInfo',
+        offerIndex || []
       );
-    }
-    const minterOffer = await web3TxHandler(
-      marketplaceInstance,
-      diamond ? 'getOfferInfo' : 'getOfferRangeInfo',
-      offerIndex || []
-    );
 
-    if (minterOffer) {
-      return {
-        start: diamond
-          ? minterOffer.rangeData.rangeStart.toString()
-          : minterOffer.tokenStart.toString(),
-        end: diamond
-          ? minterOffer.rangeData.rangeEnd.toString()
-          : minterOffer.tokenEnd.toString(),
-        product: diamond
-          ? minterOffer.productIndex.toString()
-          : minterOfferPool.productIndex.toString(),
-        price: diamond
-          ? minterOffer.rangeData.rangePrice.toString()
-          : minterOffer.price.toString(),
-        // Blockchain queries cannot be verified as being sponsored, only database calls
-        sponsored: false
-      };
-    }
-  };
+      if (minterOffer) {
+        return {
+          start: diamond
+            ? minterOffer.rangeData.rangeStart.toString()
+            : minterOffer.tokenStart.toString(),
+          end: diamond
+            ? minterOffer.rangeData.rangeEnd.toString()
+            : minterOffer.tokenEnd.toString(),
+          product: diamond
+            ? minterOffer.productIndex.toString()
+            : minterOfferPool.productIndex.toString(),
+          price: diamond
+            ? minterOffer.rangeData.rangePrice.toString()
+            : minterOffer.price.toString(),
+          // Blockchain queries cannot be verified as being sponsored, only database calls
+          sponsored: false
+        };
+      }
+    },
+    [web3TxHandler]
+  );
 
-  const purchaseFunction = async (
-    minterInstance: Contract | undefined,
-    offerIndex: string[] | undefined,
-    nextToken: any,
-    price: string,
-    diamond = false,
-    sponsored = false
-  ) => {
-    if (!minterInstance) {
-      reactSwal.fire({
-        title: 'An error has ocurred',
-        html: 'Please try again later',
-        icon: 'info'
+  const purchaseFunction = useCallback(
+    async (
+      minterInstance: Contract | undefined,
+      offerIndex: string[] | undefined,
+      nextToken: any,
+      price: string,
+      diamond = false,
+      sponsored = false
+    ) => {
+      if (!minterInstance) {
+        reactSwal.fire({
+          title: 'Error',
+          html: 'Could not connect to marketplace contract, please try again later',
+          icon: 'info'
+        });
+        return;
+      }
+      const args: any[] = [offerIndex?.[0]];
+      let method = 'buyMintingOffer';
+      if (!diamond) {
+        args.push(offerIndex?.[1]);
+        method = 'buyToken';
+      }
+      if (nextToken.length) {
+        args.push(nextToken);
+        args.push(nextToken.map(() => currentUserAddress));
+        args.push({
+          value: BigInt(price) * BigInt(nextToken.length)
+        });
+        method = 'buyMintingOfferBatch';
+      } else {
+        args.push(nextToken);
+        args.push({
+          value: price
+        });
+      }
+
+      return await web3TxHandler(minterInstance, method, args, {
+        intendedBlockchain: requiredBlockchain,
+        failureMessage:
+          'Sorry your transaction failed! When several people try to buy at once - only one transaction can get to the blockchain first. Please try again!',
+        sponsored
       });
-      return;
-    }
-    const args: any[] = [offerIndex?.[0]];
-    let method = 'buyMintingOffer';
-    if (!diamond) {
-      args.push(offerIndex?.[1]);
-      method = 'buyToken';
-    }
-    if (nextToken.length) {
-      args.push(nextToken);
-      args.push(nextToken.map(() => currentUserAddress));
-      args.push({
-        value: BigInt(price) * BigInt(nextToken.length)
-      });
-      method = 'buyMintingOfferBatch';
-    } else {
-      args.push(nextToken);
-      args.push({
-        value: price
-      });
-    }
+    },
+    [currentUserAddress, reactSwal, requiredBlockchain, web3TxHandler]
+  );
 
-    return await web3TxHandler(minterInstance, method, args, {
-      intendedBlockchain: requiredBlockchain,
-      failureMessage:
-        'Sorry your transaction failed! When several people try to buy at once - only one transaction can get to the blockchain first. Please try again!',
-      sponsored
-    });
-  };
-
-  const newPurchaseHandle = async () => {
+  const newPurchaseHandle = useCallback(async () => {
     if (!requiredBlockchain) {
       return;
     }
@@ -278,6 +304,14 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
       contractAddress,
       diamond ? erc721Abi : diamondFactoryAbi
     );
+
+    if (!contractInstance) {
+      reactSwal.fire('Error', 'Could not connect to contract.', 'error');
+      if (setPurchaseStatus) {
+        setPurchaseStatus(false);
+      }
+      return;
+    }
 
     setButtonMessage('Finding mintable NFT...');
 
@@ -317,15 +351,11 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
       end,
       product,
       amountOfTokensToPurchase,
-              _id
+      _id
     );
 
     if (!nextToken) {
-      reactSwal.fire(
-        'Error',
-        "Couldn't find enough tokens to mint!",
-        'error'
-      );
+      reactSwal.fire('Error', "Couldn't find enough tokens to mint!", 'error');
       if (setPurchaseStatus) {
         setPurchaseStatus(false);
       }
@@ -336,20 +366,6 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
       setButtonMessage(`Minting tokens ${nextToken.join(',')}`);
     } else {
       setButtonMessage(`Minting token #${nextToken.toString()}`);
-    }
-
-    if (
-      contractInstance?.runner?.provider?.getBalance &&
-      (await contractInstance?.runner?.provider?.getBalance(
-        currentUserAddress
-      )) <
-        BigInt(price) * BigInt(amountOfTokensToPurchase)
-    ) {
-      if (setPurchaseStatus) {
-        setPurchaseStatus(false);
-      }
-      reactSwal.fire('Error', 'Insufficient funds!', 'error');
-      return;
     }
 
     const purchaseResult = await purchaseFunction(
@@ -368,11 +384,54 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
     if (setPurchaseStatus) {
       setPurchaseStatus(false);
     }
-  }
+    if (!purchaseResult) {
+      reactSwal.fire(
+        'Error',
+        'There was an error minting your token, please try again later',
+        'error'
+      );
+    }
+  }, [
+    amountOfTokensToPurchase,
+    blockchainOnly,
+    connectUserData,
+    contractAddress,
+    contractCreator,
+    correctBlockchain,
+    currentUserAddress,
+    customSuccessAction,
+    databaseOnly,
+    diamond,
+    diamondMarketplaceInstance,
+    findNextToken,
+    offerIndex,
+    purchaseFunction,
+    queryRangeDataFromBlockchain,
+    reactSwal,
+    requiredBlockchain,
+    setPurchaseStatus,
+    web3Switch
+  ]);
 
   useEffect(() => {
-    newPurchaseHandle();
-  }, [])
+    refreshSigner();
+  }, []);
+
+  useEffect(() => {
+    if (
+      diamondMarketplaceInstance &&
+      !buyingToken &&
+      correctBlockchain(requiredBlockchain)
+    ) {
+      newPurchaseHandle();
+    }
+  }, [
+    diamondMarketplaceInstance,
+    newPurchaseHandle,
+    buyingToken,
+    requiredBlockchain,
+    correctBlockchain
+  ]);
 
   return (
     <div className={`text-${textColor}`}>
@@ -448,12 +507,11 @@ const Agreements: React.FC<IAgreementsPropsType> = ({
             )
           }
           className="col-12 col-sm-8 col-md-4 rounded-rair my-4 btn rair-button"
+          onClick={() => web3Switch(requiredBlockchain)}
           style={{
             background: primaryButtonColor,
             color: textColor
-          }}
-          >
-          <wbr />{' '}
+          }}>
           {currentUserAddress
             ? !correctBlockchain(requiredBlockchain)
               ? `Switch to ${
@@ -501,7 +559,6 @@ const PurchaseTokenButton: React.FC<IPurchaseTokenButtonProps> = ({
     (store) => store.colors
   );
 
-  const { web3TxHandler } = useWeb3Tx();
   const reactSwal = useSwal();
 
   const fireAgreementModal = () => {
@@ -527,8 +584,7 @@ const PurchaseTokenButton: React.FC<IPurchaseTokenButtonProps> = ({
               blockchainOnly,
               databaseOnly,
               collection,
-              setPurchaseStatus,
-              web3TxHandler
+              setPurchaseStatus
             }}
           />
         </Provider>
@@ -541,9 +597,6 @@ const PurchaseTokenButton: React.FC<IPurchaseTokenButtonProps> = ({
       }
     });
   };
-
-
-  
 
   if (altButtonFormat) {
     return (

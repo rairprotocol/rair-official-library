@@ -17,7 +17,6 @@ export interface IAgreementsPropsType {
   databaseOnly?: boolean;
   collection?: boolean | undefined;
   setPurchaseStatus?: any;
-  web3TxHandler: any;
 }
 
 export interface IPurchaseTokenButtonProps {
@@ -43,8 +42,8 @@ export interface IPurchaseTokenButtonProps {
 }
 
 export interface IRangeDataType {
-  start: string;
   _id?: string;
+  start: string;
   end: string;
   product: string;
   price: string;
