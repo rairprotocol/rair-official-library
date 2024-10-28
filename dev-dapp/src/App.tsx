@@ -75,6 +75,7 @@ import ErrorFallback from './views/ErrorFallback/ErrorFallback';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import DevSdkPage from './components/DevSdkPage/DevSdkPage';
 /* Track a page view */
 // const analytics = getInformationGoogleAnalytics();
 // analytics.page();
@@ -444,13 +445,7 @@ function App() {
                   {
                     path: '/',
                     content: (
-                      <WelcomeHeader
-                        {...{
-                          setIsSplashPage,
-                          tabIndex: tabIndex,
-                          setTabIndex: setTabIndex
-                        }}
-                      />
+                      <DevSdkPage />
                     ),
                     requirement: import.meta.env.VITE_HOME_PAGE === '/'
                   },

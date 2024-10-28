@@ -39,6 +39,7 @@ import soniumLogo from './sonium_logo.svg';
 import verifiedIcon from './verify-icon.png';
 import yotiLogo from './yoti-logo.png';
 import coreIdLogo from './coreNewIcon.png';
+import rairProtocol from "./rair-protocol.png";
 
 import { useAppSelector } from '../hooks/useReduxHooks';
 
@@ -72,6 +73,7 @@ export const KidWait = kigGif;
 export const YotiLogo = yotiLogo;
 export const RairBackground = newDefaultRairBG;
 export const RairTokenLogo = tokenLogoRair;
+export const RairProtocol = rairProtocol;
 
 // Icons
 export const discrodIconNoBorder = discordIconWhiteNoBorder;
