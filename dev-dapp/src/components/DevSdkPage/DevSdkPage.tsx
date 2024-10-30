@@ -1,5 +1,8 @@
+//@ts-nocheck
 import React from "react";
 import { RairProtocol } from "../../images/index";
+import "./DevSdkPage.css";
+import LeaderBoard from "./LeaderBoard/LeaderBoard";
 
 const DevSdkPage = () => {
   return (
@@ -7,6 +10,8 @@ const DevSdkPage = () => {
       style={{
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
       }}
       className="wrapper-splash-page"
     >
@@ -20,6 +25,7 @@ const DevSdkPage = () => {
           style={{
             padding: "20px",
             display: "flex",
+            width: "100%",
             justifyContent: "space-around",
           }}
           className="template-author-card"
@@ -106,9 +112,10 @@ const DevSdkPage = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-evenly",
+          justifyContent: "space-between",
+          maxWidth: "80vw",
           width: "100%",
-          padding: "20px",
+          padding: "20px 0",
         }}
         className="columns"
       >
@@ -169,6 +176,13 @@ const DevSdkPage = () => {
           </div>
         </div>
       </div>
+      <div className="title-dev-dapp">
+        <div>Leaderboard</div>
+        <div>
+          <button>{"Full leaderboard  >>"}</button>
+        </div>
+      </div>
+      <LeaderBoard />
     </div>
   );
 };

@@ -1,0 +1,71 @@
+.table-container {
+  width: 80vw;
+  margin: 20px auto 50px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2d2d2d;
+}
+.table-container th,
+.table-container td {
+  padding: 15px;
+  text-align: left;
+  color: #fff;
+}
+.table-container th {
+  background-color: #3a3a3a;
+  font-weight: bold;
+}
+.table-container tr:nth-child(even) {
+  background-color: #333;
+}
+.table-container .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.table-container .git-handle {
+  display: flex;
+  align-items: center;
+}
+.table-container .icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: #4a90e2;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.title-dev-dapp {
+  width: 80vw;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-dev-dapp div:first-child {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.title-dev-dapp div:last-child button {
+  background: none;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  transition: all 0.5s ease;
+}
+
+.title-dev-dapp div:last-child button:hover {
+  text-decoration: underline;
+  transition: all 0.5s ease;
+}
