@@ -69,3 +69,44 @@
   text-decoration: underline;
   transition: all 0.5s ease;
 }
+
+.columns-stats {
+  display: flex;
+  justify-content: space-between;
+  max-width: 80vw;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.columns-stats-box {
+  width: 20%;
+  height: 80px;
+  border: 1px dashed #4e4d4d;
+  border-radius: 16px;
+}
+
+.template-home-splash-page-dev {
+  height: 35vw;
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0px;
+  overflow: hidden;
+}
+
+.template-author-card-dev {
+  padding: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  background-size: 30vw auto;
+  background-position: 88% center;
+  height: 42vw;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 24px;
+  background-repeat: no-repeat;
+  align-items: center;
+}

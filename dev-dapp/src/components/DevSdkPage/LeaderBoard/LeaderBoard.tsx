@@ -20,7 +20,7 @@ const LeaderBoard = () => {
   }, [getUserData, currentUserAddress]);
 
   return (
-    <div class="table-container">
+    <div className="table-container">
       <table>
         <thead>
           <tr>
