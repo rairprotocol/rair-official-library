@@ -6,6 +6,7 @@ import RewardVideoBox from "./RewardVideoBox/RewardVideoBox";
 import { useAppSelector } from "../../../hooks/useReduxHooks";
 import LoadingComponent from "../../common/LoadingComponent";
 import WorkflowContext from "../../../contexts/CreatorWorkflowContext";
+import { rFetch } from "../../../utils/rFetch";
 
 const EarnRewards = () => {
   const [videoList, setVideoList] = useState([]);
@@ -15,27 +16,42 @@ const EarnRewards = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  const getProductsFromOffer = useCallback(async () => {
-    setIsLoading(true);
-    const response = await axios.get<TNftFilesResponse>(
-      `/api/nft/network/0x89/0x094217dcfcf97257d532ec980cb679085230d5ce/2/files`
-    );
-    const loadedFiles: string[] = [];
-    if (response.data.success) {
-      setVideoList(
-        response.data.files.filter((item: MediaFile) => {
-          if (item._id && !loadedFiles.includes(item._id)) {
-            loadedFiles.push(item._id);
-            return true;
-          }
-          return false;
-        })
-      );
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
+  const [mainBannerInfo, setMainBannerInfo] = useState<any>(undefined);
+
+  const getCollectionBanner = useCallback(async () => {
+    const response = await rFetch(`/api/settings/featured`);
+    if (response.success) {
+      setMainBannerInfo(response.data);
     }
-  }, [currentUserAddress, loginStatus, isLoggedIn]);
+  }, []);
+
+  const getProductsFromOffer = useCallback(async () => {
+    if (mainBannerInfo) {
+      setIsLoading(true);
+      const response = await axios.get<TNftFilesResponse>(
+        `/api/nft/network/${mainBannerInfo.blockchain}/${mainBannerInfo.contract}/${mainBannerInfo.product}/files`
+      );
+      const loadedFiles: string[] = [];
+      if (response.data.success) {
+        setVideoList(
+          response.data.files.filter((item: MediaFile) => {
+            if (item._id && !loadedFiles.includes(item._id)) {
+              loadedFiles.push(item._id);
+              return true;
+            }
+            return false;
+          })
+        );
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    }
+  }, [currentUserAddress, loginStatus, isLoggedIn, mainBannerInfo]);
+
+  useEffect(() => {
+    getCollectionBanner();
+  }, [getCollectionBanner]);
 
   useEffect(() => {
     getProductsFromOffer();

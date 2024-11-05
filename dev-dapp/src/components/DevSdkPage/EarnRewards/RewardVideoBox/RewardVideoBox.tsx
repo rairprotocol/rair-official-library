@@ -66,8 +66,6 @@ const RewardVideoBox = ({ video }) => {
     setOpenVideoplayer(false);
   }, [setModalIsOpen]);
 
-  console.info(modalIsOpen, "modalIsOpen");
-
   useEffect(() => {
     closeModal();
   }, [closeModal]);
@@ -94,6 +92,7 @@ const RewardVideoBox = ({ video }) => {
           borderRight: "4px solid #E4476D",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${video.staticThumbnail})`,
           backgroundSize: "cover",
+          cursor: "pointer",
         }}
         className=""
       >
