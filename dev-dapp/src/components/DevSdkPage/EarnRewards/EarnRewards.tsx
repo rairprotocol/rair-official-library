@@ -1,0 +1,86 @@
+import React, { useCallback, useEffect, useState } from "react";
+import { TNftFilesResponse } from "../../../axios.responseTypes";
+import axios from "axios";
+import { MediaFile } from "../../../types/databaseTypes";
+import RewardVideoBox from "./RewardVideoBox/RewardVideoBox";
+import { useAppSelector } from "../../../hooks/useReduxHooks";
+import LoadingComponent from "../../common/LoadingComponent";
+import WorkflowContext from "../../../contexts/CreatorWorkflowContext";
+
+const EarnRewards = () => {
+  const [videoList, setVideoList] = useState([]);
+  const { currentUserAddress } = useAppSelector((store) => store.web3);
+  const { adminRights, superAdmin, isLoggedIn, loginStatus } = useAppSelector(
+    (store) => store.user
+  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getProductsFromOffer = useCallback(async () => {
+    setIsLoading(true);
+    const response = await axios.get<TNftFilesResponse>(
+      `/api/nft/network/0x89/0x094217dcfcf97257d532ec980cb679085230d5ce/2/files`
+    );
+    const loadedFiles: string[] = [];
+    if (response.data.success) {
+      setVideoList(
+        response.data.files.filter((item: MediaFile) => {
+          if (item._id && !loadedFiles.includes(item._id)) {
+            loadedFiles.push(item._id);
+            return true;
+          }
+          return false;
+        })
+      );
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+    }
+  }, [currentUserAddress, loginStatus, isLoggedIn]);
+
+  useEffect(() => {
+    getProductsFromOffer();
+  }, [getProductsFromOffer]);
+
+  return (
+    <div
+      style={{
+        width: "80vw",
+      }}
+      className="nft-single-unlockables-page"
+    >
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="nft-rarity-wrapper">
+          <div
+            className="video-wrapper"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "20px" /* Отступы между элементами */,
+              width: "100%" /* Занимает всю ширину экрана */,
+              margin: "20px auto",
+            }}
+          >
+            {videoList &&
+              videoList.map((el) => {
+                return <RewardVideoBox key={el._id} video={el} />;
+              })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ContextWrapper = (props) => {
+  return (
+    <WorkflowContext.Consumer>
+      {(value) => {
+        return <EarnRewards {...value} {...props} />;
+      }}
+    </WorkflowContext.Consumer>
+  );
+};
+
+export default ContextWrapper;
