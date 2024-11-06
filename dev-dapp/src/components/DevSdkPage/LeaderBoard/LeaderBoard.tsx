@@ -34,9 +34,9 @@ const LeaderBoard = () => {
         <tbody>
           {userList &&
             userList.length > 0 &&
-            userList.map((el) => {
+            userList.map((el, index) => {
               return (
-                <tr key={el._id}>
+                <tr key={index}>
                   <td className="git-handle">
                     <img src={defaultAvatar} alt="Avatar" className="avatar" />{" "}
                     {el.nickName}
