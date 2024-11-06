@@ -1,39 +1,39 @@
-.table-container {
+.table-container-leader {
   width: 80vw;
   margin: 20px auto 50px;
   border-radius: 10px;
   overflow: hidden;
 }
-.table-container table {
+.table-container-leader table {
   width: 100%;
   border-collapse: collapse;
   background-color: #2d2d2d;
 }
-.table-container th,
-.table-container td {
+.table-container-leader th,
+.table-container-leader td {
   padding: 15px;
   text-align: left;
   color: #fff;
 }
-.table-container th {
+.table-container-leader th {
   background-color: #3a3a3a;
   font-weight: bold;
 }
-.table-container tr:nth-child(even) {
+.table-container-leader tr:nth-child(even) {
   background-color: #333;
 }
-.table-container .avatar {
+.table-container-leader .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
   vertical-align: middle;
 }
-.table-container .git-handle {
+.table-container-leader .git-handle {
   display: flex;
   align-items: center;
 }
-.table-container .icon {
+.table-container-leader .icon {
   display: inline-block;
   width: 18px;
   height: 18px;
@@ -109,4 +109,13 @@
   border-radius: 24px;
   background-repeat: no-repeat;
   align-items: center;
+}
+
+@media screen and (max-width: 1020px) {
+  .table-container-leader .language-leader,
+  .table-container-leader .availability-leader,
+  .table-container-leader .availability-number,
+  .table-container-leader .language-text {
+    display: none;
+  }
 }

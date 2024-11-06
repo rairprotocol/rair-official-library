@@ -21,14 +21,14 @@ const LeaderBoard = () => {
   }, [getUserData, currentUserAddress]);
 
   return (
-    <div className="table-container">
+    <div className="table-container-leader">
       <table>
         <thead>
           <tr>
             <th>Git Handle</th>
             <th>Level</th>
-            <th>Availability</th>
-            <th>Top Language</th>
+            <th className="availability-leader">Availability</th>
+            <th className="language-leader">Top Language</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +39,16 @@ const LeaderBoard = () => {
                 <tr key={index}>
                   <td className="git-handle">
                     <img src={defaultAvatar} alt="Avatar" className="avatar" />{" "}
-                    {el.nickName}
+                    {el.nickName && el.nickName.length > 12
+                      ? `${el.nickName?.slice(
+                          0,
+                          9
+                        )}...${el.nickName?.slice(length - 5)}`
+                      : el.nickName}
                   </td>
                   <td>104</td>
-                  <td>Open</td>
-                  <td>
+                  <td className="availability-number">Open</td>
+                  <td className="language-text">
                     <span className="icon"></span> Solidity
                   </td>
                 </tr>

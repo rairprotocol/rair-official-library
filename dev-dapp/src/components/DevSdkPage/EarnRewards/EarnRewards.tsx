@@ -8,6 +8,7 @@ import { useAppSelector } from "../../../hooks/useReduxHooks";
 import LoadingComponent from "../../common/LoadingComponent";
 import WorkflowContext from "../../../contexts/CreatorWorkflowContext";
 import { rFetch } from "../../../utils/rFetch";
+import "./EarnRewards.css";
 
 const EarnRewards = () => {
   const [videoList, setVideoList] = useState([]);
@@ -69,16 +70,7 @@ const EarnRewards = () => {
         <LoadingComponent />
       ) : (
         <div className="nft-rarity-wrapper">
-          <div
-            className="video-wrapper"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "20px" /* Отступы между элементами */,
-              width: "100%" /* Занимает всю ширину экрана */,
-              margin: "20px auto",
-            }}
-          >
+          <div className="video-wrapper-grid">
             {videoList &&
               videoList.map((el) => {
                 return <RewardVideoBox key={el._id} video={el} />;

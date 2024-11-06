@@ -3216,10 +3216,10 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@rair-protocol/sdk@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@rair-protocol/sdk/-/sdk-0.0.4.tgz#0770c7c93751eb2b3d68b6ad336be7ea497e9b57"
-  integrity sha512-/VwkNwpmxPg1eZBtySZkwiQjORZJTlLUGyjdSHX2RFCfYi4rBGxWwJxWP3PyAZggjPw3kJEcXhHqqRi8skCcgg==
+"@rair-protocol/sdk@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@rair-protocol/sdk/-/sdk-0.0.5.tgz#e489ce52dcd51900c5f56cc1796ce6560fd22efd"
+  integrity sha512-4wdWjXh2t0NCvmIMvU7kvc9mlyJWRVcZfsudsrNRpp66JWdXCodHl45gFoldr+dhZ7ZKtGXGlWN+QnPAsv5LyQ==
 
 "@ramp-network/ramp-instant-sdk@^4.0.2":
   version "4.0.4"

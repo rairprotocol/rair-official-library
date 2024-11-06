@@ -40,7 +40,7 @@ const initialState: UserState = {
 export const loadCurrentUser = createAsyncThunk(
   "user/loadCurrentUser",
   async () => {
-    const response = await rairSDK.auth.currentUser();
+    const response = await rairSDK?.auth.currentUser();
     return response.user;
   }
 );
