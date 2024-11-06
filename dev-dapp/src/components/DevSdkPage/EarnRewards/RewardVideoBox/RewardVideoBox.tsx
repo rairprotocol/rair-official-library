@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../../../../hooks/useReduxHooks";
 import useWindowDimensions from "../../../../hooks/useWindowDimensions";

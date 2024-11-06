@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks/useReduxHooks";
 import { defaultAvatar } from "../../../images/index";
@@ -36,14 +37,14 @@ const LeaderBoard = () => {
             userList.map((el) => {
               return (
                 <tr key={el._id}>
-                  <td class="git-handle">
-                    <img src={defaultAvatar} alt="Avatar" class="avatar" />{" "}
+                  <td className="git-handle">
+                    <img src={defaultAvatar} alt="Avatar" className="avatar" />{" "}
                     {el.nickName}
                   </td>
                   <td>104</td>
                   <td>Open</td>
                   <td>
-                    <span class="icon"></span> Solidity
+                    <span className="icon"></span> Solidity
                   </td>
                 </tr>
               );

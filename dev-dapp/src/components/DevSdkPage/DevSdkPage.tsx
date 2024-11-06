@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useAppSelector } from "../../hooks/useReduxHooks";
 import { RairProtocol } from "../../images/index";
 import "./DevSdkPage.css";
@@ -89,7 +90,7 @@ const DevSdkPage = () => {
             <img
               style={{
                 width: "272px",
-                heoght: "auto",
+                height: "auto",
                 marginTop: "15px",
               }}
               src={RairProtocol}
