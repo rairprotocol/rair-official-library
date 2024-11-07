@@ -103,7 +103,8 @@ const DevSdkPage = () => {
         <div className="columns-stats-box">
           <div>Devs</div>
           <div
-            style={{ color: "#A7A6A6", fontWeight: "bold", fontSize: "20px" }}
+            className="columns-stats-box-numbers"
+            style={{ color: "#A7A6A6", fontWeight: "bold" }}
           >
             3800
           </div>
@@ -111,20 +112,27 @@ const DevSdkPage = () => {
         <div className="columns-stats-box">
           <div>Levels Earned</div>
           <div
-            style={{ color: "#95F619", fontWeight: "bold", fontSize: "20px" }}
+            className="columns-stats-box-numbers"
+            style={{ color: "#95F619", fontWeight: "bold" }}
           >
             12187
           </div>
         </div>
         <div className="columns-stats-box">
           <div>Commits</div>
-          <div style={{ color: "#fff", fontWeight: "bold", fontSize: "20px" }}>
+          <div
+            className="columns-stats-box-numbers"
+            style={{ color: "#fff", fontWeight: "bold" }}
+          >
             5125 + 120 + 300
           </div>
         </div>
         <div className="columns-stats-box">
           <div>Integrations</div>
-          <div style={{ color: "#fff", fontWeight: "bold", fontSize: "20px" }}>
+          <div
+            className="columns-stats-box-numbers"
+            style={{ color: "#fff", fontWeight: "bold" }}
+          >
             87
           </div>
         </div>

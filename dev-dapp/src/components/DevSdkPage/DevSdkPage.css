@@ -83,6 +83,11 @@
   height: 80px;
   border: 1px dashed #4e4d4d;
   border-radius: 16px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .template-home-splash-page-dev {
@@ -111,11 +116,21 @@
   align-items: center;
 }
 
+.columns-stats-box-numbers {
+  font-size: 20px;
+}
+
 @media screen and (max-width: 1020px) {
   .table-container-leader .language-leader,
   .table-container-leader .availability-leader,
   .table-container-leader .availability-number,
   .table-container-leader .language-text {
     display: none;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .columns-stats-box-numbers {
+    font-size: 14px;
   }
 }
