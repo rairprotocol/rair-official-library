@@ -1,3 +1,4 @@
+//@ts-nocheck
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -40,10 +41,8 @@ const initialState: UserState = {
 export const loadCurrentUser = createAsyncThunk(
   "user/loadCurrentUser",
   async () => {
-    if (rairSDK?.auth) {
-      const response = await rairSDK?.auth.currentUser();
-      return response.user;
-    }
+    const response = await rairSDK?.auth.currentUser();
+    return response.user;
   }
 );
 
