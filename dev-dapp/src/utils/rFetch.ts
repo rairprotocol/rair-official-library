@@ -4,10 +4,8 @@ import { BrowserProvider, Provider } from "ethers";
 import Swal from "sweetalert2";
 import { Hex } from "viem";
 
-import {
-  TAuthGetChallengeResponse,
-  TUserResponse,
-} from "../axios.responseTypes";
+import { TUserResponse } from "../axios.responseTypes";
+import { rairSDK } from "../components/common/rairSDK";
 
 const signIn = async (provider: Provider) => {
   //let currentUser = await (provider as JsonRpcProvider).getSigner(0);
@@ -23,16 +21,12 @@ const signIn = async (provider: Provider) => {
 };
 
 const getChallenge = async (userAddress: Hex, ownerAddress?: Hex) => {
-  const responseData = await axios.post<TAuthGetChallengeResponse>(
-    `/api/auth/get_challenge/`,
-    {
-      userAddress,
-      intent: "login",
-      ownerAddress: ownerAddress || userAddress,
-    }
-  );
-  const { response } = responseData.data;
-  return response;
+  const responseData = await rairSDK.auth.getChallenge({
+    userAddress: userAddress,
+    intent: "login",
+    ownerAddress: ownerAddress || userAddress,
+  });
+  return responseData.response;
 };
 
 const respondChallenge = async (challenge, signedChallenge) => {

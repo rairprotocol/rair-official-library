@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "./useReduxHooks";
 import useServerSettings from "./useServerSettings";
 import useSwal from "./useSwal";
 
-import { TUserResponse } from "../axios.responseTypes";
 import { OnboardingButton } from "../components/common/OnboardingButton/OnboardingButton";
 import { dataStatuses } from "../redux/commonTypes";
 import { loadCurrentUser } from "../redux/userSlice";
@@ -29,6 +28,7 @@ import {
   signWeb3MessageWeb3Auth,
 } from "../utils/rFetch";
 import sockets from "../utils/sockets";
+import { rairSDK } from "../components/common/rairSDK";
 
 const getCoingeckoRates = async () => {
   try {
@@ -260,24 +260,18 @@ const useConnectUser = () => {
 
     try {
       // Check if user exists in DB
-      const userDataResponse = await axios.get<TUserResponse>(
-        `/api/users/${loginData.userAddress}`
-      );
-      let user = userDataResponse.data.user;
-      if (!userDataResponse.data.success || !user) {
+      const userDataResponse = await rairSDK.users.findUserByUserAddress({
+        publicAddress: loginData.userAddress,
+      });
+
+      let user = userDataResponse.user;
+      if (!userDataResponse.user || !user) {
         // If the user doesn't exist, send a request to register him using a TEMP adminNFT
         firstTimeLogin = true;
-        const userCreation = await axios.post<TUserResponse>(
-          "/api/users",
-          JSON.stringify({ publicAddress: loginData.userAddress }),
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        user = userCreation.data.user;
+        const userCreation = await rairSDK.auth.createUser({
+          publicAddress: loginData.userAddress,
+        });
+        user = userCreation.user;
       }
 
       // Authorize user
