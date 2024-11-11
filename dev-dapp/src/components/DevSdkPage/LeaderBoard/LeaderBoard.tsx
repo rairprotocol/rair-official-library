@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppSelector } from "../../../hooks/useReduxHooks";
