@@ -1,5 +1,5 @@
-//@ts-nocheck
 import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAppSelector } from "../../../hooks/useReduxHooks";
 import { defaultAvatar } from "../../../images/index";
 import { rFetch } from "../../../utils/rFetch";
@@ -8,6 +8,7 @@ import { rairSDK } from "../../common/rairSDK";
 const LeaderBoard = () => {
   const [userList, setUserList] = useState<any>();
   const { currentUserAddress } = useAppSelector((store) => store.web3);
+  const navigate = useNavigate();
 
   const getUserData = useCallback(async () => {
     const { data } = await rairSDK.users.listUsers();
@@ -15,6 +16,10 @@ const LeaderBoard = () => {
       setUserList(data);
     }
   }, []);
+
+  const navigateToProfilePage = (userAddress) => {
+    navigate(`/${userAddress}`);
+  };
 
   useEffect(() => {
     getUserData();
@@ -37,7 +42,10 @@ const LeaderBoard = () => {
             userList.map((el, index) => {
               return (
                 <tr key={index}>
-                  <td className="git-handle">
+                  <td
+                    onClick={() => navigateToProfilePage(el.publicAddress)}
+                    className="git-handle"
+                  >
                     <img src={defaultAvatar} alt="Avatar" className="avatar" />{" "}
                     {el.nickName && el.nickName.length > 12
                       ? `${el.nickName?.slice(

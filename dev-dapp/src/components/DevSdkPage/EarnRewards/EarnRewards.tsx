@@ -10,12 +10,10 @@ import WorkflowContext from "../../../contexts/CreatorWorkflowContext";
 import { rFetch } from "../../../utils/rFetch";
 import "./EarnRewards.css";
 
-const EarnRewards = () => {
+const EarnRewards = ({ devDapp, userVideoList }) => {
   const [videoList, setVideoList] = useState([]);
   const { currentUserAddress } = useAppSelector((store) => store.web3);
-  const { adminRights, superAdmin, isLoggedIn, loginStatus } = useAppSelector(
-    (store) => store.user
-  );
+  const { isLoggedIn, loginStatus } = useAppSelector((store) => store.user);
   const [isLoading, setIsLoading] = useState(false);
 
   const [mainBannerInfo, setMainBannerInfo] = useState<any>(undefined);
@@ -56,13 +54,17 @@ const EarnRewards = () => {
   }, [getCollectionBanner]);
 
   useEffect(() => {
-    getProductsFromOffer();
-  }, [getProductsFromOffer]);
+    if (userVideoList) {
+      setVideoList(userVideoList);
+    } else {
+      getProductsFromOffer();
+    }
+  }, [getProductsFromOffer, userVideoList]);
 
   return (
     <div
       style={{
-        width: "80vw",
+        width: devDapp && "80vw",
       }}
       className="nft-single-unlockables-page"
     >
@@ -70,12 +72,34 @@ const EarnRewards = () => {
         <LoadingComponent />
       ) : (
         <div className="nft-rarity-wrapper">
-          <div className="video-wrapper-grid">
+          <div
+            style={{
+              margin: videoList.length < 4 && "20px 0 40px 0",
+            }}
+            className="video-wrapper-grid"
+          >
             {videoList &&
-              videoList.map((el) => {
+              videoList.slice(0, 4).map((el) => {
                 return <RewardVideoBox key={el._id} video={el} />;
               })}
           </div>
+          {videoList.length > 4 && (
+            <button
+              style={{
+                width: "288px",
+                height: "48px",
+                borderRadius: "16px",
+                background: "none",
+                outline: "none",
+                border: "1px solid #d37ad6",
+                margin: "20px 0 40px 0",
+                color: "#fff",
+              }}
+              className="video-grid-btn"
+            >
+              See All Tasks
+            </button>
+          )}
         </div>
       )}
     </div>

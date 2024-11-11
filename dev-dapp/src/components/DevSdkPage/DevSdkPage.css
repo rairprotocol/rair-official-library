@@ -32,7 +32,14 @@
 .table-container-leader .git-handle {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
+
+.table-container-leader .git-handle:hover {
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
 .table-container-leader .icon {
   display: inline-block;
   width: 18px;

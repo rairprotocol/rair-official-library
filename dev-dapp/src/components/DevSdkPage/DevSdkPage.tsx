@@ -150,7 +150,7 @@ const DevSdkPage = () => {
           <button>{"All rewards  >>"}</button>
         </div>
       </div>
-      <EarnRewards />
+      <EarnRewards devDapp={true} />
       <div
         style={{
           width: "80vw",

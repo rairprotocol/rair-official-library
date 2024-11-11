@@ -38,6 +38,18 @@
   transition: 0.3s all ease;
 }
 
+.user-page-add-content {
+  width: 100%;
+  width: calc(302px * 4 + 10px);
+}
+
+.user-page-add-content .title-of-add-content {
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 30px 0 10px 0;
+}
+
 .user-page-background img {
   width: auto;
   height: 50px;
@@ -250,10 +262,27 @@
   background-color: var(--bubblegum);
 }
 
+.container-languages {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20px;
+}
+
+.container-languages .languages-box {
+  /* width: 157px; */
+  height: 64px;
+  border: 1px solid grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+}
+
 @media screen and (max-width: 1280px) {
   .user-page-background.rhyno,
   .user-page-background.charcoal,
-  .my-items-header-wrapper.user {
+  .my-items-header-wrapper.user,
+  .user-page-add-content {
     width: 86.6vw;
   }
 }
@@ -281,7 +310,8 @@
 
 @media screen and (max-width: 1025px) {
   .user-page-background.rhyno,
-  .user-page-background.charcoal {
+  .user-page-background.charcoal,
+  .user-page-add-content {
     width: 100%;
   }
 
