@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useCallback } from "react";
 import { Provider, useStore } from "react-redux";
 

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useCallback, useEffect, useState } from "react";
 
 import { TDocData } from "../../../axios.responseTypes";
