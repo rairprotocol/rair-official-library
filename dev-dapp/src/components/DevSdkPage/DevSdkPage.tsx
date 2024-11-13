@@ -4,10 +4,26 @@ import { RairProtocol } from "../../images/index";
 import "./DevSdkPage.css";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import EarnRewards from "./EarnRewards/EarnRewards";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { rairSDK } from "../common/rairSDK";
 
 const DevSdkPage = () => {
   const [allRewards, setAllRewards] = useState(false);
+
+  const { currentUserAddress } = useAppSelector((store) => store.web3);
+
+  const [userList, setUserList] = useState<any>();
+
+  const getUserData = useCallback(async () => {
+    const { data } = await rairSDK.users.listUsers();
+    if (data) {
+      setUserList(data);
+    }
+  }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData, currentUserAddress]);
 
   const titleColumn = [
     {
@@ -97,7 +113,7 @@ const DevSdkPage = () => {
           <button>{"Full leaderboard  >>"}</button>
         </div>
       </div>
-      <LeaderBoard titleColumn={titleColumn} />
+      <LeaderBoard tableData={userList} titleColumn={titleColumn} />
       <div className="title-dev-dapp">
         <div> Earn Rewards</div>
         <div>

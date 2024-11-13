@@ -6,25 +6,12 @@ import { defaultAvatar } from "../../../images/index";
 import { rFetch } from "../../../utils/rFetch";
 import { rairSDK } from "../../common/rairSDK";
 
-const LeaderBoard = ({ titleColumn, userpage }) => {
-  const [userList, setUserList] = useState<any>();
-  const { currentUserAddress } = useAppSelector((store) => store.web3);
+const LeaderBoard = ({ titleColumn, userpage, tableData }) => {
   const navigate = useNavigate();
-
-  const getUserData = useCallback(async () => {
-    const { data } = await rairSDK.users.listUsers();
-    if (data) {
-      setUserList(data);
-    }
-  }, []);
 
   const navigateToProfilePage = (userAddress) => {
     navigate(`/${userAddress}`);
   };
-
-  useEffect(() => {
-    getUserData();
-  }, [getUserData, currentUserAddress]);
 
   return (
     <div className={`table-container-leader ${userpage && "userpage"}`}>
@@ -41,9 +28,9 @@ const LeaderBoard = ({ titleColumn, userpage }) => {
           </tr>
         </thead>
         <tbody>
-          {userList &&
-            userList.length > 0 &&
-            userList.map((el, index) => {
+          {tableData &&
+            tableData.length > 0 &&
+            tableData.map((el, index) => {
               return (
                 <tr key={index}>
                   <td
@@ -51,17 +38,32 @@ const LeaderBoard = ({ titleColumn, userpage }) => {
                     className="git-handle"
                   >
                     <img src={defaultAvatar} alt="Avatar" className="avatar" />{" "}
-                    {el.nickName && el.nickName.length > 12
-                      ? `${el.nickName?.slice(
-                          0,
-                          9
-                        )}...${el.nickName?.slice(length - 5)}`
-                      : el.nickName}
+                    {el.firstRow
+                      ? el.firstRow.length > 12
+                        ? `${el.firstRow?.slice(
+                            0,
+                            9
+                          )}...${el.firstRow?.slice(length - 5)}`
+                        : el.firstRow
+                      : el.nickName && el.nickName.length > 12
+                        ? `${el.nickName?.slice(
+                            0,
+                            9
+                          )}...${el.nickName?.slice(length - 5)}`
+                        : el.nickName}
                   </td>
-                  <td>104</td>
-                  <td className="availability-number">Open</td>
+                  <td>{el.secondRow ? el.secondRow : "104"}</td>
+                  <td className="availability-number">
+                    {el.thirdRow ? el.thirdRow : "Open"}
+                  </td>
                   <td className="language-text">
-                    <span className="icon"></span> Solidity
+                    {el.fourthRow ? (
+                      <>
+                        <span className="icon"></span> {el.fourthRow}
+                      </>
+                    ) : (
+                      "Solidity"
+                    )}
                   </td>
                 </tr>
               );

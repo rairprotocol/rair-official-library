@@ -297,6 +297,47 @@ const UserProfilePage: React.FC = () => {
     }
   }, [dispatch, userAddress]);
 
+  const tableData1 = [
+    {
+      id: 1,
+      firstRow: "RAIRprotocol Dapp",
+      secondRow: "1/2024",
+      thirdRow: "current",
+      fourthRow: "None",
+    },
+    {
+      id: 2,
+      firstRow: "Tailwind.js project",
+      secondRow: "2/2022",
+      thirdRow: "12/2023",
+      fourthRow: "None",
+    },
+    {
+      id: 3,
+      firstRow: "University project",
+      secondRow: "Common",
+      thirdRow: "1,620  /  10,000",
+      fourthRow: "None",
+    },
+  ];
+
+  const tableData2 = [
+    {
+      id: 1,
+      firstRow: "Suresh Arora",
+      secondRow: "RAIRprotocol",
+      thirdRow: "Coworker",
+      fourthRow: "None",
+    },
+    {
+      id: 2,
+      firstRow: "Eduardo Boss",
+      secondRow: "mor.io",
+      thirdRow: "co-worker (frontend)",
+      fourthRow: "None",
+    },
+  ];
+
   useEffect(() => {
     editBackground();
   }, [editBackground]);
@@ -485,9 +526,17 @@ const UserProfilePage: React.FC = () => {
               allRewards={allRewards}
             />
             <div className="title-of-add-content">Experience</div>
-            <LeaderBoard userpage={true} titleColumn={titleColumnExp} />
+            <LeaderBoard
+              userpage={true}
+              titleColumn={titleColumnExp}
+              tableData={tableData1}
+            />
             <div className="title-of-add-content">References</div>
-            <LeaderBoard userpage={true} titleColumn={titleColumnRef} />
+            <LeaderBoard
+              userpage={true}
+              titleColumn={titleColumnRef}
+              tableData={tableData2}
+            />
           </div>
 
           <div className="tabs-section">
