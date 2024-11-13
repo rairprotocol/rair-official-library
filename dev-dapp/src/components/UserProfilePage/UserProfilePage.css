@@ -44,10 +44,22 @@
 }
 
 .user-page-add-content .title-of-add-content {
-  text-align: left;
   font-size: 20px;
   font-weight: bold;
   margin: 30px 0 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-page-add-content .title-of-add-content button {
+  background: none;
+  outline: none;
+  border: none;
+  color: #fff;
+}
+
+.user-page-add-content .title-of-add-content button:hover {
+  text-decoration: underline;
 }
 
 .user-page-background img {

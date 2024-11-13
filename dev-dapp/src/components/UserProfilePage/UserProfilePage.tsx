@@ -73,10 +73,62 @@ const UserProfilePage: React.FC = () => {
   const [isResaleLoading, setIsResaleLoding] = useState<boolean | undefined>(
     undefined
   );
+  const [allRewards, setAllRewards] = useState(false);
+
   const [metadataFilter, setMetadataFilter] = useState<boolean>(false);
 
   const rSwal = useSwal();
   const { width } = useWindowDimensions();
+
+  const titleColumnRef = [
+    {
+      id: 1,
+      name: "Who",
+      hideMobile: false,
+    },
+    {
+      id: 2,
+      name: "Where",
+      hideMobile: false,
+    },
+    {
+      id: 3,
+      name: "Relationship",
+      hideMobile: true,
+      class: "availability-leader",
+    },
+    {
+      id: 4,
+      name: "URL",
+      hideMobile: true,
+      class: "language-leader",
+    },
+  ];
+
+  const titleColumnExp = [
+    {
+      id: 1,
+      name: "Project",
+      hideMobile: false,
+    },
+    {
+      id: 2,
+      name: "Start",
+      hideMobile: false,
+    },
+    {
+      id: 3,
+      name: "End",
+      hideMobile: true,
+      class: "availability-leader",
+    },
+    {
+      id: 4,
+      name: "Result",
+      hideMobile: true,
+      class: "language-leader",
+    },
+  ];
 
   const handleClose = (value: number) => {
     setOpen(false);
@@ -413,12 +465,29 @@ const UserProfilePage: React.FC = () => {
               <div className="languages-box">2% Go</div>
               <div className="languages-box">14% Solidity</div>
             </div>
-            <div className="title-of-add-content">Completed Tasks</div>
-            <EarnRewards userVideoList={videos} />
+            <div className="title-of-add-content">
+              <div>Completed Tasks</div>
+              <div>
+                {!allRewards && videos.length > 4 && (
+                  <button
+                    onClick={() => {
+                      setAllRewards(true);
+                    }}
+                  >
+                    {"All rewards  >>"}
+                  </button>
+                )}
+              </div>
+            </div>
+            <EarnRewards
+              userVideoList={videos}
+              setAllRewards={setAllRewards}
+              allRewards={allRewards}
+            />
             <div className="title-of-add-content">Experience</div>
-            <LeaderBoard />
+            <LeaderBoard userpage={true} titleColumn={titleColumnExp} />
             <div className="title-of-add-content">References</div>
-            <LeaderBoard />
+            <LeaderBoard userpage={true} titleColumn={titleColumnRef} />
           </div>
 
           <div className="tabs-section">

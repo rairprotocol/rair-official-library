@@ -4,98 +4,52 @@ import { RairProtocol } from "../../images/index";
 import "./DevSdkPage.css";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import EarnRewards from "./EarnRewards/EarnRewards";
+import { useState } from "react";
 
 const DevSdkPage = () => {
-  const { primaryColor } = useAppSelector((store) => store.colors);
+  const [allRewards, setAllRewards] = useState(false);
+
+  const titleColumn = [
+    {
+      id: 1,
+      name: "Git Handle",
+      hideMobile: false,
+    },
+    {
+      id: 2,
+      name: "Level",
+      hideMobile: false,
+    },
+    {
+      id: 3,
+      name: "Availability",
+      hideMobile: true,
+      class: "availability-leader",
+    },
+    {
+      id: 4,
+      name: "Top Language",
+      hideMobile: true,
+      class: "language-leader",
+    },
+  ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-      className="wrapper-splash-page"
-    >
+    <div className="wrapper-splash-page devApp">
       <div className="template-home-splash-page-dev">
         <div className="template-author-card-dev">
-          <div
-            style={{
-              width: "50%",
-            }}
-            className="left-side"
-          >
-            <h3
-              style={{
-                color: "#7762D7",
-                fontWeight: "bold",
-                fontSize: "48px",
-                textAlign: "left",
-              }}
-            >
-              <span
-                style={{
-                  textDecoration: "underline",
-                }}
-              >
-                #Buidl
-              </span>{" "}
-              the next web3 unicorn and earn $RAIR
+          <div className="left-side">
+            <h3>
+              <span>#Buidl</span> the next web3 unicorn and earn $RAIR
             </h3>
-            <button
-              style={{
-                background: "#000",
-                color: "#fff",
-                fontSize: "20px",
-                width: "319px",
-                height: "64px",
-                borderRadius: "16px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "30px",
-              }}
-            >
-              Connect Github
-            </button>
+            <button>Connect Github</button>
           </div>
           <div className="right-side">
-            <div
-              style={{
-                fontWeight: "bold",
-                textAlign: "left",
-              }}
-              className="block-title"
-            >
-              <p
-                style={{
-                  color: "#A7A6A6",
-                  fontSize: "24px",
-                  margin: 0,
-                }}
-              >
-                Developer
-              </p>
-              <p
-                style={{
-                  color: "#4E4D4D",
-                  fontSize: "32px",
-                  margin: 0,
-                }}
-              >
-                Reward Network
-              </p>
+            <div className="block-title">
+              <p>Developer</p>
+              <p>Reward Network</p>
             </div>
-            <img
-              style={{
-                width: "272px",
-                height: "auto",
-                marginTop: "15px",
-              }}
-              src={RairProtocol}
-              alt="Rair Protocol"
-            />
+            <img src={RairProtocol} alt="Rair Protocol" />
           </div>
         </div>
       </div>
@@ -143,21 +97,33 @@ const DevSdkPage = () => {
           <button>{"Full leaderboard  >>"}</button>
         </div>
       </div>
-      <LeaderBoard />
+      <LeaderBoard titleColumn={titleColumn} />
       <div className="title-dev-dapp">
         <div> Earn Rewards</div>
         <div>
-          <button>{"All rewards  >>"}</button>
+          {!allRewards && (
+            <button
+              onClick={() => {
+                setAllRewards(true);
+              }}
+            >
+              {"All rewards  >>"}
+            </button>
+          )}
         </div>
       </div>
-      <EarnRewards devDapp={true} />
+      <EarnRewards
+        allRewards={allRewards}
+        devDapp={true}
+        setAllRewards={setAllRewards}
+      />
       <div
         style={{
           width: "80vw",
         }}
       >
         <div className="title-dev-dapp">
-          <div>Launch</div>
+          <div></div>
         </div>
       </div>
     </div>

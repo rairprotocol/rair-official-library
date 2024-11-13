@@ -6,7 +6,7 @@ import { defaultAvatar } from "../../../images/index";
 import { rFetch } from "../../../utils/rFetch";
 import { rairSDK } from "../../common/rairSDK";
 
-const LeaderBoard = () => {
+const LeaderBoard = ({ titleColumn, userpage }) => {
   const [userList, setUserList] = useState<any>();
   const { currentUserAddress } = useAppSelector((store) => store.web3);
   const navigate = useNavigate();
@@ -27,14 +27,17 @@ const LeaderBoard = () => {
   }, [getUserData, currentUserAddress]);
 
   return (
-    <div className="table-container-leader">
+    <div className={`table-container-leader ${userpage && "userpage"}`}>
       <table>
         <thead>
           <tr>
-            <th>Git Handle</th>
-            <th>Level</th>
-            <th className="availability-leader">Availability</th>
-            <th className="language-leader">Top Language</th>
+            {titleColumn.map((el, index) => {
+              return (
+                <th key={index} className={el.class}>
+                  {el.name}
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody>

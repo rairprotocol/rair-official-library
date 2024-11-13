@@ -10,7 +10,7 @@ import WorkflowContext from "../../../contexts/CreatorWorkflowContext";
 import { rFetch } from "../../../utils/rFetch";
 import "./EarnRewards.css";
 
-const EarnRewards = ({ devDapp, userVideoList }) => {
+const EarnRewards = ({ devDapp, userVideoList, setAllRewards, allRewards }) => {
   const [videoList, setVideoList] = useState([]);
   const { currentUserAddress } = useAppSelector((store) => store.web3);
   const { isLoggedIn, loginStatus } = useAppSelector((store) => store.user);
@@ -33,21 +33,34 @@ const EarnRewards = ({ devDapp, userVideoList }) => {
       );
       const loadedFiles: string[] = [];
       if (response.data.success) {
-        setVideoList(
-          response.data.files.filter((item: MediaFile) => {
-            if (item._id && !loadedFiles.includes(item._id)) {
-              loadedFiles.push(item._id);
-              return true;
-            }
-            return false;
-          })
-        );
+        if (allRewards) {
+          setVideoList(
+            response.data.files.filter((item: MediaFile) => {
+              if (item._id && !loadedFiles.includes(item._id)) {
+                loadedFiles.push(item._id);
+                return true;
+              }
+              return false;
+            })
+          );
+        } else {
+          setVideoList(
+            response.data.files.slice(0, 4).filter((item: MediaFile) => {
+              if (item._id && !loadedFiles.includes(item._id)) {
+                loadedFiles.push(item._id);
+                return true;
+              }
+              return false;
+            })
+          );
+        }
+
         setIsLoading(false);
       } else {
         setIsLoading(false);
       }
     }
-  }, [currentUserAddress, loginStatus, isLoggedIn, mainBannerInfo]);
+  }, [currentUserAddress, loginStatus, isLoggedIn, mainBannerInfo, allRewards]);
 
   useEffect(() => {
     getCollectionBanner();
@@ -79,25 +92,18 @@ const EarnRewards = ({ devDapp, userVideoList }) => {
             className="video-wrapper-grid"
           >
             {videoList &&
-              videoList.slice(0, 4).map((el) => {
+              videoList.map((el) => {
                 return <RewardVideoBox key={el._id} video={el} />;
               })}
           </div>
           {videoList.length > 4 && (
             <button
-              style={{
-                width: "288px",
-                height: "48px",
-                borderRadius: "16px",
-                background: "none",
-                outline: "none",
-                border: "1px solid #d37ad6",
-                margin: "20px 0 40px 0",
-                color: "#fff",
+              onClick={() => {
+                setAllRewards(false);
               }}
               className="video-grid-btn"
             >
-              See All Tasks
+              {allRewards ? "Hide All Tasks" : "See All Tasks"}
             </button>
           )}
         </div>
