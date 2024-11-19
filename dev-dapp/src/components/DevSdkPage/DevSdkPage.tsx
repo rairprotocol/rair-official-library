@@ -6,24 +6,35 @@ import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import EarnRewards from "./EarnRewards/EarnRewards";
 import { useCallback, useEffect, useState } from "react";
 import { rairSDK } from "../common/rairSDK";
+import PaginationBox from "../MockUpPage/PaginationBox/PaginationBox";
 
 const DevSdkPage = () => {
   const [allRewards, setAllRewards] = useState(false);
 
   const { currentUserAddress } = useAppSelector((store) => store.web3);
+  const [currentPageBoard, setCurrentPageBoard] = useState(1);
+  const [totalCountBoard, setTotalCountBoard] = useState(undefined);
 
   const [userList, setUserList] = useState<any>();
 
-  const getUserData = useCallback(async () => {
-    const { data } = await rairSDK.users.listUsers();
-    if (data) {
-      setUserList(data);
+  const getUserData = useCallback(async (page) => {
+    const response = await rairSDK.users.listUsers({
+      itemsPerPage: 8,
+      pageNum: page - 1,
+    });
+    if (response.data) {
+      setUserList(response.data);
+      setTotalCountBoard(response.totalCount);
     }
   }, []);
 
+  const changePageLeaderBoard = (page) => {
+    setCurrentPageBoard(page);
+  };
+
   useEffect(() => {
-    getUserData();
-  }, [getUserData, currentUserAddress]);
+    getUserData(currentPageBoard);
+  }, [getUserData, currentUserAddress, currentPageBoard]);
 
   const titleColumn = [
     {
@@ -109,11 +120,15 @@ const DevSdkPage = () => {
       </div>
       <div className="title-dev-dapp">
         <div>Leaderboard</div>
-        <div>
-          <button>{"Full leaderboard  >>"}</button>
-        </div>
       </div>
       <LeaderBoard tableData={userList} titleColumn={titleColumn} />
+      <PaginationBox
+        totalPageForPagination={totalCountBoard}
+        changePage={changePageLeaderBoard}
+        currentPage={currentPageBoard}
+        itemsPerPageNotifications={8}
+        whatPage={"notifications"}
+      />
       <div className="title-dev-dapp">
         <div> Earn Rewards</div>
         <div>
