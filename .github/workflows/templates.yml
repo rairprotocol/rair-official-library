@@ -23,25 +23,25 @@ jobs:
           password: ${{secrets.DOCKERHUB_TOKEN}}
 
       - name: build and push rair-front docker image to registry
-        run: cp env-templates/simple-dapp.sample rair-simple-dapp/.env
+        run: cp env-templates/simple-dapp.sample dev-dapp/.env
       - name: appending VITE_MATIC_MAINNET_ALCHEMY_KEY in .env file
-        run: echo "VITE_MATIC_MAINNET_ALCHEMY_KEY"=${{ secrets.VITE_MATIC_MAINNET_ALCHEMY_KEY }} >> rair-simple-dapp/.env
+        run: echo "VITE_MATIC_MAINNET_ALCHEMY_KEY"=${{ secrets.VITE_MATIC_MAINNET_ALCHEMY_KEY }} >> dev-dapp/.env
       - name: appending VITE_MATIC_MAINNET_GAS_POLICY in .env file
-        run: echo "VITE_MATIC_MAINNET_GAS_POLICY"=${{ secrets.VITE_MATIC_MAINNET_GAS_POLICY }} >> rair-simple-dapp/.env
+        run: echo "VITE_MATIC_MAINNET_GAS_POLICY"=${{ secrets.VITE_MATIC_MAINNET_GAS_POLICY }} >> dev-dapp/.env
       - name: appending VITE_ETH_MAINNET_ALCHEMY_KEY in .env file
-        run: echo "VITE_ETH_MAINNET_ALCHEMY_KEY"=${{ secrets.VITE_ETH_MAINNET_ALCHEMY_KEY }} >> rair-simple-dapp/.env
+        run: echo "VITE_ETH_MAINNET_ALCHEMY_KEY"=${{ secrets.VITE_ETH_MAINNET_ALCHEMY_KEY }} >> dev-dapp/.env
       - name: appending VITE_ETH_MAINNET_GAS_POLICY in .env file
-        run: echo "VITE_ETH_MAINNET_GAS_POLICY"=${{ secrets.VITE_ETH_MAINNET_GAS_POLICY }} >> rair-simple-dapp/.env
+        run: echo "VITE_ETH_MAINNET_GAS_POLICY"=${{ secrets.VITE_ETH_MAINNET_GAS_POLICY }} >> dev-dapp/.env
       - name: appending VITE_BASE_MAINNET_ALCHEMY_KEY in .env file
-        run: echo "VITE_BASE_MAINNET_ALCHEMY_KEY"=${{ secrets.VITE_BASE_MAINNET_ALCHEMY_KEY }} >> rair-simple-dapp/.env
+        run: echo "VITE_BASE_MAINNET_ALCHEMY_KEY"=${{ secrets.VITE_BASE_MAINNET_ALCHEMY_KEY }} >> dev-dapp/.env
       - name: appending VITE_BASE_MAINNET_GAS_POLICY in .env file
-        run: echo "VITE_BASE_MAINNET_GAS_POLICY"=${{ secrets.VITE_BASE_MAINNET_GAS_POLICY }} >> rair-simple-dapp/.env
+        run: echo "VITE_BASE_MAINNET_GAS_POLICY"=${{ secrets.VITE_BASE_MAINNET_GAS_POLICY }} >> dev-dapp/.env
       - name: appending VITE_ETH_SEPOLIA_ALCHEMY_KEY in .env file
-        run: echo "VITE_ETH_SEPOLIA_ALCHEMY_KEY"=${{ secrets.VITE_ETH_SEPOLIA_ALCHEMY_KEY }} >> rair-simple-dapp/.env
+        run: echo "VITE_ETH_SEPOLIA_ALCHEMY_KEY"=${{ secrets.VITE_ETH_SEPOLIA_ALCHEMY_KEY }} >> dev-dapp/.env
       - name: appending VITE_ETH_SEPOLIA_GAS_POLICY in .env file
-        run: echo "VITE_ETH_SEPOLIA_GAS_POLICY"=${{ secrets.VITE_ETH_SEPOLIA_GAS_POLICY }} >> rair-simple-dapp/.env
+        run: echo "VITE_ETH_SEPOLIA_GAS_POLICY"=${{ secrets.VITE_ETH_SEPOLIA_GAS_POLICY }} >> dev-dapp/.env
       - name: build rair-front docker image
-        run: sudo docker build -t rair-front:${{github.sha}} -f rair-simple-dapp/Dockerfile.prod rair-simple-dapp
+        run: sudo docker build -t rair-front:${{github.sha}} -f dev-dapp/Dockerfile.prod dev-dapp
       - name: tag image
         run: |
           docker tag rair-front:${{github.sha}} ${{secrets.DOCKERHUB_USERNAME}}/rair-front:_${{github.sha}}
