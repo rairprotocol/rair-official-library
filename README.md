@@ -15,7 +15,8 @@ The rair-dapp mono-repo contains our open-source default front, back, syncing, a
 ## how to use
 
 Clone and fork this repo. Please submit new dApps as an independent repo by checking in your unique frontend code, or if you have also modified source code elsewhere in the mono-repo.
-Command for building docker images e.g., for starting dev-dapp
+
+Command for building docker images e.g., for starting dev-dapp:
 
 sudo TEMPLATE=dev-dapp docker-compose -f docker-compose-templates.yml up -d
 
