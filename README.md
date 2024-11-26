@@ -25,7 +25,7 @@ Step -4 : copy .env.sample to .env in the new dApp which you want to deploy e.g.
 Step -5 : Build Docker images using command
 
 
-sudo TEMPLATE=<Folder name of dApp> docker-compose -f docker-compose-templates.yml up -d
+sudo TEMPLATE={Folder name of dApp} docker-compose -f docker-compose-templates.yml up -d
 
 
 For example, for building Docker image of dev-dapp, command to be used is
