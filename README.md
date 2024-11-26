@@ -33,6 +33,8 @@ For example, for building Docker image of dev-dapp, command to be used is
 
 sudo TEMPLATE=dev-dapp docker-compose -f docker-compose-templates.yml up -d
 
+Step -6 : Launch the Application by pointing Browser to http://localhost:8088
+
 
 # frontend examples
 
