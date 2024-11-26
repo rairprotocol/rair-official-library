@@ -16,7 +16,7 @@ The rair-dapp mono-repo contains our open-source default front, back, syncing, a
 
 Step -1 : Clone and fork this repo. Please submit new dApps as an independent repo by checking in your unique frontend code, or if you have also modified source code elsewhere in the mono-repo.
 
-Step -2 : Copy .env.sample from rair-dapp repository to root directory
+Step -2 : Copy ![.env.sample](https://github.com/rairprotocol/rair-dapp/blob/main/.env.sample) from rair-dapp repository to root directory
 
 Step -3 : mv .env.sample to .env
 
