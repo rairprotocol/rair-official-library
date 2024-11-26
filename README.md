@@ -14,9 +14,15 @@ The rair-dapp mono-repo contains our open-source default front, back, syncing, a
 
 ## how to use
 
-Clone and fork this repo. Please submit new dApps as an independent repo by checking in your unique frontend code, or if you have also modified source code elsewhere in the mono-repo.
+Step -1 : Clone and fork this repo. Please submit new dApps as an independent repo by checking in your unique frontend code, or if you have also modified source code elsewhere in the mono-repo.
+Step -2 : Copy .env.sample from rair-dapp repository to root directory
+Step -3 : mv .env.sample to .env
+Step -4 : copy .env.sample to .env in the new dApp which you want to deploy e.g., dev-dapp
+Step -5 : Build Docker images using command
 
-Command for building docker images e.g., for starting dev-dapp:
+sudo TEMPLATE=<Folder name of dApp> docker-compose -f docker-compose-templates.yml up -d
+
+For example, for building Docker image of dev-dapp, command to be used is
 
 sudo TEMPLATE=dev-dapp docker-compose -f docker-compose-templates.yml up -d
 
