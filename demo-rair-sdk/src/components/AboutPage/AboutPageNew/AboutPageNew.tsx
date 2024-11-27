@@ -9,10 +9,8 @@ import { metaMaskIcon, RairLogoBlue } from '../../../images';
 import { setSEOInfo } from '../../../redux/seoSlice';
 import { SplashPageProps } from '../../../types/commonTypes';
 import PurchaseTokenButton from '../../common/PurchaseToken';
-import MetaTags from '../../SeoTags/MetaTags';
 
 import setDocumentTitle from './../../../utils/setTitle';
-import CompareAbout from './CompareAbout/CompareAbout';
 import ExclusiveNfts from './ExclusiveNfts/ExclusiveNfts';
 import LeftTokenAbout from './LeftTokenAbout/LeftTokenAbout';
 import MainBlock from './MainBlock/MainBlock';

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Provider, useStore } from 'react-redux';
+import { useStore } from 'react-redux';
 
 import { TalkSalesButton } from './TalkSalesButton';
 
 import { useAppSelector } from '../../../../hooks/useReduxHooks';
 import useSwal from '../../../../hooks/useSwal';
-import InquiriesPage from '../../../InquiriesPage/InquiriesPage';
 
 interface ITalkSalesComponent {
   classes?: string;
@@ -28,19 +27,6 @@ const TalkSalesComponent: React.FC<ITalkSalesComponent> = ({
 
   const store = useStore();
 
-  const openInquiriesPage = () => {
-    reactSwal.fire({
-      title: <h2>{currentUserAddress ? 'Contact Us' : 'Support'}</h2>,
-      html: (
-        <Provider store={store}>
-          <InquiriesPage />
-        </Provider>
-      ),
-      showConfirmButton: false,
-      width: '85vw'
-    });
-  };
-
   return (
     <TalkSalesButton
       isAboutPage={isAboutPage}
@@ -48,7 +34,7 @@ const TalkSalesComponent: React.FC<ITalkSalesComponent> = ({
       primaryColor={primaryColor}
       className={classes ? classes : ''}
       currentUserAddress={currentUserAddress}
-      onClick={openInquiriesPage}>
+      onClick={() => null }>
       {text}
     </TalkSalesButton>
   );
