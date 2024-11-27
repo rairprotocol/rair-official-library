@@ -6,13 +6,9 @@ import svgr from 'vite-plugin-svgr';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), nodePolyfills(), svgr()],
-  // optimizeDeps: {
-  //   exclude: ['video.js', '@reduxjs/toolkit'] // Укажите здесь название пакета
-  // },
   server: {
     port: 3001,
     proxy: {
-      // with options: http://localhost:5173/api/bar-> http://jsonplaceholder.typicode.com/api/bar
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true

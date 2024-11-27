@@ -1,19 +1,13 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ErrorBoundary, withSentryReactRouterV6Routing } from '@sentry/react';
 
 import AboutPageNew from './components/AboutPage/AboutPageNew/AboutPageNew';
 import Footer from './components/Footer/Footer';
 import MainHeader from './components/Header/MainHeader';
-import InquiriesPage from './components/InquiriesPage/InquiriesPage';
-import MenuNavigation from './components/Navigation/Menu';
 import NotFound from './components/NotFound/NotFound';
-import { PrivacyPolicy } from './components/SplashPage/PrivacyPolicyPage/PrivacyPolicy';
-import { TermsUse } from './components/SplashPage/TermsUsePage/TermsUse';
 import useConnectUser from './hooks/useConnectUser';
-import useContracts from './hooks/useContracts';
 import { useAppDispatch, useAppSelector } from './hooks/useReduxHooks';
-import useWeb3Tx from './hooks/useWeb3Tx';
 import { loadCategories, loadSettings } from './redux/settingsSlice';
 import { setConnectedChain } from './redux/web3Slice';
 import {
@@ -42,13 +36,8 @@ function App() {
     currentUserAddress,
     programmaticProvider
   } = useAppSelector((store) => store.web3);
-  const { diamondMarketplaceInstance } = useContracts();
   const [isAboutPage, setIsAboutPage] = useState<boolean>(false);
   const { realNameChain } = detectBlockchain(connectedChain, requestedChain);
-  const seo = useAppSelector((store) => store.seo);
-  const carousel_match = window.matchMedia('(min-width: 1025px)');
-  const [carousel, setCarousel] = useState(carousel_match.matches);
-  const [tabIndex, setTabIndex] = useState(0);
   const [tabIndexItems, setTabIndexItems] = useState(0);
   const [tokenNumber, setTokenNumber] = useState<number | undefined>(undefined);
   const navigate = useNavigate();
@@ -61,13 +50,10 @@ function App() {
     backgroundImageEffect,
     isDarkMode
   } = useAppSelector((store) => store.colors);
-  const { adminRights, isLoggedIn } = useAppSelector((store) => store.user);
 
-  const { correctBlockchain } = useWeb3Tx();
 
   const { logoutUser } = useConnectUser();
 
-  const { pathname } = useLocation();
 
   const goHome = () => {
     navigate('/');
@@ -142,7 +128,7 @@ function App() {
         primaryColor={primaryColor}
         backgroundImage={backgroundImage}>
         <div className="row w-100 m-0 p-0">
-          {carousel && !isIframePage ? (
+
             <MainHeader
               goHome={goHome}
               renderBtnConnect={renderBtnConnect}
@@ -154,19 +140,6 @@ function App() {
               isAboutPage={isAboutPage}
               setTokenNumber={setTokenNumber}
             />
-          ) : (
-            !isIframePage && (
-              <MenuNavigation
-                realChainId={realNameChain && requestedChain}
-                isSplashPage={isSplashPage}
-                renderBtnConnect={renderBtnConnect}
-                currentUserAddress={currentUserAddress}
-                showAlert={showAlert}
-                setTabIndexItems={setTabIndexItems}
-                isAboutPage={isAboutPage}
-              />
-            )
-          )}
           <MainBlockApp isSplashPage={isSplashPage} showAlert={showAlert}>
             <div className="col-12 blockchain-switcher" />
             <div className="col-12 mt-3">
