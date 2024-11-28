@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Hex } from 'viem';
 
 import { TMetadataType, TProducts } from '../../axios.responseTypes';

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 

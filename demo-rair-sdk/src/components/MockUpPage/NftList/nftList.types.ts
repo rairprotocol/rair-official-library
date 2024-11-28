@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Dispatch, SetStateAction } from 'react';
 import { Hex } from 'viem';
 

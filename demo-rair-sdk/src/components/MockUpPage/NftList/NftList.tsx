@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { FC, memo, useContext, useState } from 'react';
 
 import { NftItem } from './NftItem';

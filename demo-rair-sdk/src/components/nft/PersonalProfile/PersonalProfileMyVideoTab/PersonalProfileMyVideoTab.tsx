@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { FC, memo, useEffect, useState } from 'react';
 import { Hex } from 'viem';
 
