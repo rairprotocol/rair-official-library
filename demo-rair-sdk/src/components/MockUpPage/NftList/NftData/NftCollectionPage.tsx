@@ -27,6 +27,9 @@ import { rFetch } from '../../../../utils/rFetch';
 import setDocumentTitle from '../../../../utils/setTitle';
 import InputField from '../../../common/InputField';
 import LoadingComponent from '../../../common/LoadingComponent';
+import { MobileCloseBtn } from '../../../GlobalModal/FilterModal/FilterModalIcons';
+import { HomePageModalFilter } from '../../../GlobalModal/FilterModal/HomePAgeModal';
+import { MobileHeaderBlock } from '../../../GlobalModal/FilterModal/MobileHeaderBlock';
 import FilteringBlock from '../../FilteringBlock/FilteringBlock';
 import { ImageLazy } from '../../ImageLazy/ImageLazy';
 import CustomButton from '../../utils/button/CustomButton';
@@ -658,7 +661,127 @@ const NftCollectionPageComponent: FC<INftCollectionPageComponent> = ({
         </div>
         {metadataFilter && (
           <div id="filter-modal-parent">
-            
+            <HomePageModalFilter
+              isMobileDesign={isMobileDesign}
+              primaryColor={primaryColor}
+              id="home-page-modal-filter"
+              className={`filter-modal-wrapper ${
+                metadataFilter && 'with-modal'
+              }`}>
+              {isMobileDesign && (
+                <MobileHeaderBlock className="mobile-close-btn-container">
+                  <span className="filter-header">Filters</span>
+                  <button
+                    className="mobile-close-btn"
+                    onClick={toggleMetadataFilter}>
+                    <MobileCloseBtn className="" />
+                  </button>
+                </MobileHeaderBlock>
+              )}
+              <h6
+                style={{
+                  textTransform: 'uppercase'
+                }}>
+                Traits ({newAttr.length})
+              </h6>
+              <div className="filter-metadata-collection-container">
+                {newAttr &&
+                  newAttr.map((item, index) => {
+                    return (
+                      <FilterMetadataTokens
+                        setSelectedAttributeValues={setSelectedAttributeValues}
+                        selectedAttributeValues={selectedAttributeValues}
+                        key={index}
+                        selectedData={item}
+                        index={index}
+                        textColor={textColor}
+                      />
+                    );
+                  })}
+              </div>
+              <div
+                style={{
+                  width: '100%',
+                  textAlign: 'left'
+                }}>
+                <InputField
+                  label="Search"
+                  getter={titleSearchAttributes}
+                  setter={setTitleSearchAttributes}
+                  customClass="rounded-rair form-control"
+                  customCSS={{
+                    backgroundColor: 'inherit'
+                  }}
+                />
+              </div>
+              <MetadataAttributesProperties
+                filteredDataAttributes={filteredDataAttributes}
+                setSelectedAttributeValues={setSelectedAttributeValues}
+              />
+              {primaryColor && (
+                <div
+                  className="filter-modal-btn-container"
+                  style={{
+                    marginTop: '10px'
+                  }}>
+                  <button
+                    onClick={() => {
+                      getAllProduct(
+                        '0',
+                        showTokensRef.current.toString(),
+                        undefined
+                      );
+                      setSelectedAttributeValues(undefined);
+                      if (isMobileDesign) {
+                        setMetadataFilter(false);
+                      }
+                    }}
+                    className={`modal-filtering-button clear-btn`}>
+                    Clear all
+                  </button>
+                  <button
+                    style={{
+                      color: textColor,
+                      background: `${
+                        primaryColor === '#dedede'
+                          ? import.meta.env.VITE_TESTNET === 'true'
+                            ? 'var(--hot-drops)'
+                            : 'linear-gradient(to right, #e882d5, #725bdb)'
+                          : import.meta.env.VITE_TESTNET === 'true'
+                            ? primaryButtonColor ===
+                              'linear-gradient(to right, #e882d5, #725bdb)'
+                              ? 'var(--hot-drops)'
+                              : primaryButtonColor
+                            : primaryButtonColor
+                      }`
+                    }}
+                    className={`modal-filtering-button apply-btn`}
+                    disabled={
+                      !selectedAttributeValuesFunction(selectedAttributeValues)
+                    }
+                    onClick={() => {
+                      getAllProduct(
+                        '0',
+                        showTokensRef.current.toString(),
+                        selectedAttributeValues &&
+                          selectedAttributeValues.length &&
+                          selectedAttributeValues?.reduce((acc, item) => {
+                            const { name, values } = item;
+                            const newValue = values.filter((el) => el.active);
+
+                            acc[name] = newValue.map((el) => el.value);
+                            return acc;
+                          }, {})
+                      );
+                      if (isMobileDesign) {
+                        setMetadataFilter(false);
+                      }
+                    }}>
+                    Apply
+                  </button>
+                </div>
+              )}
+            </HomePageModalFilter>
           </div>
         )}
       </div>

@@ -1,22 +1,22 @@
 //@ts-nocheck
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import NftSingleUnlockables from './NftSingleUnlockables';
+import NftSingleUnlockables from "./NftSingleUnlockables";
 
 import {
   useAppDispatch,
-  useAppSelector
-} from '../../../../hooks/useReduxHooks';
-import { CatalogVideoItem } from '../../../../types/commonTypes';
-import { MediaFile } from '../../../../types/databaseTypes';
-import setDocumentTitle from '../../../../utils/setTitle';
-import LoadingComponent from '../../../common/LoadingComponent';
-import CustomButton from '../../utils/button/CustomButton';
-import { BreadcrumbsView } from '../Breadcrumbs/Breadcrumbs';
-import { INftUnlockablesPage } from '../nftList.types';
+  useAppSelector,
+} from "../../../../hooks/useReduxHooks";
+import { CatalogVideoItem } from "../../../../types/commonTypes";
+import { MediaFile } from "../../../../types/databaseTypes";
+import setDocumentTitle from "../../../../utils/setTitle";
+import LoadingComponent from "../../../common/LoadingComponent";
+import CustomButton from "../../utils/button/CustomButton";
+import { BreadcrumbsView } from "../Breadcrumbs/Breadcrumbs";
+import { INftUnlockablesPage } from "../nftList.types";
 
-import TitleCollection from './TitleCollection/TitleCollection';
-import VideoPlayerView from './UnlockablesPage/VideoPlayerView';
+import TitleCollection from "./TitleCollection/TitleCollection";
+import VideoPlayerView from "./UnlockablesPage/VideoPlayerView";
 
 const NftUnlockablesPage: React.FC<INftUnlockablesPage> = ({
   embeddedParams,
@@ -24,7 +24,7 @@ const NftUnlockablesPage: React.FC<INftUnlockablesPage> = ({
   selectedToken,
   someUsersData,
   collectionName,
-  setTokenDataFiltered
+  setTokenDataFiltered,
 }) => {
   const [selectVideo, setSelectVideo] = useState<CatalogVideoItem>();
   const [isDiamond, setIsDiamond] = useState<undefined | boolean>(undefined);
@@ -36,7 +36,7 @@ const NftUnlockablesPage: React.FC<INftUnlockablesPage> = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setDocumentTitle('Unlockables');
+    setDocumentTitle("Unlockables");
   }, [dispatch]);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const NftUnlockablesPage: React.FC<INftUnlockablesPage> = ({
           setSelectVideo={setSelectVideo}
           unlockables={true}
         />
-        <div style={{ width: '85vw', margin: 'auto' }} className="">
+        <div style={{ width: "85vw", margin: "auto" }} className="">
           <NftSingleUnlockables
             embeddedParams={embeddedParams}
             productsFromOffer={productsFromOffer}
@@ -96,7 +96,7 @@ const NftUnlockablesPage: React.FC<INftUnlockablesPage> = ({
             text="Show More"
             width="288px"
             height="48px"
-            margin={'0 auto'}
+            margin={"0 auto"}
           />
         ) : (
           <></>

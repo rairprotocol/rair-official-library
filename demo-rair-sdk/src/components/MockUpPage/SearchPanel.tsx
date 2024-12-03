@@ -5,40 +5,40 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState
-} from 'react';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Hex } from 'viem';
+  useState,
+} from "react";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Hex } from "viem";
 
-import { ISearchPanel } from './mockupPage.types';
+import { ISearchPanel } from "./mockupPage.types";
 
-import { useAppDispatch, useAppSelector } from '../../hooks/useReduxHooks';
+import { useAppDispatch, useAppSelector } from "../../hooks/useReduxHooks";
 import {
   GlobalModalContext,
-  TGlobalModalContext
-} from '../../providers/ModalProvider';
-import { GLOBAL_MODAL_ACTIONS } from '../../providers/ModalProvider/actions';
-import { loadFrontPageCatalog } from '../../redux/tokenSlice';
-import { loadVideoList } from '../../redux/videoSlice';
-import InputField from '../common/InputField';
-import VideoList from '../video/videoList';
+  TGlobalModalContext,
+} from "../../providers/ModalProvider";
+import { GLOBAL_MODAL_ACTIONS } from "../../providers/ModalProvider/actions";
+import { loadFrontPageCatalog } from "../../redux/tokenSlice";
+import { loadVideoList } from "../../redux/videoSlice";
+import InputField from "../common/InputField";
+import VideoList from "../video/videoList";
 
-import FilteringBlock from './FilteringBlock/FilteringBlock';
+import FilteringBlock from "./FilteringBlock/FilteringBlock";
 import {
   TBlockchainNames,
-  TSortChoice
-} from './FilteringBlock/filteringBlock.types';
-import { NftList } from './NftList/NftList';
-import PaginationBox from './PaginationBox/PaginationBox';
+  TSortChoice,
+} from "./FilteringBlock/filteringBlock.types";
+import { NftList } from "./NftList/NftList";
+import PaginationBox from "./PaginationBox/PaginationBox";
 
 const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
   const [, setVideoUnlocked] = useState<boolean>(false);
-  const [titleSearch, setTitleSearch] = useState<string>('');
+  const [titleSearch, setTitleSearch] = useState<string>("");
   const [sortItem, setSortItem] = useState<TSortChoice | undefined>();
   const [blockchain, setBlockchain] = useState<Hex | undefined>();
-  const [category, setCategory] = useState<string>('');
+  const [category, setCategory] = useState<string>("");
   const [, /*isShow*/ setIsShow] = useState<boolean>(false);
   const [click, setClick] = useState(null);
   const [isShowCategories, setIsShowCategories] = useState<boolean>(false);
@@ -60,7 +60,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
     textColor,
     secondaryColor,
     primaryButtonColor,
-    iconColor
+    iconColor,
   } = useAppSelector((store) => store.colors);
 
   const { globalModalState, globalModaldispatch } =
@@ -73,7 +73,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
         pageNum: page,
         blockchain,
         category,
-        contractTitle: titleSearch.toLocaleLowerCase()
+        contractTitle: titleSearch.toLocaleLowerCase(),
       };
 
       dispatch(loadFrontPageCatalog(params));
@@ -93,7 +93,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
 
   const clearFilter = useCallback(() => {
     setBlockchain(undefined);
-    setCategory('null');
+    setCategory("null");
     setCategoryClick(null);
     setBlockchainClick(null);
     setIsShow(false);
@@ -103,8 +103,8 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
       type: GLOBAL_MODAL_ACTIONS.UPDATE_MODAL,
       payload: {
         selectedBchItems: [],
-        selectedCatItems: []
-      }
+        selectedCatItems: [],
+      },
     });
   }, [catalogPage, globalModaldispatch]);
 
@@ -117,8 +117,8 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
       globalModaldispatch({
         type: GLOBAL_MODAL_ACTIONS.UPDATE_MODAL,
         payload: {
-          selectedBchItems: sortedBchItems
-        }
+          selectedBchItems: sortedBchItems,
+        },
       });
 
       setFilterText(filterText.filter((item) => item !== selectedItemText));
@@ -126,7 +126,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
   };
 
   const clearCategoriesFilter = () => {
-    setCategory('null');
+    setCategory("null");
     setCategoryClick(null);
     setBlockchainClick(null);
     setIsShowCategories(false);
@@ -135,8 +135,8 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
       type: GLOBAL_MODAL_ACTIONS.UPDATE_MODAL,
       payload: {
         selectedBchItems: [],
-        selectedCatItems: []
-      }
+        selectedCatItems: [],
+      },
     });
   };
 
@@ -149,8 +149,8 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
         primaryColor,
         clearFilter,
         setFilterText,
-        setIsShow
-      }
+        setIsShow,
+      },
     });
   }, [globalModaldispatch, setBlockchain, primaryColor, clearFilter]);
 
@@ -167,7 +167,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
       pageNum: currentPageForVideo,
       category: category,
       blockchain: blockchain,
-      mediaTitle: titleSearch
+      mediaTitle: titleSearch,
     }),
     [itemsPerPage, currentPageForVideo, category, blockchain, titleSearch]
   );
@@ -186,7 +186,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
       pageNum: currentPage,
       blockchain,
       category,
-      contractTitle: titleSearch.toLocaleLowerCase()
+      contractTitle: titleSearch.toLocaleLowerCase(),
     };
 
     dispatch(loadFrontPageCatalog(params));
@@ -201,13 +201,15 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
     <div className="input-search-wrapper list-button-wrapper">
       <Tabs
         selectedIndex={tabIndex}
-        onSelect={(index: number) => setTabIndex(index)}>
+        onSelect={(index: number) => setTabIndex(index)}
+      >
         <TabList className="category-wrapper">
           <Tab
             selectedClassName={`search-tab-selected-${
-              primaryColor === '#dedede' ? 'default' : 'dark'
+              primaryColor === "#dedede" ? "default" : "dark"
             }`}
-            className="category-button-nft category-button">
+            className="category-button-nft category-button"
+          >
             MARKET
           </Tab>
           <Tab
@@ -215,9 +217,10 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
               //clearPagesForVideo();
             }}
             selectedClassName={`search-tab-selected-${
-              primaryColor === '#dedede' ? 'default' : 'dark'
+              primaryColor === "#dedede" ? "default" : "dark"
             }`}
-            className="category-button-videos category-button">
+            className="category-button-videos category-button"
+          >
             Videos
           </Tab>
         </TabList>
@@ -226,14 +229,14 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
             getter={titleSearch}
             setter={setTitleSearch}
             placeholder={
-              tabIndex === 0 ? 'Search collections' : 'Search videos'
+              tabIndex === 0 ? "Search collections" : "Search videos"
             }
             customCSS={{
               backgroundColor: `color-mix(in srgb, ${primaryColor} 90%, #888888)`,
               color: textColor,
-              borderTopLeftRadius: '0',
+              borderTopLeftRadius: "0",
               borderColor: `color-mix(in srgb, ${secondaryColor}, #888888)`,
-              paddingLeft: '2rem'
+              paddingLeft: "2rem",
             }}
             customClass="form-control input-styled border-top-radius-tablet search-mobile"
           />
@@ -244,9 +247,9 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
                 size="lg"
                 style={{
                   color:
-                    import.meta.env.VITE_TESTNET === 'true'
-                      ? `${iconColor === '#1486c5' ? '#F95631' : iconColor}`
-                      : `${iconColor === '#1486c5' ? '#E882D5' : iconColor}`
+                    import.meta.env.VITE_TESTNET === "true"
+                      ? `${iconColor === "#1486c5" ? "#F95631" : iconColor}`
+                      : `${iconColor === "#1486c5" ? "#E882D5" : iconColor}`,
                 }}
               />
             </i>
@@ -254,7 +257,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
               click={click}
               setIsClick={setClick}
               isFilterShow={
-                import.meta.env.VITE_TESTNET === 'true' ? false : true
+                import.meta.env.VITE_TESTNET === "true" ? false : true
               }
               textColor={textColor}
               primaryColor={primaryColor}
@@ -281,21 +284,22 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
                   key={index}
                   style={{
                     background: `${
-                      primaryColor === '#dedede'
-                        ? import.meta.env.VITE_TESTNET === 'true'
-                          ? 'var(--hot-drops)'
-                          : 'linear-gradient(to right, #e882d5, #725bdb)'
-                        : import.meta.env.VITE_TESTNET === 'true'
+                      primaryColor === "#dedede"
+                        ? import.meta.env.VITE_TESTNET === "true"
+                          ? "var(--hot-drops)"
+                          : "linear-gradient(to right, #e882d5, #725bdb)"
+                        : import.meta.env.VITE_TESTNET === "true"
                           ? primaryButtonColor ===
-                            'linear-gradient(to right, #e882d5, #725bdb)'
-                            ? 'var(--hot-drops)'
+                            "linear-gradient(to right, #e882d5, #725bdb)"
+                            ? "var(--hot-drops)"
                             : primaryButtonColor
                           : primaryButtonColor
                     }`,
-                    color: textColor
+                    color: textColor,
                   }}
                   className={`clear-filter`}
-                  onClick={() => clearSelected(filterItemText)}>
+                  onClick={() => clearSelected(filterItemText)}
+                >
                   {filterItemText}
                 </button>
               );
@@ -305,20 +309,21 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
                 className={`clear-filter filter-category`}
                 style={{
                   background: `${
-                    primaryColor === '#dedede'
-                      ? import.meta.env.VITE_TESTNET === 'true'
-                        ? 'var(--hot-drops)'
-                        : 'linear-gradient(to right, #e882d5, #725bdb)'
-                      : import.meta.env.VITE_TESTNET === 'true'
+                    primaryColor === "#dedede"
+                      ? import.meta.env.VITE_TESTNET === "true"
+                        ? "var(--hot-drops)"
+                        : "linear-gradient(to right, #e882d5, #725bdb)"
+                      : import.meta.env.VITE_TESTNET === "true"
                         ? primaryButtonColor ===
-                          'linear-gradient(to right, #e882d5, #725bdb)'
-                          ? 'var(--hot-drops)'
+                          "linear-gradient(to right, #e882d5, #725bdb)"
+                          ? "var(--hot-drops)"
                           : primaryButtonColor
                         : primaryButtonColor
                   }`,
-                  color: textColor
+                  color: textColor,
                 }}
-                onClick={() => clearCategoriesFilter()}>
+                onClick={() => clearCategoriesFilter()}
+              >
                 {filterCategoriesText}
               </button>
             ) : (
@@ -328,7 +333,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
           <NftList sortItem={sortItem} titleSearch={titleSearch} />
           <PaginationBox
             totalPageForPagination={catalogTotal}
-            whatPage={'nft'}
+            whatPage={"nft"}
             changePage={catalogPage}
             currentPage={currentPage}
           />
@@ -342,20 +347,21 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
                   className={`clear-filter`}
                   style={{
                     background: `${
-                      primaryColor === '#dedede'
-                        ? import.meta.env.VITE_TESTNET === 'true'
-                          ? 'var(--hot-drops)'
-                          : 'linear-gradient(to right, #e882d5, #725bdb)'
-                        : import.meta.env.VITE_TESTNET === 'true'
+                      primaryColor === "#dedede"
+                        ? import.meta.env.VITE_TESTNET === "true"
+                          ? "var(--hot-drops)"
+                          : "linear-gradient(to right, #e882d5, #725bdb)"
+                        : import.meta.env.VITE_TESTNET === "true"
                           ? primaryButtonColor ===
-                            'linear-gradient(to right, #e882d5, #725bdb)'
-                            ? 'var(--hot-drops)'
+                            "linear-gradient(to right, #e882d5, #725bdb)"
+                            ? "var(--hot-drops)"
                             : primaryButtonColor
                           : primaryButtonColor
                     }`,
-                    color: textColor
+                    color: textColor,
                   }}
-                  onClick={() => clearSelected(filterItemText)}>
+                  onClick={() => clearSelected(filterItemText)}
+                >
                   {filterItemText}
                 </button>
               );
@@ -368,7 +374,7 @@ const SearchPanel: FC<ISearchPanel> = ({ tabIndex, setTabIndex }) => {
           />
           <PaginationBox
             totalPageForPagination={totalVideos}
-            whatPage={'video'}
+            whatPage={"video"}
             changePage={changePageForVideo}
             currentPage={currentPageForVideo}
           />

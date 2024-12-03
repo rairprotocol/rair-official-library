@@ -9,14 +9,19 @@ import { metaMaskIcon, RairLogoBlue } from '../../../images';
 import { setSEOInfo } from '../../../redux/seoSlice';
 import { SplashPageProps } from '../../../types/commonTypes';
 import PurchaseTokenButton from '../../common/PurchaseToken';
+import { rairAdvisorsTeam, teamAboutRair } from '../../MainPage/AboutUsTeam';
+import MetaTags from '../../SeoTags/MetaTags';
+import TeamMeet from '../../SplashPage/TeamMeet/TeamMeetList';
 
 import setDocumentTitle from './../../../utils/setTitle';
+import CompareAbout from './CompareAbout/CompareAbout';
 import ExclusiveNfts from './ExclusiveNfts/ExclusiveNfts';
 import LeftTokenAbout from './LeftTokenAbout/LeftTokenAbout';
 import MainBlock from './MainBlock/MainBlock';
 import PlatformAbout from './PlatformAbout/PlatformAbout';
 import RairOffer from './RairOffer/RairOffer';
 import RoadMap from './RoadMapAbout/RoadMapAbout';
+import StreamsAbout from './StreamsAbout/StreamsAbout';
 
 import './AboutPageNew.css';
 
@@ -73,6 +78,7 @@ const AboutPageNew: FC<SplashPageProps> = ({ setIsSplashPage }) => {
   return (
     <>
       <div className="wrapper-about-page">
+        <MetaTags seoMetaTags={seo} />
         <div className="home-about--page">
           <MainBlock
             RairLogo={RairLogoBlue}
@@ -84,8 +90,34 @@ const AboutPageNew: FC<SplashPageProps> = ({ setIsSplashPage }) => {
           <PlatformAbout />
           <RairOffer />
           <ExclusiveNfts />
+          <StreamsAbout
+            Metamask={metaMaskIcon}
+            primaryColor={primaryColor}
+            purchaseButton={purchaseButton}
+          />
           {/* <Tokenomics Metamask={Metamask} /> */}
           <RoadMap />
+          <CompareAbout />
+          <div className="about-page--team">
+            <TeamMeet
+              arraySplash={'rair'}
+              titleHeadFirst={'Meet the'}
+              titleHeadSecond={'Team'}
+              classNameHeadSpan={'text-gradient'}
+              teamArray={teamAboutRair}
+              classNameGap={true}
+            />
+          </div>
+          <div className="about-page--team">
+            <TeamMeet
+              arraySplash={'rair-advisors'}
+              titleHeadFirst={'Meet the'}
+              titleHeadSecond={'Advisors'}
+              classNameHeadSpan={'text-gradient'}
+              teamArray={rairAdvisorsTeam}
+              classNameGap={true}
+            />
+          </div>
         </div>
       </div>
     </>

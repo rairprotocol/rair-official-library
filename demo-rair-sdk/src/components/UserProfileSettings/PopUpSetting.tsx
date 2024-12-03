@@ -490,24 +490,23 @@ const PopUpSettings = ({ showAlert, setTabIndexItems }) => {
                   }}>
                   <SvgItemsIcon primaryColor={primaryColor} /> My Items
                 </li> */}
-                {import.meta.env.VITE_DISABLE_CREATOR_VIEWS !== "true" &&
+                {/* {import.meta.env.VITE_DISABLE_CREATOR_VIEWS !== 'true' &&
                   adminRights && (
                     <li
                       onClick={pushToFactory}
                       style={{
                         color:
-                          primaryColor === "#dedede"
-                            ? "rgb(41, 41, 41)"
-                            : "white",
-                      }}
-                    >
+                          primaryColor === '#dedede'
+                            ? 'rgb(41, 41, 41)'
+                            : 'white'
+                      }}>
                       <SvgFactoryIcon
                         customSecondaryButtonColor={iconColor}
                         primaryColor={primaryColor}
-                      />{" "}
+                      />{' '}
                       Factory
                     </li>
-                  )}
+                  )} */}
                 <li
                   onClick={logoutUser}
                   style={{

@@ -1,38 +1,38 @@
-import { FC, Fragment, memo, useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC, Fragment, memo, useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   faSearch,
   faTimes,
-  faUserSecret
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
+  faUserSecret,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 
-import { IMainHeader, TAxiosCollectionData } from './header.types';
+import { IMainHeader, TAxiosCollectionData } from "./header.types";
 
-import { SvgUserIcon } from '../../components/UserProfileSettings/SettingsIcons/SettingsIcons';
-import useComponentVisible from '../../hooks/useComponentVisible';
-import useConnectUser from '../../hooks/useConnectUser';
-import { useAppDispatch, useAppSelector } from '../../hooks/useReduxHooks';
-import { dataStatuses } from '../../redux/commonTypes';
-import { clearResults, startSearch } from '../../redux/searchbarSlice';
-import { fetchNotifications } from '../../redux/notificationsSlice';
-import InputField from '../common/InputField';
-import { TooltipBox } from '../common/Tooltip/TooltipBox';
-import MainLogo from '../GroupLogos/MainLogo';
-import ImageCustomForSearch from '../MockUpPage/utils/image/ImageCustomForSearch';
-import PopUpNotification from '../UserProfileSettings/PopUpNotification/PopUpNotification';
+import { SvgUserIcon } from "../../components/UserProfileSettings/SettingsIcons/SettingsIcons";
+import useComponentVisible from "../../hooks/useComponentVisible";
+import useConnectUser from "../../hooks/useConnectUser";
+import { useAppDispatch, useAppSelector } from "../../hooks/useReduxHooks";
+import { dataStatuses } from "../../redux/commonTypes";
+import { clearResults, startSearch } from "../../redux/searchbarSlice";
+import { fetchNotifications } from "../../redux/notificationsSlice";
+import InputField from "../common/InputField";
+import { TooltipBox } from "../common/Tooltip/TooltipBox";
+import MainLogo from "../GroupLogos/MainLogo";
+import ImageCustomForSearch from "../MockUpPage/utils/image/ImageCustomForSearch";
+import PopUpNotification from "../UserProfileSettings/PopUpNotification/PopUpNotification";
 
 //imports components
-import UserProfileSettings from './../UserProfileSettings/UserProfileSettings';
-import AdminPanel from './AdminPanel/AdminPanel';
+import UserProfileSettings from "./../UserProfileSettings/UserProfileSettings";
+import AdminPanel from "./AdminPanel/AdminPanel";
 import {
-  HeaderContainer /*, SocialHeaderBox */
-} from './HeaderItems/HeaderItems';
-import TalkSalesComponent from './HeaderItems/TalkToSalesComponent/TalkSalesComponent';
+  HeaderContainer /*, SocialHeaderBox */,
+} from "./HeaderItems/HeaderItems";
+import TalkSalesComponent from "./HeaderItems/TalkToSalesComponent/TalkSalesComponent";
 
 //styles
-import './Header.css';
+import "./Header.css";
 
 const MainHeader: FC<IMainHeader> = ({
   goHome,
@@ -42,7 +42,7 @@ const MainHeader: FC<IMainHeader> = ({
   setTabIndexItems,
   isAboutPage,
   setTokenNumber,
-  realChainId
+  realChainId,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const MainHeader: FC<IMainHeader> = ({
     textColor,
     secondaryColor,
     iconColor,
-    isDarkMode
+    isDarkMode,
   } = useAppSelector((store) => store.colors);
   const { connectUserData } = useConnectUser();
   const { searchResults } = useAppSelector((store) => store.searchbar);
@@ -63,13 +63,15 @@ const MainHeader: FC<IMainHeader> = ({
     (store) => store.user
   );
 
-  const { totalCount: notificationCount, notifications } = useAppSelector(store => store.notifications);
+  const { totalCount: notificationCount, notifications } = useAppSelector(
+    (store) => store.notifications
+  );
 
   const { currentUserAddress } = useAppSelector((store) => store.web3);
 
   const hotdropsVar = import.meta.env.VITE_TESTNET;
 
-  const [textSearch, setTextSearch] = useState<string>('');
+  const [textSearch, setTextSearch] = useState<string>("");
   const [adminPanel, setAdminPanel] = useState<boolean>(false);
 
   const goToExactlyContract = useCallback(
@@ -81,12 +83,12 @@ const MainHeader: FC<IMainHeader> = ({
         const exactlyContractData = {
           blockchain: response.data.contract.blockchain,
           contractAddress: response.data.contract.contractAddress,
-          indexInContract: collectionIndexInContract
+          indexInContract: collectionIndexInContract,
         };
         navigate(
           `/collection/${exactlyContractData.blockchain}/${exactlyContractData.contractAddress}/${exactlyContractData.indexInContract}/0`
         );
-        setTextSearch('');
+        setTextSearch("");
         dispatch(clearResults());
       }
     },
@@ -102,13 +104,13 @@ const MainHeader: FC<IMainHeader> = ({
 
         const exactlyTokenData = {
           blockchain: response.data.contract.blockchain,
-          contractAddress: response.data.contract.contractAddress
+          contractAddress: response.data.contract.contractAddress,
         };
 
         navigate(
           `/tokens/${exactlyTokenData.blockchain}/${exactlyTokenData.contractAddress}/0/${token}`
         );
-        setTextSearch('');
+        setTextSearch("");
         dispatch(clearResults());
       }
     },
@@ -117,11 +119,11 @@ const MainHeader: FC<IMainHeader> = ({
 
   const goToExactlyUser = (userAddress) => {
     navigate(`/${userAddress}`);
-    setTextSearch('');
+    setTextSearch("");
   };
 
   useEffect(() => {
-    if(currentUserAddress && isLoggedIn) {
+    if (currentUserAddress && isLoggedIn) {
       dispatch(fetchNotifications(0));
     }
   }, [currentUserAddress, isLoggedIn]);
@@ -130,8 +132,8 @@ const MainHeader: FC<IMainHeader> = ({
     const { filter, str } = props;
     if (!filter) return str;
     const regexp = new RegExp(
-      filter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'),
-      'ig'
+      filter.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1"),
+      "ig"
     );
     const matchValue = str.match(regexp);
 
@@ -144,7 +146,7 @@ const MainHeader: FC<IMainHeader> = ({
             return (
               <Fragment key={index}>
                 {s}
-                <span className={'highlight'}>{c}</span>
+                <span className={"highlight"}>{c}</span>
               </Fragment>
             );
           }
@@ -155,7 +157,7 @@ const MainHeader: FC<IMainHeader> = ({
   };
 
   const handleClearText = () => {
-    setTextSearch('');
+    setTextSearch("");
   };
 
   useEffect(() => {
@@ -166,7 +168,7 @@ const MainHeader: FC<IMainHeader> = ({
 
   useEffect(() => {
     dispatch(fetchNotifications());
-  }, [])
+  }, []);
 
   return (
     <HeaderContainer
@@ -177,19 +179,21 @@ const MainHeader: FC<IMainHeader> = ({
       isSplashPage={isSplashPage}
       realChainId={realChainId}
       secondaryColor={secondaryColor}
-      ref={ref}>
+      ref={ref}
+    >
       <div>
         <MainLogo goHome={goHome} />
       </div>
       <div
-        className={`main-search ${isSplashPage ? 'hidden' : ''} ${
-          hotdropsVar === 'true' ? 'hotdrops-header' : ''
-        }`}>
+        className={`main-search ${isSplashPage ? "hidden" : ""} ${
+          hotdropsVar === "true" ? "hotdrops-header" : ""
+        }`}
+      >
         <InputField
           customCSS={{
             color: textColor,
             borderColor: textColor,
-            backgroundColor: primaryColor
+            backgroundColor: primaryColor,
           }}
           type="text"
           placeholder="Search..."
@@ -201,14 +205,15 @@ const MainHeader: FC<IMainHeader> = ({
           <div
             style={{
               background: `${
-                primaryColor === '#dedede'
-                  ? '#fff'
+                primaryColor === "#dedede"
+                  ? "#fff"
                   : `color-mix(in srgb, ${primaryColor}, #888888)`
-              }`
+              }`,
             }}
             className={`search-holder-wrapper ${
-              primaryColor === 'rhyno' ? 'rhyno' : ''
-            }`}>
+              primaryColor === "rhyno" ? "rhyno" : ""
+            }`}
+          >
             <div>
               <div className="search-holder">
                 {textSearch && (
@@ -221,7 +226,8 @@ const MainHeader: FC<IMainHeader> = ({
                         {searchResults?.products.map((item, index) => (
                           <div
                             key={Number(index) + Math.random()}
-                            className="data-find">
+                            className="data-find"
+                          >
                             <img
                               className="data-find-img"
                               src={item.cover}
@@ -234,7 +240,8 @@ const MainHeader: FC<IMainHeader> = ({
                                   item.contract,
                                   item.collectionIndexInContract
                                 );
-                              }}>
+                              }}
+                            >
                               <Highlight filter={textSearch} str={item.name} />
                             </p>
                           </div>
@@ -251,7 +258,8 @@ const MainHeader: FC<IMainHeader> = ({
                         {searchResults?.tokens?.map((item, index) => (
                           <div
                             key={Number(index) + Math.random()}
-                            className="data-find">
+                            className="data-find"
+                          >
                             <ImageCustomForSearch item={item} />
                             <p
                               onClick={() => {
@@ -260,7 +268,8 @@ const MainHeader: FC<IMainHeader> = ({
                                   item.contract,
                                   item.uniqueIndexInContract
                                 );
-                              }}>
+                              }}
+                            >
                               <Highlight
                                 filter={textSearch}
                                 str={item.metadata.name}
@@ -289,7 +298,8 @@ const MainHeader: FC<IMainHeader> = ({
                           <div
                             key={Number(index) + Math.random()}
                             className="data-find"
-                            onClick={() => goToExactlyUser(item.publicAddress)}>
+                            onClick={() => goToExactlyUser(item.publicAddress)}
+                          >
                             {item.avatar ? (
                               <img
                                 className="data-find-img"
@@ -325,15 +335,16 @@ const MainHeader: FC<IMainHeader> = ({
         )}
         <i
           className="fas-custom"
-          style={{ marginTop: '-5px', marginLeft: '5px' }}>
+          style={{ marginTop: "-5px", marginLeft: "5px" }}
+        >
           <FontAwesomeIcon
             icon={faSearch}
             size="lg"
             style={{
               color:
-                import.meta.env.VITE_TESTNET === 'true'
-                  ? `${iconColor === '#1486c5' ? '#F95631' : iconColor}`
-                  : `${iconColor === '#1486c5' ? '#E882D5' : iconColor}`
+                import.meta.env.VITE_TESTNET === "true"
+                  ? `${iconColor === "#1486c5" ? "#F95631" : iconColor}`
+                  : `${iconColor === "#1486c5" ? "#E882D5" : iconColor}`,
             }}
             aria-hidden="true"
           />
@@ -347,23 +358,24 @@ const MainHeader: FC<IMainHeader> = ({
                 className="btn rair-button btn-connect-wallet"
                 style={{
                   background: `${
-                    primaryColor === '#dedede'
-                      ? import.meta.env.VITE_TESTNET === 'true'
-                        ? 'var(--hot-drops)'
-                        : 'linear-gradient(to right, #e882d5, #725bdb)'
-                      : import.meta.env.VITE_TESTNET === 'true'
+                    primaryColor === "#dedede"
+                      ? import.meta.env.VITE_TESTNET === "true"
+                        ? "var(--hot-drops)"
+                        : "linear-gradient(to right, #e882d5, #725bdb)"
+                      : import.meta.env.VITE_TESTNET === "true"
                         ? primaryButtonColor ===
-                          'linear-gradient(to right, #e882d5, #725bdb)'
-                          ? 'var(--hot-drops)'
+                          "linear-gradient(to right, #e882d5, #725bdb)"
+                          ? "var(--hot-drops)"
                           : primaryButtonColor
                         : primaryButtonColor
                   }`,
-                  color: textColor
+                  color: textColor,
                 }}
-                onClick={() => connectUserData()}>
+                onClick={() => connectUserData()}
+              >
                 {loginStatus === dataStatuses.Loading
-                  ? 'Please wait...'
-                  : 'Connect'}
+                  ? "Please wait..."
+                  : "Connect"}
               </button>
             )}
           </div>
@@ -373,7 +385,8 @@ const MainHeader: FC<IMainHeader> = ({
             <TooltipBox title="Admin Panel">
               <div
                 onClick={() => setAdminPanel((prev) => !prev)}
-                className={`admin-panel-btn ${superAdmin ? 'super' : ''}`}>
+                className={`admin-panel-btn ${superAdmin ? "super" : ""}`}
+              >
                 <FontAwesomeIcon icon={faUserSecret} />
               </div>
             </TooltipBox>
@@ -397,12 +410,6 @@ const MainHeader: FC<IMainHeader> = ({
             />
           </div>
         </div>
-        {hotdropsVar !== 'true' && (
-          <TalkSalesComponent
-            isAboutPage={isAboutPage}
-            text={currentUserAddress ? 'Contact Us' : 'Support'}
-          />
-        )}
       </div>
     </HeaderContainer>
   );

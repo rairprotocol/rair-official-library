@@ -1,15 +1,15 @@
 //@ts-nocheck
-import { Hex } from 'viem';
+import { Hex } from "viem";
 
-import { TMetadataType, TProducts } from '../../axios.responseTypes';
-import { CollectionTokens } from '../../redux/tokenSlice';
+import { TMetadataType, TProducts } from "../../axios.responseTypes";
+import { CollectionTokens } from "../../redux/tokenSlice";
 import {
   CatalogVideoItem,
   NftItemToken,
-  tokenNumberData
-} from '../../types/commonTypes';
-import { TokenMetadata, User } from '../../types/databaseTypes';
-import { TOfferType } from '../marketplace/marketplace.types';
+  tokenNumberData,
+} from "../../types/commonTypes";
+import { TokenMetadata, User } from "../../types/databaseTypes";
+import { TOfferType } from "../marketplace/marketplace.types";
 
 export interface ITitleSingleTokenView {
   title: string;
@@ -64,7 +64,7 @@ export interface ISvgLock {
   color: string;
 }
 
-export type TWhatPage = 'nft' | 'video' | 'notifications';
+export type TWhatPage = "nft" | "video" | "notifications";
 
 export interface IPaginationBox {
   changePage: (currentPage: number) => void;
@@ -169,7 +169,7 @@ export type TParamsTitleCollection = {
   tokenId: string;
   contract: string;
   blockchain: Hex;
-  tokens: 'tokens' | 'collection';
+  tokens: "tokens" | "collection";
 };
 
 export interface ISellInputButton {
@@ -215,7 +215,7 @@ export interface ISearchPanel {
   setTabIndex: (index: number) => void;
 }
 
-export type TModeType = 'collection' | 'tokens' | 'unlockables';
+export type TModeType = "collection" | "tokens" | "unlockables";
 
 export type TEmbeddedParams = {
   contract: Hex;
