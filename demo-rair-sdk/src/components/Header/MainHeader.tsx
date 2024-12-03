@@ -20,6 +20,7 @@ import { fetchNotifications } from '../../redux/notificationsSlice';
 import InputField from '../common/InputField';
 import { TooltipBox } from '../common/Tooltip/TooltipBox';
 import MainLogo from '../GroupLogos/MainLogo';
+import ImageCustomForSearch from '../MockUpPage/utils/image/ImageCustomForSearch';
 import PopUpNotification from '../UserProfileSettings/PopUpNotification/PopUpNotification';
 
 //imports components
@@ -28,6 +29,7 @@ import AdminPanel from './AdminPanel/AdminPanel';
 import {
   HeaderContainer /*, SocialHeaderBox */
 } from './HeaderItems/HeaderItems';
+import TalkSalesComponent from './HeaderItems/TalkToSalesComponent/TalkSalesComponent';
 
 //styles
 import './Header.css';
@@ -250,6 +252,7 @@ const MainHeader: FC<IMainHeader> = ({
                           <div
                             key={Number(index) + Math.random()}
                             className="data-find">
+                            <ImageCustomForSearch item={item} />
                             <p
                               onClick={() => {
                                 setTokenNumber(undefined);
@@ -394,6 +397,12 @@ const MainHeader: FC<IMainHeader> = ({
             />
           </div>
         </div>
+        {hotdropsVar !== 'true' && (
+          <TalkSalesComponent
+            isAboutPage={isAboutPage}
+            text={currentUserAddress ? 'Contact Us' : 'Support'}
+          />
+        )}
       </div>
     </HeaderContainer>
   );
