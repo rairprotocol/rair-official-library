@@ -9,6 +9,7 @@ import {
   faPlus,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
+import { Popup } from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Stack } from "@mui/material";
 import { Breadcrumbs, Typography } from "@mui/material";
@@ -366,12 +367,66 @@ const UserProfilePage: React.FC = () => {
 
   return (
     <div className={`${width > 1025 ? "container" : "wrapper-user-page"}`}>
-      <div>
+      {/* <div>
         <SharePopUp
           selectedValue={selectedValue}
           open={open}
           onClose={handleClose}
         />
+      </div> */}
+      <div>
+        <Popup
+          // className="popup-settings-block"
+          open={open}
+          position="bottom center"
+          closeOnDocumentClick
+          onClose={() => {
+            setOpen(false);
+          }}
+        >
+          <div
+            style={{
+              height: "487px",
+              width: "515px",
+              borderRadius: "1rem",
+              background: "#000000",
+              border: "1px solid #5E3DFC",
+              color: "#fff",
+              padding: "40px",
+              fontSize: "24px",
+              fontWeight: "100",
+            }}
+          >
+            <p>
+              Level = representation of score in the system. Earn points to
+              increase level by completing tasks
+            </p>
+            <p>
+              Rank = Position of user relative to all other users (approximate
+              value of payout at TGE for{" "}
+              <span
+                style={{
+                  fontWeight: "900",
+                }}
+              >
+                current rank
+              </span>
+              )
+            </p>
+            <p>
+              Lvl + = Number of levels required to reach next rank (approximate
+              value of payout at TGE for{" "}
+              <span
+                style={{
+                  fontWeight: "900",
+                }}
+              >
+                next rank
+              </span>
+              )
+            </p>
+          </div>
+        </Popup>
       </div>
       {userData ? (
         <>
@@ -495,7 +550,59 @@ const UserProfilePage: React.FC = () => {
               </div>
             )}
             {!editMode && (
+              <div
+                style={{
+                  marginTop: "10px",
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    width: "220px",
+                    height: "46px",
+                    border: "1px solid #A876B3",
+                    borderRadius: "1rem",
+                    marginRight: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "20px",
+                  }}
+                >
+                  Rank 81{" "}
+                  <span
+                    style={{
+                      width: "0",
+                      height: "0",
+                      borderLeft: "10px solid transparent",
+                      borderRight: "10px solid transparent",
+                      borderBottom: "15px solid #00FF48",
+                      margin: "0 5px",
+                    }}
+                  ></span>{" "}
+                  (±4.2k)
+                </div>
+                <div
+                  style={{
+                    width: "220px",
+                    height: "46px",
+                    border: "1px solid #A876B3",
+                    borderRadius: "1rem",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "20px",
+                  }}
+                >
+                  Lvl + 4 (±13.2k)
+                </div>
+              </div>
+            )}
+            {/* {!editMode && (
               <CustomShareButton title="Share" handleClick={handleClickOpen} />
+            )} */}
+            {!editMode && (
+              <CustomShareButton title="Learn" handleClick={handleClickOpen} />
             )}
           </div>
           <div className="user-page-add-content">
