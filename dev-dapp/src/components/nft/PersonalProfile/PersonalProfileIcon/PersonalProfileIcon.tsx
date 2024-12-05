@@ -1,24 +1,24 @@
-import { memo, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { faCheck, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AddIcon from '@mui/icons-material/Add';
-import axios, { AxiosError } from 'axios';
+import { memo, useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AddIcon from "@mui/icons-material/Add";
+import axios, { AxiosError } from "axios";
 
 import {
   BackendResponse,
-  TUserResponse
-} from '../../../../axios.responseTypes';
+  TUserResponse,
+} from "../../../../axios.responseTypes";
 import {
   useAppDispatch,
-  useAppSelector
-} from '../../../../hooks/useReduxHooks';
-import useSwal from '../../../../hooks/useSwal';
-import { defaultAvatar, VerifiedIcon } from '../../../../images';
-import { loadCurrentUser } from '../../../../redux/userSlice';
-import { TooltipBox } from '../../../common/Tooltip/TooltipBox';
+  useAppSelector,
+} from "../../../../hooks/useReduxHooks";
+import useSwal from "../../../../hooks/useSwal";
+import { defaultAvatar, VerifiedIcon } from "../../../../images";
+import { loadCurrentUser } from "../../../../redux/userSlice";
+import { TooltipBox } from "../../../common/Tooltip/TooltipBox";
 
-import cl from './PersonalProfileIcon.module.css';
+import cl from "./PersonalProfileIcon.module.css";
 
 interface IPersonalProfileIconComponent {
   isPage?: boolean;
@@ -27,7 +27,7 @@ interface IPersonalProfileIconComponent {
 
 const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
   isPage,
-  setEditModeUpper
+  setEditModeUpper,
 }) => {
   const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
@@ -44,7 +44,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
 
   const [copyState, setCopyState] = useState(false);
 
-  const [userName, setUserName] = useState<string>('');
+  const [userName, setUserName] = useState<string>("");
   const [userNameNew, setUserNameNew] = useState(userName);
 
   const [emailUser, setEmailUser] = useState(email);
@@ -69,8 +69,8 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
     setEmailUserNew(email);
     setEmailUser(email);
 
-    setUserName(nickName ? nickName.replace(/@/g, '') : publicAddress || '');
-    setUserNameNew(nickName ? nickName.replace(/@/g, '') : publicAddress || '');
+    setUserName(nickName ? nickName.replace(/@/g, "") : publicAddress || "");
+    setUserNameNew(nickName ? nickName.replace(/@/g, "") : publicAddress || "");
 
     if (avatar) {
       setOriginalPhotoValue(avatar);
@@ -133,14 +133,14 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
       }
       const formData = new FormData();
       if (userName !== userNameNew) {
-        formData.append('nickName', userName);
+        formData.append("nickName", userName);
       }
       if (emailUser && emailUser !== emailUserNew) {
-        formData.append('email', emailUser);
+        formData.append("email", emailUser);
       }
       if (originalPhotoValue && originalPhotoValue !== newPhotoValue) {
-        formData.append('files', originalPhotoValue);
-        formData.append('avatar', originalPhotoValue.name);
+        formData.append("files", originalPhotoValue);
+        formData.append("avatar", originalPhotoValue.name);
       }
 
       try {
@@ -149,8 +149,8 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
           formData,
           {
             headers: {
-              Accept: 'multipart/form-data'
-            }
+              Accept: "multipart/form-data",
+            },
           }
         );
         const { success } = profileUpdateResponse.data;
@@ -167,9 +167,9 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
           errorData.message ===
           `Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: rair-db.User index: nickName_1 dup key: { nickName: "@${userName}" }`
         ) {
-          rSwal.fire('Info', `The name ${userName} already exists`, 'question');
+          rSwal.fire("Info", `The name ${userName} already exists`, "question");
         } else {
-          rSwal.fire('Info', `The ${errorData.message} `, 'question');
+          rSwal.fire("Info", `The ${errorData.message} `, "question");
         }
       }
     },
@@ -183,7 +183,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
       userName,
       userNameNew,
       dispatch,
-      rSwal
+      rSwal,
     ]
   );
 
@@ -195,7 +195,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
 
   useEffect(() => {
     if (isLoggedIn) {
-      setUserName((nickName && nickName.replace(/@/g, '')) || '');
+      setUserName((nickName && nickName.replace(/@/g, "")) || "");
       setEmailUser(email && email);
       if (avatar) {
         setOriginalPhotoValue(avatar);
@@ -210,7 +210,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
     setOriginalPhotoValue,
     setUserName,
     setNewPhotoValue,
-    setEmailUser
+    setEmailUser,
   ]);
 
   useEffect(() => {
@@ -228,7 +228,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
     userName,
     userNameNew,
     originalPhotoValue,
-    newPhotoValue
+    newPhotoValue,
   ]);
 
   useEffect(() => {
@@ -236,14 +236,15 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
   }, [resetAllStatesOnCancel]);
 
   return (
-    <div className={`${cl.root} ${editMode ? cl.editMode : ''}`}>
+    <div className={`${cl.root} ${editMode ? cl.editMode : ""}`}>
       {newPhotoValue ? (
         !editMode ? (
           <div
             style={{
-              position: 'relative'
+              position: "relative",
             }}
-            className={cl.profileIconPicWrapper}>
+            className={cl.profileIconPicWrapper}
+          >
             <img
               className={cl.profileIconPic}
               alt="User Avatar"
@@ -252,6 +253,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
             {isLoggedIn && ageVerified && (
               <img className={cl.verifiedIcon} src={VerifiedIcon} />
             )}
+            <div className={cl.lvlBlock}>Lvl 18</div>
           </div>
         ) : isPhotoUpdate ? (
           <div className={cl.profileIconPicWrapper}>
@@ -298,7 +300,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
                 <div className={cl.inputBefore}>
                   <input
                     required
-                    value={userName ? userName.replace(/@/g, '') : ''}
+                    value={userName ? userName.replace(/@/g, "") : ""}
                     onChange={(e) => setUserName(e.target.value)}
                     className={cl.editName}
                     id={textColor && cl[textColor]}
@@ -307,16 +309,16 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
                   />
                   <span
                     onClick={() => {
-                      setUserName('');
-                      setUserNameNew('');
+                      setUserName("");
+                      setUserNameNew("");
                     }}
-                    className={cl['cleanInput' + textColor]}
+                    className={cl["cleanInput" + textColor]}
                   />
                 </div>
                 <div className={cl.inputBefore}>
                   <input
                     required
-                    value={emailUser ? emailUser : ''}
+                    value={emailUser ? emailUser : ""}
                     onChange={(e) => setEmailUser(e.target.value)}
                     className={cl.editEmail}
                     id={textColor && cl[textColor]}
@@ -325,10 +327,10 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
                   />
                   <span
                     onClick={() => {
-                      setEmailUser('');
-                      setEmailUserNew('');
+                      setEmailUser("");
+                      setEmailUserNew("");
                     }}
-                    className={cl['cleanInput' + textColor]}
+                    className={cl["cleanInput" + textColor]}
                   />
                 </div>
               </div>
@@ -343,12 +345,14 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
                     newPhotoValue
                   )}
                   type="submit"
-                  className={`${cl.editModeOn} ${textColor && cl[textColor]}`}>
+                  className={`${cl.editModeOn} ${textColor && cl[textColor]}`}
+                >
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
                 <button
                   className={`${cl.editModeOff} ${textColor && cl[textColor]}`}
-                  onClick={() => resetAllStatesOnCancel()}>
+                  onClick={() => resetAllStatesOnCancel()}
+                >
                   <FontAwesomeIcon icon={faTimes} />
                 </button>
               </div>
@@ -358,7 +362,7 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
           <>
             {isPage ? (
               <>
-                <TooltipBox title={'Click to copy your address'}>
+                <TooltipBox title={"Click to copy your address"}>
                   <span
                     onClick={() => {
                       if (userAddress) {
@@ -370,19 +374,20 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
                         }, 3000);
                       }
                     }}
-                    className={cl['profileName' + textColor]}>
+                    className={cl["profileName" + textColor]}
+                  >
                     {userName && userName.length > 20
-                      ? '@' +
+                      ? "@" +
                         userName.slice(0, 5) +
-                        '...' +
+                        "..." +
                         userName.slice(userName.length - 4)
-                      : '@' + userName}
+                      : "@" + userName}
                   </span>
                 </TooltipBox>
               </>
             ) : (
               <>
-                <TooltipBox title={'Click to copy your address'}>
+                <TooltipBox title={"Click to copy your address"}>
                   <span
                     onClick={() => {
                       if (userAddress) {
@@ -394,15 +399,16 @@ const PersonalProfileIconComponent: React.FC<IPersonalProfileIconComponent> = ({
                         }, 3000);
                       }
                     }}
-                    className={cl['profileName' + textColor]}>
+                    className={cl["profileName" + textColor]}
+                  >
                     {!copyState
                       ? userName && userName.length > 15
-                        ? '@' +
+                        ? "@" +
                           userName.slice(0, 5) +
-                          '...' +
+                          "..." +
                           userName.slice(length - 4)
-                        : '@' + userName
-                      : 'Copied!'}
+                        : "@" + userName
+                      : "Copied!"}
                   </span>
                 </TooltipBox>
                 <FontAwesomeIcon
