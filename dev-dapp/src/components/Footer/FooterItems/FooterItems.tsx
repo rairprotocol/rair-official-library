@@ -1,5 +1,5 @@
-import emotionIsPropValid from '@emotion/is-prop-valid';
-import styled from 'styled-components';
+import emotionIsPropValid from "@emotion/is-prop-valid";
+import styled from "styled-components";
 
 type TFooterMainStyled = {
   primaryColor?: string;
@@ -11,15 +11,14 @@ type TFooterMainStyled = {
 };
 
 export const FooterMain = styled.footer.withConfig({
-  shouldForwardProp: (prop) => emotionIsPropValid(prop)
+  shouldForwardProp: (prop) => emotionIsPropValid(prop),
 })<TFooterMainStyled>`
-  background: ${({ isDarkMode, secondaryColor }) =>
-    !isDarkMode ? '#fff' : `color-mix(in srgb, ${secondaryColor}, #888888)`};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d1117;
   padding: 40px 120px 25px 120px;
   color: ${(props) => props.textColor};
-
-  border-top: 1px solid
-    ${({ isDarkMode }) => (!isDarkMode ? '#E5E5E5' : '#595959')};
 
   a {
     color: ${({ textColor }) => textColor};
@@ -35,19 +34,17 @@ export const FooterMain = styled.footer.withConfig({
 `;
 
 export const FooterWrapper = styled.div.withConfig({
-  shouldForwardProp: (prop) => emotionIsPropValid(prop)
+  shouldForwardProp: (prop) => emotionIsPropValid(prop),
 })<TFooterMainStyled>`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding-bottom: 52px;
-  border-bottom: 1px solid
-    ${(props) => (props.primaryColor === 'rhyno' ? '#E5E5E5' : '#595959')};
 
   &.footer-wrapper-hotdrops {
     padding-top: 52px;
     border-top: ${(props) =>
-      props.primaryColor === 'rhyno' ? '#E5E5E5' : '#595959'};
+      props.primaryColor === "rhyno" ? "#E5E5E5" : "#595959"};
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -70,10 +67,8 @@ export const FooterWrapper = styled.div.withConfig({
 `;
 
 export const FooterImage = styled.div`
-  margin-bottom: 38px;
-
   img {
-    height: 26px;
+    height: 30px;
     width: auto;
   }
 
@@ -94,11 +89,11 @@ export const FooterImage = styled.div`
 export const FooterBoxJoin = styled.div``;
 
 export const CommunityBlock = styled.div.withConfig({
-  shouldForwardProp: (prop) => emotionIsPropValid(prop)
+  shouldForwardProp: (prop) => emotionIsPropValid(prop),
 })<TFooterMainStyled>`
   .community-text {
     color: ${(props) =>
-      props.primaryColor === '#dedede' ? '#7A797A' : '#fff'};
+      props.primaryColor === "#dedede" ? "#7A797A" : "#fff"};
   }
 
   &.footer-community-hotdrops a {
@@ -108,7 +103,7 @@ export const CommunityBlock = styled.div.withConfig({
 
   &.footer-community-hotdrops h3 {
     color: ${(props) =>
-      props.primaryColor === '#dedede' ? '#7A797A' : '#fff'};
+      props.primaryColor === "#dedede" ? "#7A797A" : "#fff"};
     text-transform: uppercase;
     margin-bottom: 20px;
   }
@@ -146,10 +141,9 @@ export const NavFooter = styled.nav`
 `;
 
 export const NavFooterBox = styled.ul.withConfig({
-  shouldForwardProp: (prop) => emotionIsPropValid(prop)
+  shouldForwardProp: (prop) => emotionIsPropValid(prop),
 })<TFooterMainStyled>`
   list-type: none;
-  padding-left: 5rem;
 
   &.footer-nav-item-hotdrop {
     padding-left: 0;
@@ -180,9 +174,9 @@ export const NavFooterBox = styled.ul.withConfig({
       font-size: 16px;
       margin-bottom: 5px;
       color: ${(props) =>
-        props.messageAlert && props.messageAlert === 'profileEdit'
-          ? '#19a7f6'
-          : ''};
+        props.messageAlert && props.messageAlert === "profileEdit"
+          ? "#19a7f6"
+          : ""};
       i {
         margin-right: 10px;
       }
@@ -191,9 +185,9 @@ export const NavFooterBox = styled.ul.withConfig({
         margin-left: 10px;
         font-size: 22px;
         color: ${(props) =>
-          props.messageAlert && props.messageAlert === 'profileEdit'
-            ? '#19a7f6'
-            : ''};
+          props.messageAlert && props.messageAlert === "profileEdit"
+            ? "#19a7f6"
+            : ""};
       }
     }
 
@@ -203,7 +197,7 @@ export const NavFooterBox = styled.ul.withConfig({
   }
 
   &.footer-nav-item-hotdrop h3 {
-    color: ${(isDarkMode) => (!isDarkMode ? '#7A797A' : '#fff')};
+    color: ${(isDarkMode) => (!isDarkMode ? "#7A797A" : "#fff")};
     text-transform: uppercase;
     margin-bottom: 20px;
   }
@@ -212,12 +206,12 @@ export const NavFooterBox = styled.ul.withConfig({
     font-size: 16px;
     line-height: 20px;
     margin-bottom: 14px;
-    color: ${(isDarkMode) => (!isDarkMode ? '#725BDB' : '#AA9DE9')};
+    color: ${(isDarkMode) => (!isDarkMode ? "#725BDB" : "#AA9DE9")};
   }
 
   li {
     font-size: 14px;
-    color: ${(isDarkMode) => (!isDarkMode ? '#7A797A' : '#fff')};
+    color: ${(isDarkMode) => (!isDarkMode ? "#7A797A" : "#fff")};
     justify-content: center;
     display: flex;
   }
@@ -236,10 +230,8 @@ export const NavFooterBox = styled.ul.withConfig({
 export const ListFooter = styled.ul``;
 
 export const FooterTextRairTech = styled.div.withConfig({
-  shouldForwardProp: (prop) => emotionIsPropValid(prop)
+  shouldForwardProp: (prop) => emotionIsPropValid(prop),
 })<TFooterMainStyled>`
-  padding-top: 25px;
-
   ul {
     display: flex;
     justify-content: center;
@@ -268,31 +260,31 @@ export const FooterTextRairTech = styled.div.withConfig({
 `;
 
 export const FooterEmailBlock = styled.div.withConfig({
-  shouldForwardProp: (prop) => emotionIsPropValid(prop)
+  shouldForwardProp: (prop) => emotionIsPropValid(prop),
 })<TFooterMainStyled>`
   h4 {
     font-size: 16px;
     line-height: 20px;
     color: ${(props) =>
-      props.primaryColor === '#dedede' ? '#7A797A' : '#fff'};
+      props.primaryColor === "#dedede" ? "#7A797A" : "#fff"};
   }
 
   .footer-send-email {
     margin-top: 14px;
     padding: 8px 4px 8px 16px;
     border: 1px solid
-      ${(props) => (props.primaryColor === '#dedede' ? '#DEDEDE' : '#666666')};
+      ${(props) => (props.primaryColor === "#dedede" ? "#DEDEDE" : "#666666")};
     border-radius: 13px;
     input {
       background: none;
       border: none;
       outline: none;
-      color: ${(props) => (props.primaryColor === '#dedede' ? '#000' : '#fff')};
+      color: ${(props) => (props.primaryColor === "#dedede" ? "#000" : "#fff")};
     }
 
     input::placeholder {
       color: ${(props) =>
-        props.primaryColor === '#dedede' ? '#7A797A' : '#fff'};
+        props.primaryColor === "#dedede" ? "#7A797A" : "#fff"};
     }
 
     button {

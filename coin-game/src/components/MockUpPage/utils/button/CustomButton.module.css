@@ -1,0 +1,30 @@
+.nftDataPageShowMoreWrapper {
+  box-sizing: content-box;
+  letter-spacing: 1px;
+  /* padding: 1px; */
+  border-radius: 6px;
+  cursor: pointer;
+}
+.nftDataPageShowMore {
+  /* background: #434343; */
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+}
+.nftDataPageShowMore:hover {
+  transition: all 2.2s ease;
+}
+.nftDataPageShowMoreText {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: inherit;
+  /* padding: 0 10px; */
+}
+
+@media screen and (max-with: 500px) {
+  .nftDataPageShowMore {
+    border-radius: 8px;
+  }
+}

@@ -1,0 +1,74 @@
+.table-modal-container h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.table-modal-title {
+  color: #8b949e;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.table-modal-container form .groups-input:first-child input {
+  margin-bottom: 20px;
+}
+
+.table-modal-container form .groups-input input {
+  width: 312px;
+  height: 48px;
+  border-radius: 16px;
+  border: 1px solid #3e4147;
+  background: #151b23;
+  outline: none;
+  padding-left: 16px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.table-modal-container form .groups-input input:focus {
+  border: 1px solid #fff;
+  background: #0d1117;
+}
+
+.table-modal-container .group-btns-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.table-modal-container .group-btns-modal button {
+  width: 312px;
+  height: 48px;
+  border-radius: 16px;
+  font-size: 16px;
+  border: none;
+  background: #0d1117;
+}
+
+.table-modal-container .group-btns-modal button:first-child {
+  color: #f66b2f;
+  border: 1px solid #f66b2f;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.table-modal-container .group-btns-modal button:first-child:hover {
+  transition: all 0.2s ease;
+  background: #f66b2f;
+  color: #fff;
+}
+
+.table-modal-container .group-btns-modal button:last-child {
+  color: #fff;
+  border: 1px solid #fff;
+  transition: all 0.2s ease;
+}
+
+.table-modal-container .group-btns-modal button:last-child:hover {
+  color: #0d1117;
+  border: 1px solid #8b949e;
+  background: #fff;
+  transition: all 0.2s ease;
+}

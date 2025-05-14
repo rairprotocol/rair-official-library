@@ -1,21 +1,22 @@
-import { FC, memo, MouseEvent, ReactElement } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { FC, memo, MouseEvent, ReactElement } from "react";
+import { NavLink } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
-import { useAppSelector } from '../../../../hooks/useReduxHooks';
-import SingleTokenHome from '../../assets/singleTokenHome.svg?react';
-import { TParamsBreadcrumbsComponent } from '../../mockupPage.types';
-import { IBreadcrumbsComponent } from '../nftList.types';
+import { useAppSelector } from "../../../../hooks/useReduxHooks";
+import SingleTokenHome from "../../assets/singleTokenHome.svg?react";
+import { TParamsBreadcrumbsComponent } from "../../mockupPage.types";
+import { IBreadcrumbsComponent } from "../nftList.types";
 
-import './Breadcrumbs.css';
+import "./Breadcrumbs.css";
+import { HomeNewIcon } from "../../../../images/index";
 
 const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
-  embeddedParams
+  embeddedParams,
 }) => {
   const params = useParams<TParamsBreadcrumbsComponent>();
   const { contract, product, blockchain } = embeddedParams
@@ -29,19 +30,19 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
   function handleClick(event: MouseEvent) {
     event.preventDefault();
     embeddedParams
-      ? embeddedParams.setMode('collection')
+      ? embeddedParams.setMode("collection")
       : navigate(`/collection/${blockchain}/${contract}/${product}/0`);
   }
   function goToSingleView(event: MouseEvent) {
     event.preventDefault();
-    embeddedParams ? embeddedParams.setMode('tokens') : navigate(-1);
+    embeddedParams ? embeddedParams.setMode("tokens") : navigate(-1);
   }
   let breadcrumbs: ReactElement[] = [];
 
   const { pathname } = useLocation();
   const mode = embeddedParams
     ? embeddedParams.mode
-    : pathname?.split('/')?.at(1);
+    : pathname?.split("/")?.at(1);
 
   const HomeButton = () => {
     if (embeddedParams) {
@@ -50,19 +51,21 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
           className="nft-home-icon"
           style={{
             color:
-              import.meta.env.VITE_TESTNET === 'true'
+              import.meta.env.VITE_TESTNET === "true"
                 ? `${
-                    textColor === '#FFF' || textColor === 'black'
-                      ? '#F95631'
+                    textColor === "#FFF" || textColor === "black"
+                      ? "#F95631"
                       : textColor
                   }`
                 : `${
-                    textColor === '#FFF' || textColor === 'black'
-                      ? '#E882D5'
+                    textColor === "#FFF" || textColor === "black"
+                      ? "#E882D5"
                       : textColor
-                  }`
-          }}>
-          <SingleTokenHome
+                  }`,
+          }}
+        >
+          <img src={HomeNewIcon} alt="Home" />
+          {/* <SingleTokenHome
             style={{
               fill:
                 import.meta.env.VITE_TESTNET === 'true'
@@ -71,7 +74,7 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
             }}
             width={24}
             height={24}
-          />
+          /> */}
         </div>
       );
     } else {
@@ -80,25 +83,26 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
           <div
             style={{
               color:
-                import.meta.env.VITE_TESTNET === 'true'
+                import.meta.env.VITE_TESTNET === "true"
                   ? `${
-                      textColor === '#FFF' || textColor === 'black'
-                        ? '#F95631'
+                      textColor === "#FFF" || textColor === "black"
+                        ? "#F95631"
                         : textColor
                     }`
                   : `${
-                      textColor === '#FFF' || textColor === 'black'
-                        ? '#E882D5'
+                      textColor === "#FFF" || textColor === "black"
+                        ? "#E882D5"
                         : textColor
-                    }`
+                    }`,
             }}
-            className="nft-home-icon">
+            className="nft-home-icon"
+          >
             <SingleTokenHome
               style={{
                 fill:
-                  import.meta.env.VITE_TESTNET === 'true'
-                    ? `${iconColor === '#1486c5' ? '#F95631' : iconColor}`
-                    : `${iconColor === '#1486c5' ? '#E882D5' : iconColor}`
+                  import.meta.env.VITE_TESTNET === "true"
+                    ? `${iconColor === "#1486c5" ? "#F95631" : iconColor}`
+                    : `${iconColor === "#1486c5" ? "#E882D5" : iconColor}`,
               }}
               width={24}
               height={24}
@@ -110,39 +114,42 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
   };
 
   switch (mode) {
-    case 'collection':
+    case "collection":
       breadcrumbs = [
         <HomeButton key="1" />,
         <Typography
           key="3"
           color={`${
-            primaryColor === 'rhyno' ? 'var(--charcoal)' : 'var(--charcoal-60)'
-          }`}>
+            primaryColor === "rhyno" ? "var(--charcoal)" : "var(--charcoal-60)"
+          }`}
+        >
           Collection
-        </Typography>
+        </Typography>,
       ];
       break;
-    case 'tokens':
+    case "tokens":
       breadcrumbs = [
         <HomeButton key="1" />,
         <Link
           underline="hover"
           key="2"
           color={`${
-            primaryColor === 'rhyno' ? 'var(--charcoal)' : 'var(--charcoal-60)'
+            primaryColor === "rhyno" ? "var(--charcoal)" : "var(--charcoal-60)"
           }`}
           href="/all"
-          onClick={handleClick}>
+          onClick={handleClick}
+        >
           Collection
         </Link>,
         <Typography
           key="3"
-          color={`${primaryColor === 'rhyno' ? 'var(--charcoal)' : '#FFFFFF'}`}>
+          color={`${primaryColor === "rhyno" ? "var(--charcoal)" : "#FFFFFF"}`}
+        >
           Single Token
-        </Typography>
+        </Typography>,
       ];
       break;
-    case 'unlockables':
+    case "unlockables":
       breadcrumbs = [
         <HomeButton key="1" />,
         <Link
@@ -150,7 +157,8 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
           key="2"
           color="gray"
           href="/all"
-          onClick={handleClick}>
+          onClick={handleClick}
+        >
           Collection
         </Link>,
         <Link
@@ -158,12 +166,13 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
           key="3"
           color="gray"
           href="/all"
-          onClick={goToSingleView}>
+          onClick={goToSingleView}
+        >
           Single Token
         </Link>,
         <Typography key="3" color={textColor}>
           Unlockables Content
-        </Typography>
+        </Typography>,
       ];
       break;
     default:
@@ -174,7 +183,8 @@ const BreadcrumbsComponent: FC<IBreadcrumbsComponent> = ({
       <Breadcrumbs
         color="var(--charcoal-80)"
         separator={<NavigateNextIcon fontSize="small" />}
-        aria-label="breadcrumb">
+        aria-label="breadcrumb"
+      >
         {breadcrumbs}
       </Breadcrumbs>
     </Stack>
