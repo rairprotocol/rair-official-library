@@ -1,0 +1,72 @@
+/* Контейнер для табов */
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #0d1117;
+  border-radius: 12px; /* Больше скругление краев */
+  padding: 4px;
+  border: 1px solid #37393c;
+  color: white;
+  width: 536px;
+  margin-bottom: 24px;
+}
+
+/* Контейнер кнопок табов */
+.tabs {
+  display: flex;
+  gap: 4px; /* Убираем расстояние между кнопками */
+  background-color: #0d1117; /* Основной фон табов */
+  border-radius: 12px; /* Скругление у всех табов */
+  width: 526px; /* Ширина контейнера */
+  height: 40px;
+}
+
+/* Стиль кнопок табов */
+.tab {
+  flex: 1; /* Равная ширина кнопок */
+  border: none;
+  width: 170px;
+  background-color: #0d1117;
+  height: 40px;
+  color: #8b949e; /* Серый текст */
+  border-radius: 10px; /* Скругление краев */
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+/* Стили для активного таба */
+.tab.active {
+  background-color: #212935; /* Фон для активного таба */
+  color: #f66b2f; /* Оранжевый текст для активного таба */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Легкая тень */
+}
+
+/* Эффект при наведении */
+.tab:hover {
+  color: #f66b2f;
+}
+
+/* Стиль для контента табов */
+.tab-content {
+  background-color: #161b22; /* Фон для контента */
+  border-radius: 12px; /* Скругленные края контента */
+  color: #f0f6fc;
+  font-size: 14px;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease; /* Плавные эффекты */
+  opacity: 0;
+  display: none;
+  transform: translateY(10px); /* Сдвиг вниз для эффекта появления */
+}
+
+/* Контент активного таба */
+.tabs-container .tab-content-active {
+  opacity: 1; /* Показываем контент */
+  transform: translateY(0);
+}

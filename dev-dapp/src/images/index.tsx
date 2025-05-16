@@ -20,12 +20,14 @@ import logoHotDropsLight from "./HotdropsLogoLight.png";
 import kigGif from "./kid.gif";
 import lennyGif from "./lenny.gif";
 import loadingFavicon from "./loading-favicon.svg";
+import gitHubVertorIcon from "./github-vector-icon.svg";
 import logoHotDrops from "./logo-hotdrops.png";
 import metamaskLogo from "./metamask_logo.webp";
 import minTable from "./mintable-logo.webp";
 import hotdropsLogoMobile from "./mobile-logo-hotdrops.png";
 import oneOf from "./oneOf-logo.webp";
 import openSea from "./openSea-logo.webp";
+import eclipleImage from "./eclipse-image.png";
 // import Icons
 import polygonMatic from "./polygon-matic.svg";
 import RairFaviconDefault from "./rair_favicon.ico";
@@ -41,6 +43,16 @@ import yotiLogo from "./yoti-logo.png";
 import coreIdLogo from "./coreNewIcon.png";
 import rairProtocol from "./rair-protocol.png";
 import lockIcon from "./lock-icon.png";
+import homeNewIcon from "./homeNewIcon.svg";
+import newRightArrow from "./newRightArrow.svg";
+import infoIcon from "./infoIcon.svg";
+import arrowUp30 from "./arrowUp30.svg";
+import removeIcon from "./removeIcon.svg";
+import plusIcon from "./plusIcon.svg";
+import devsIcon from "./devsIcon.svg";
+import levelsIcon from "./levelsIcon.svg";
+import commitIcon from "./commitIcon.svg";
+import IntIcon from "./IntIcon.svg";
 
 import { useAppSelector } from "../hooks/useReduxHooks";
 
@@ -75,6 +87,7 @@ export const YotiLogo = yotiLogo;
 export const RairBackground = newDefaultRairBG;
 export const RairTokenLogo = tokenLogoRair;
 export const RairProtocol = rairProtocol;
+export const EclipleImage = eclipleImage;
 
 // Icons
 export const discrodIconNoBorder = discordIconWhiteNoBorder;
@@ -88,6 +101,17 @@ export const SoniumLogo = soniumLogo;
 export const LoadingDefaultFavicon = loadingFavicon;
 export const CoreIdLogo = coreIdLogo;
 export const LockIcon = lockIcon;
+export const GitHubVertorIcon = gitHubVertorIcon;
+export const HomeNewIcon = homeNewIcon;
+export const NewRightArrow = newRightArrow;
+export const InfoIcon = infoIcon;
+export const ArrowUp30 = arrowUp30;
+export const RemoveIcon = removeIcon;
+export const PlusIcon = plusIcon;
+export const DevsIcon = devsIcon;
+export const LevelsIcon = levelsIcon;
+export const CommitIcon = commitIcon;
+export const IntegrationIcon = IntIcon;
 
 export const DiscordIcon = ({ color, primaryColor }) => {
   return (

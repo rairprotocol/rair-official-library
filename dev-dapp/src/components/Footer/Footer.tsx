@@ -1,10 +1,10 @@
-import { FC, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { FC, useState } from "react";
+import { NavLink } from "react-router-dom";
 
-import { IFooter } from './footer.types';
+import { IFooter } from "./footer.types";
 
-import { useAppSelector } from '../../hooks/useReduxHooks';
-import useSwal from '../../hooks/useSwal';
+import { useAppSelector } from "../../hooks/useReduxHooks";
+import useSwal from "../../hooks/useSwal";
 
 import {
   FooterImage,
@@ -12,11 +12,11 @@ import {
   FooterTextRairTech,
   FooterWrapper,
   NavFooter,
-  NavFooterBox
-} from './FooterItems/FooterItems';
+  NavFooterBox,
+} from "./FooterItems/FooterItems";
 
 const Footer: FC<IFooter> = () => {
-  const [emailChimp, setEmailChimp] = useState<string>('');
+  const [emailChimp, setEmailChimp] = useState<string>("");
 
   const { footerLinks, legal } = useAppSelector((store) => store.settings);
 
@@ -33,12 +33,12 @@ const Footer: FC<IFooter> = () => {
 
   const onSubmit = () => {
     rSwal.fire(
-      'Success',
+      "Success",
       `Thank you for sign up! Check to your email ${emailChimp}`,
-      'success'
+      "success"
     );
     setTimeout(() => {
-      setEmailChimp('');
+      setEmailChimp("");
     }, 1000);
   };
 
@@ -48,24 +48,27 @@ const Footer: FC<IFooter> = () => {
       isDarkMode={isDarkMode}
       primaryColor={primaryColor}
       textColor={textColor}
-      secondaryColor={secondaryColor}>
+      secondaryColor={secondaryColor}
+    >
       <FooterWrapper
         className="footer-wrapper-hotdrops"
-        primaryColor={primaryColor}>
+        primaryColor={primaryColor}
+      >
         <FooterImage className="footer-img-hotdrops">
           <NavLink to="/">
             <img src={headerLogo} alt="Rair Tech" />
           </NavLink>
         </FooterImage>
-        <NavFooter className="footer-nav-hotdrops">
+        {/* <NavFooter className="footer-nav-hotdrops">
           <NavFooterBox
             className="footer-nav-item-hotdrop"
-            primaryColor={primaryColor}>
+            primaryColor={primaryColor}
+          >
             {footerLinks && footerLinks.length > 0 ? (
               footerLinks.map((el) => {
                 return (
                   <li key={el.label}>
-                    <a target={'_blank'} rel="noreferrer" href={el.url}>
+                    <a target={"_blank"} rel="noreferrer" href={el.url}>
                       {el.label}
                     </a>
                   </li>
@@ -73,53 +76,59 @@ const Footer: FC<IFooter> = () => {
               })
             ) : (
               <>
-                {hotdropsVar === 'true' ? (
+                {hotdropsVar === "true" ? (
                   <>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://www.myhotdrops.com/terms-and-conditions"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         Terms and Conditions
                       </a>
                     </li>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://www.myhotdrops.com/privacy-policy"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         Privacy Policy
                       </a>
                     </li>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://www.myhotdrops.com/faqs"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         FAQs
                       </a>
                     </li>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://www.myhotdrops.com/hot-drops-content-removal-request"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         Content Removal Request
                       </a>
                     </li>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://www.myhotdrops.com/hotties/recruiting"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         Apply to Be a Creator
                       </a>
                     </li>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://www.myhotdrops.com/usc2257"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         USC 2257
                       </a>
                     </li>
@@ -133,9 +142,10 @@ const Footer: FC<IFooter> = () => {
                   <>
                     <li>
                       <a
-                        target={'_blank'}
+                        target={"_blank"}
                         href="https://etherscan.io/token/0x2b0ffbf00388f9078d5512256c43b983bb805ef8"
-                        rel="noreferrer">
+                        rel="noreferrer"
+                      >
                         Contract
                       </a>
                     </li>
@@ -144,11 +154,11 @@ const Footer: FC<IFooter> = () => {
               </>
             )}
           </NavFooterBox>
-        </NavFooter>
+        </NavFooter> */}
       </FooterWrapper>
       <FooterTextRairTech textColor={textColor} primaryColor={primaryColor}>
         <ul>
-          <li>
+          {/* <li>
             {legal ? (
               legal
             ) : (
@@ -159,7 +169,7 @@ const Footer: FC<IFooter> = () => {
                 {new Date().getFullYear()}. All rights reserved
               </>
             )}
-          </li>
+          </li> */}
           <li>
             <NavLink to="/privacy">Privacy policy</NavLink>
           </li>

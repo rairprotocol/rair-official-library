@@ -45,8 +45,102 @@ import "./UserProfilePage.css";
 import LeaderBoard from "../DevSdkPage/LeaderBoard/LeaderBoard";
 import EarnRewards from "../DevSdkPage/EarnRewards/EarnRewards";
 import { loadVideoList } from "../../redux/videoSlice";
+import {
+  ArrowUp30,
+  HomeNewIcon,
+  InfoIcon,
+  NewRightArrow,
+} from "../../images/index";
+import UserTabs from "./UserTabs/UserTabs";
+import UserTable from "./UserTable/UserTable";
 
 const UserProfilePage: React.FC = () => {
+  const [projects, setProjects] = useState([
+    {
+      id: 1,
+      name: "RAIR Protocol",
+      start: "1/2024",
+      end: "Ongoing",
+      link: "https://github.com/xhg923442f",
+      result: "",
+    },
+    {
+      id: 2,
+      name: "Tailwind Project",
+      start: "4/2022",
+      end: "12/2023",
+      link: "",
+      result: "None",
+    },
+    {
+      id: 3,
+      name: "BlockSphere",
+      start: "2/2022",
+      end: "5/2023",
+      link: "https://github.com/xhg923442f",
+      result: "",
+    },
+    {
+      id: 4,
+      name: "DecentraLink",
+      start: "1/2022",
+      end: "8/2022",
+      link: "",
+      result: "None",
+    },
+  ]);
+
+  const [projects1, setProjects1] = useState([
+    {
+      id: 1,
+      name: "Malcolm Satterfield",
+      start: "rair.protocol",
+      end: "Colleague",
+      link: "github.com/serepensortia",
+      result: "",
+    },
+    {
+      id: 2,
+      name: "Marco Corkery",
+      start: "rair.protocol",
+      end: "Colleague",
+      link: "",
+      result: "None",
+    },
+    {
+      id: 3,
+      name: "Edmond Sipes",
+      start: "rair.protocol",
+      end: "Colleague",
+      link: "https://github.com/xhg923442f",
+      result: "",
+    },
+    {
+      id: 4,
+      name: "Patsy Ferry",
+      start: "rair.protocol",
+      end: "Colleague",
+      link: "",
+      result: "None",
+    },
+    {
+      id: 5,
+      name: "Alexander Tremblay",
+      start: "rair.protocol",
+      end: "Colleague",
+      link: "",
+      result: "None",
+    },
+    {
+      id: 6,
+      name: "Emmett Swift III",
+      start: "rair.protocol",
+      end: "Colleague",
+      link: "",
+      result: "None",
+    },
+  ]);
+
   const { primaryColor, textColor, headerLogo, iconColor, primaryButtonColor } =
     useAppSelector((store) => store.colors);
   const { userAddress } = useParams();
@@ -75,6 +169,7 @@ const UserProfilePage: React.FC = () => {
     undefined
   );
   const [allRewards, setAllRewards] = useState(false);
+  const [activeTab, setActiveTab] = useState("Completed tasks");
 
   const [metadataFilter, setMetadataFilter] = useState<boolean>(false);
 
@@ -243,7 +338,15 @@ const UserProfilePage: React.FC = () => {
 
   const breadcrumbs = [
     <NavLink key="1" to="/">
-      <FontAwesomeIcon
+      <img src={HomeNewIcon} alt="Home" />
+      <img
+        src={NewRightArrow}
+        style={{
+          margin: "0 10px",
+        }}
+        alt="arrow"
+      />
+      {/* <FontAwesomeIcon
         icon={faHouse}
         style={{
           borderRadius: "5px",
@@ -252,9 +355,9 @@ const UserProfilePage: React.FC = () => {
           background: primaryButtonColor,
           fontSize: "x-large",
         }}
-      />
+      /> */}
     </NavLink>,
-    <Typography key="3" color={textColor}>
+    <Typography key="3" color={"#8B949E"}>
       {(userData && userData.nickName && userData.nickName.length > 20
         ? userData.nickName.slice(0, 5) +
           "...." +
@@ -298,46 +401,8 @@ const UserProfilePage: React.FC = () => {
     }
   }, [dispatch, userAddress]);
 
-  const tableData1 = [
-    {
-      id: 1,
-      firstRow: "RAIRprotocol Dapp",
-      secondRow: "1/2024",
-      thirdRow: "current",
-      fourthRow: "None",
-    },
-    {
-      id: 2,
-      firstRow: "Tailwind.js project",
-      secondRow: "2/2022",
-      thirdRow: "12/2023",
-      fourthRow: "None",
-    },
-    {
-      id: 3,
-      firstRow: "University project",
-      secondRow: "Common",
-      thirdRow: "1,620  /  10,000",
-      fourthRow: "None",
-    },
-  ];
-
-  const tableData2 = [
-    {
-      id: 1,
-      firstRow: "Suresh Arora",
-      secondRow: "RAIRprotocol",
-      thirdRow: "Coworker",
-      fourthRow: "None",
-    },
-    {
-      id: 2,
-      firstRow: "Eduardo Boss",
-      secondRow: "mor.io",
-      thirdRow: "co-worker (frontend)",
-      fourthRow: "None",
-    },
-  ];
+  const arrayTitle = ["PROJECT", "START", "END", "RESULT", ""];
+  const arrayTitle2 = ["WHO", "WHERE", "RELATIONSHIP", "URL", ""];
 
   useEffect(() => {
     editBackground();
@@ -374,6 +439,7 @@ const UserProfilePage: React.FC = () => {
           onClose={handleClose}
         />
       </div> */}
+
       <div>
         <Popup
           // className="popup-settings-block"
@@ -428,401 +494,333 @@ const UserProfilePage: React.FC = () => {
           </div>
         </Popup>
       </div>
-      {userData ? (
-        <>
-          <div className="breadcrumbs">
-            <Stack
-              style={{ marginBottom: "2rem", paddingLeft: "0.5rem" }}
-              spacing={2}
-            >
-              <Breadcrumbs
-                color="white"
-                separator={
-                  <FontAwesomeIcon icon={faGreaterThan} fontSize="x-small" />
-                }
-                aria-label="breadcrumb"
-              >
-                {breadcrumbs}
-              </Breadcrumbs>
-            </Stack>
-          </div>
+      <>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            width: "100%",
+          }}
+        >
           <div
-            className={`user-page-background ${
-              primaryColor === "#dedede" ? "rhyno" : "charcoal"
-            } ${
-              hotdropsVar === "true" && !userData.background
-                ? "hotdrops-bg-default-banner"
-                : ""
-            }`}
             style={{
-              backgroundImage:
-                userData && userData?.background
-                  ? `url(${userData?.background})`
-                  : "",
+              padding: "15px",
+            }}
+            className="breadcrumbs"
+          >
+            {breadcrumbs}
+          </div>
+        </div>
+        <div
+          className="new-profile-container"
+          style={{
+            width: "90vw",
+            height: "80vh",
+            display: "flex",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            className="profile-block"
+            style={{
+              width: "400px",
+              height: "100%",
+              backgroundColor: "rgba(21, 27, 35, 0.7)",
+              marginRight: "24px",
+              borderRadius: "12px",
+              border: "1px solid #3E4147",
+              padding: "20px",
             }}
           >
-            {userData && !userData.background && (
-              <>
-                {hotdropsVar !== "true" && (
-                  <img src={headerLogo} alt="background-logo-default" />
-                )}
-              </>
-            )}
-            {currentUserAddress &&
-              currentUserAddress &&
-              currentUserAddress === userAddress && (
-                <div
-                  className={"blockAddBack"}
-                  style={{
-                    position: "absolute",
-                    top: "0",
-                    right: "0",
-                  }}
-                >
-                  <label className={"inputFile"}>
-                    <FontAwesomeIcon icon={faPlus} className="plus" />
-                    <input
-                      disabled={loadingBg ? true : false}
-                      type="file"
-                      onChange={photoUpload}
-                    />
-                  </label>
-                </div>
-              )}
-          </div>
-          <div
-            className={`my-items-header-wrapper user ${
-              currentUserAddress === userAddress && "edit"
-            }`}
-          >
-            {currentUserAddress === userAddress ? (
-              <>
-                <PersonalProfileIcon setEditModeUpper={setEditMode} />
-              </>
-            ) : (
-              <div className="personal-profile-box">
-                <div className="profile-avatar-block">
-                  {userData.avatar ? (
-                    <ImageLazy
-                      className="profile-avatar-img"
-                      alt="User Avatar"
-                      src={userData.avatar ? userData.avatar : ""}
-                    />
-                  ) : (
-                    <div className="personal-default-avatar">
-                      <SvgUserIcon />
-                    </div>
-                  )}
-                </div>
-                <div className="profile-name-box">
-                  <>
-                    <TooltipBox title={"Click to copy this address"}>
-                      <span
-                        onClick={() => {
-                          if (userAddress) {
-                            navigator.clipboard.writeText(userAddress);
-                            setCopyState(true);
+            <div
+              className="profile-block-avatar"
+              style={{
+                width: "100%",
+                height: "260px",
+                borderRadius: "12px",
+                background: "#FFC9B2",
+              }}
+            >
+              {/* {userData.avatar && (
+                <ImageLazy
+                  width="100%"
+                  alt="User Avatar"
+                  src={userData.avatar ? userData.avatar : ""}
+                />
+              )} */}
 
-                            setTimeout(() => {
-                              setCopyState(false);
-                            }, 3000);
-                          }
-                        }}
-                        className={`profileName ${textColor}`}
-                      >
-                        {!copyState
-                          ? (userData &&
-                            userData.nickName &&
-                            userData.nickName.length > 20
-                              ? userData.nickName.slice(0, 5) +
-                                "...." +
-                                userData.nickName.slice(length - 4)
-                              : userData.nickName) ||
-                            (userAddress &&
-                              userAddress.slice(0, 4) +
-                                "...." +
-                                userAddress.slice(length - 4))
-                          : "Copied!"}
-                      </span>
-                    </TooltipBox>
-                  </>
-                </div>
-              </div>
-            )}
-            {!editMode && (
+              {/* <SvgUserIcon /> */}
+            </div>
+            <div
+              className="profile-block-nickname"
+              style={{
+                fontSize: "24px",
+                color: "white",
+                fontWeight: "bold",
+                textAlign: "left",
+                padding: "20px 0",
+                borderBottom: "1px solid #3E4147",
+              }}
+            >
+              {(userData && userData.nickName && userData.nickName.length > 20
+                ? userData.nickName.slice(0, 5) +
+                  "...." +
+                  userData.nickName.slice(length - 4)
+                : userData?.nickName) ||
+                (userAddress &&
+                  userAddress.slice(0, 4) +
+                    "...." +
+                    userAddress.slice(length - 4))}
+            </div>
+            <div className="profile-rank-and-lvl">
               <div
+                className="rank-and-lvl-item"
                 style={{
-                  marginTop: "10px",
                   display: "flex",
+                  justifyContent: "space-between",
+                  borderBottom: "1px solid #3E4147",
+                  padding: "16px 0",
                 }}
               >
                 <div
                   style={{
-                    width: "220px",
-                    height: "46px",
-                    border: "1px solid #A876B3",
-                    borderRadius: "1rem",
-                    marginRight: "10px",
+                    color: "#8B949E",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
+                  className="item-text"
+                >
+                  Level{" "}
+                  <img
+                    style={{
+                      marginLeft: "8px",
+                    }}
+                    src={InfoIcon}
+                    alt="Info"
+                  />
+                </div>
+                <div
+                  className="ranking"
+                  style={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontSize: "20px",
+                    color: "white",
+                    fontSize: "16px",
                   }}
                 >
-                  Rank 81{" "}
-                  <span
+                  21{" "}
+                  <div
+                    className="ranking-block"
                     style={{
-                      width: "0",
-                      height: "0",
-                      borderLeft: "10px solid transparent",
-                      borderRight: "10px solid transparent",
-                      borderBottom: "15px solid #00FF48",
-                      margin: "0 5px",
+                      borderRadius: "20px",
+                      width: "69px",
+                      height: "20px",
+                      background: "#2ACF61",
+                      marginLeft: "6px",
+                      fontSize: "12px",
                     }}
-                  ></span>{" "}
-                  (±4.2k)
+                  >
+                    <img
+                      style={{
+                        marginLeft: "3px",
+                      }}
+                      src={ArrowUp30}
+                      alt="Arrow"
+                    />{" "}
+                    ±13.2K
+                  </div>
+                </div>
+              </div>
+              <div
+                className="rank-and-lvl-item"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  borderBottom: "1px solid #3E4147",
+                  padding: "16px 0",
+                }}
+              >
+                <div
+                  style={{
+                    color: "#8B949E",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
+                  className="item-text"
+                >
+                  Rank{" "}
+                  <img
+                    style={{
+                      marginLeft: "3px",
+                    }}
+                    src={InfoIcon}
+                    alt="Info"
+                  />
+                </div>
+                <div
+                  className="ranking"
+                  style={{
+                    display: "flex",
+                    color: "white",
+                    fontSize: "16px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  81{" "}
+                  <div
+                    className="ranking-block"
+                    style={{
+                      borderRadius: "20px",
+                      width: "69px",
+                      height: "20px",
+                      background: "#2ACF61",
+                      marginLeft: "6px",
+                      fontSize: "12px",
+                    }}
+                  >
+                    <img src={ArrowUp30} alt="Arrow" /> ±4.2K
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="profile-top-lng-block">
+              <div
+                className="profile-top-lng-title"
+                style={{
+                  color: "#8B949E",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  padding: "16px 0 13px 0",
+                  textAlign: "left",
+                }}
+              >
+                Top Languages
+              </div>
+              <div
+                className="languages-items"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "4px 7px",
+                    background: "#8B949E",
+                    fontSize: "12px",
+                    borderRadius: "30px",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                  className="language-item"
+                >
+                  Rust • 10%
                 </div>
                 <div
                   style={{
-                    width: "220px",
-                    height: "46px",
-                    border: "1px solid #A876B3",
-                    borderRadius: "1rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "20px",
+                    padding: "4px 7px",
+                    background: "#8B949E",
+                    fontSize: "12px",
+                    borderRadius: "30px",
+                    color: "white",
+                    fontWeight: "600",
                   }}
+                  className="language-item"
                 >
-                  Lvl + 4 (±13.2k)
+                  javascript • 60%
+                </div>
+                <div
+                  style={{
+                    padding: "4px 7px",
+                    background: "#8B949E",
+                    fontSize: "12px",
+                    borderRadius: "30px",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                  className="language-item"
+                >
+                  Go • 2%
+                </div>
+                <div
+                  style={{
+                    padding: "4px 7px",
+                    background: "#8B949E",
+                    fontSize: "12px",
+                    borderRadius: "30px",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                  className="language-item"
+                >
+                  solidity • 28%
                 </div>
               </div>
-            )}
-            {/* {!editMode && (
-              <CustomShareButton title="Share" handleClick={handleClickOpen} />
-            )} */}
-            {!editMode && (
-              <CustomShareButton title="Learn" handleClick={handleClickOpen} />
-            )}
-          </div>
-          <div className="user-page-add-content">
-            <div className="title-of-add-content">Top Languages</div>
-            <div className="container-languages">
-              <div className="languages-box">57% Javascript</div>
-              <div className="languages-box">10% Rust</div>
-              <div className="languages-box">2% Go</div>
-              <div className="languages-box">14% Solidity</div>
             </div>
-            <div className="title-of-add-content">
-              <div>Completed Tasks</div>
-              <div>
-                {!allRewards && videos.length > 4 && (
-                  <button
-                    onClick={() => {
-                      setAllRewards(true);
-                    }}
-                  >
-                    {"All rewards  >>"}
-                  </button>
-                )}
-              </div>
-            </div>
-            <EarnRewards
-              userVideoList={videos}
-              setAllRewards={setAllRewards}
-              allRewards={allRewards}
-            />
-            <div className="title-of-add-content">Experience</div>
-            <LeaderBoard
-              userpage={true}
-              titleColumn={titleColumnExp}
-              tableData={tableData1}
-            />
-            <div className="title-of-add-content">References</div>
-            <LeaderBoard
-              userpage={true}
-              titleColumn={titleColumnRef}
-              tableData={tableData2}
-            />
           </div>
-
-          <div className="tabs-section">
-            <Tabs
-              selectedIndex={tabIndexItems}
-              onSelect={(index) => setTabIndexItems(index)}
+          <div
+            className="profile-tabs-block"
+            style={{
+              gap: "10px",
+              width: "100%",
+            }}
+          >
+            <UserTabs setActiveTab={setActiveTab} activeTab={activeTab} />
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                overflowY: "auto",
+                padding: "20px",
+              }}
             >
-              <TabList className="category-wrapper userpage">
-                <Tab
-                  selectedClassName={`search-tab-selected-${
-                    primaryColor === "#dedede" ? "default" : "dark"
-                  }`}
-                  style={{
-                    backgroundColor: `${
-                      primaryColor === "#dedede" ? "#fafafa" : "#222021"
-                    }`,
-                    border: `1px solid ${
-                      primaryColor === "#dedede" ? "var(--rhyno)" : "#4E4D4D"
-                    }`,
-                  }}
-                  className="category-button-nft category-button"
-                >
-                  Collected
-                </Tab>
-                <Tab
-                  selectedClassName={`search-tab-selected-${
-                    primaryColor === "#dedede" ? "default" : "dark"
-                  }`}
-                  style={{
-                    backgroundColor: `${
-                      primaryColor === "#dedede" ? "#fafafa" : "#222021"
-                    }`,
-                    border: `1px solid ${
-                      primaryColor === "#dedede" ? "var(--rhyno)" : "#4E4D4D"
-                    }`,
-                  }}
-                  className="category-button-videos category-button"
-                >
-                  {width > 676 ? "Created" : "Created"}
-                </Tab>
-                <Tab
-                  selectedClassName={`search-tab-selected-${
-                    primaryColor === "#dedede" ? "default" : "dark"
-                  }`}
-                  style={{
-                    backgroundColor: `${
-                      primaryColor === "#dedede" ? "#fafafa" : "#222021"
-                    }`,
-                    border: `1px solid ${
-                      primaryColor === "#dedede" ? "var(--rhyno)" : "#4E4D4D"
-                    }`,
-                  }}
-                  className="category-button-videos category-button"
-                >
-                  {width > 676 ? (
-                    "Favorited"
-                  ) : (
-                    <FontAwesomeIcon icon={faHeart} />
-                  )}
-                </Tab>
-                <Tab
-                  selectedClassName={`search-tab-selected-${
-                    primaryColor === "#dedede" ? "default" : "dark"
-                  }`}
-                  style={{
-                    backgroundColor: `${
-                      primaryColor === "#dedede" ? "#fafafa" : "#222021"
-                    }`,
-                    border: `1px solid ${
-                      primaryColor === "#dedede" ? "var(--rhyno)" : "#4E4D4D"
-                    }`,
-                  }}
-                  className="category-button-videos category-button"
-                >
-                  {width > 676 ? (
-                    "Videos"
-                  ) : (
-                    <VideoIcon primaryColor={primaryColor} />
-                  )}
-                </Tab>
-              </TabList>
-              <div className="bar-wrapper">
-                <InputField
-                  getter={titleSearch}
-                  setter={setTitleSearch}
-                  placeholder={"Search..."}
-                  customCSS={{
-                    backgroundColor: `${
-                      primaryColor === "#dedede"
-                        ? `var(--rhyno)`
-                        : `color-mix(in srgb, ${primaryColor} 50%, #aaaaaa)`
-                    }`,
-                    color: `var(--${textColor})`,
-                    borderTopLeftRadius: "0",
-                    border: `${
-                      primaryColor === "#dedede"
-                        ? "solid 1px var(--rhyno)"
-                        : `solid 1px color-mix(in srgb, ${primaryColor}, #888888)`
-                    } `,
-                    paddingLeft: "2rem",
-                  }}
-                  customClass="form-control input-styled user-search"
-                />
-
-                <div className="nft-form-control-icon">
-                  <i className="fas-custom">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      size="lg"
-                      style={{
-                        color:
-                          import.meta.env.VITE_TESTNET === "true"
-                            ? `${
-                                iconColor === "#1486c5" ? "#F95631" : iconColor
-                              }`
-                            : `${
-                                iconColor === "#1486c5" ? "#E882D5" : iconColor
-                              }`,
-                      }}
+              {activeTab === "Completed tasks" && (
+                <>
+                  <h3>Completed tasks</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Fuga totam dolorum, deserunt pariatur minus nesciunt
+                    accusantium asperiores, aliquam quia reprehenderit porro
+                    molestiae beatae commodi laborum laboriosam, dolores itaque
+                    impedit necessitatibus!
+                  </p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Fuga totam dolorum, deserunt pariatur minus nesciunt
+                    accusantium asperiores, aliquam quia reprehenderit porro
+                    molestiae beatae commodi laborum laboriosam, dolores itaque
+                    impedit necessitatibus!
+                  </p>
+                </>
+              )}
+              {activeTab === "Experience" && (
+                <>
+                  <UserTable
+                    projects={projects}
+                    setProjects={setProjects}
+                    arrayTitle={arrayTitle}
+                  />
+                </>
+              )}
+              {activeTab === "References" && (
+                <>
+                  <>
+                    <UserTable
+                      projects={projects1}
+                      setProjects={setProjects1}
+                      arrayTitle={arrayTitle2}
                     />
-                  </i>
-                  <FilteringBlock
-                    primaryColor={primaryColor}
-                    setSortItem={setSortItem}
-                    sortItem={sortItem}
-                    isFilterShow={currentUserAddress === userAddress}
-                    metadataFilter={metadataFilter}
-                    setMetadataFilter={() => setMetadataFilter((prev) => !prev)}
-                    tabIndexItems={tabIndexItems}
-                  />
-                </div>
-              </div>
-              <div className="user-page-main-tab-block">
-                <TabPanel>
-                  <PersonalProfileMyNftTab
-                    filteredData={collectedTokens}
-                    defaultImg={`${process.env.REACT_APP_IPFS_GATEWAY}/QmNtfjBAPYEFxXiHmY5kcPh9huzkwquHBcn9ZJHGe7hfaW`}
-                    textColor={textColor}
-                    getMyNft={getMyNft}
-                    totalCount={totalCount}
-                    isLoading={isLoading}
-                    showTokensRef={showTokensRef}
-                    titleSearch={titleSearch}
-                    primaryColor={primaryColor}
-                    isResaleLoading={isResaleLoading}
-                    setIsResaleLoding={setIsResaleLoding}
-                    setOnResale={setOnResale}
-                    onResale={onResale}
-                    metadataFilter={metadataFilter}
-                    setMetadataFilter={setMetadataFilter}
-                  />
-                </TabPanel>
-                <TabPanel>
-                  <UserProfileCreated
-                    contractData={createdContracts && createdContracts}
-                    titleSearch={titleSearch}
-                  />
-                </TabPanel>
-                <TabPanel>
-                  <UserProfileFavoritesTab
-                    userAddress={userAddress}
-                    titleSearch={titleSearch}
-                  />
-                </TabPanel>
-                <TabPanel>
-                  <PersonalProfileMyVideoTab
-                    publicAddress={userData.publicAddress}
-                    titleSearch={titleSearch}
-                  />
-                </TabPanel>
-              </div>
-            </Tabs>
+                  </>
+                </>
+              )}
+            </div>
           </div>
-        </>
-      ) : (
-        <>
-          <h2>User is not found</h2>
-        </>
-      )}
+        </div>
+      </>
     </div>
   );
 };

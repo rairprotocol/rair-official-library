@@ -1,23 +1,23 @@
-import { headerLogoBlack, headerLogoWhite } from '../images';
-import { bgLogoBlack, bgLogoWhite } from '../images';
+import { headerLogoBlack, headerLogoWhite } from "../images";
+import { bgLogoBlack, bgLogoWhite, EclipleImage } from "../images";
 import {
   headerLogoBlackMobile,
   headerLogoWhiteMobile,
   HotDropsLogo,
   HotDropsLogoLight,
-  HotDropsLogoMobile
-} from '../images';
+  HotDropsLogoMobile,
+} from "../images";
 
-export const charcoal = '#222021';
-export const rhyno = '#dedede';
-export const bubblegum = '#e882d5';
-export const royalPurple = '#725bdb';
-export const arcticBlue = '#19a7f6';
-export const hotdropsOrange = '#f95631';
+export const charcoal = "#0D1117";
+export const rhyno = "#0D1117";
+export const bubblegum = "#e882d5";
+export const royalPurple = "#725bdb";
+export const arcticBlue = "#19a7f6";
+export const hotdropsOrange = "#f95631";
 
 type CustomButtonColorData = Pick<
   ServerSettings,
-  'buttonPrimaryColor' | 'buttonFadeColor' | 'buttonSecondaryColor'
+  "buttonPrimaryColor" | "buttonFadeColor" | "buttonSecondaryColor"
 >;
 interface ButtonInfo {
   primaryButtonColor: string;
@@ -26,17 +26,17 @@ interface ButtonInfo {
 
 type DarkModeLogoInfo = Pick<
   ServerSettings,
-  'darkModeBannerLogo' | 'darkModeMobileLogo'
+  "darkModeBannerLogo" | "darkModeMobileLogo"
 >;
 
 type LightModeLogoInfo = Pick<
   ServerSettings,
-  'lightModeBannerLogo' | 'lightModeMobileLogo'
+  "lightModeBannerLogo" | "lightModeMobileLogo"
 >;
 
 type CustomColorData = Pick<
   ServerSettings,
-  'darkModePrimary' | 'darkModeSecondary' | 'darkModeText' | 'iconColor'
+  "darkModePrimary" | "darkModeSecondary" | "darkModeText" | "iconColor"
 >;
 
 interface ColorInfo {
@@ -62,72 +62,72 @@ const hotdropsVar = import.meta.env.VITE_TESTNET;
 
 const logos = {
   light: {
-    headerLogo: hotdropsVar === 'true' ? HotDropsLogoLight : headerLogoBlack,
+    headerLogo: hotdropsVar === "true" ? HotDropsLogoLight : headerLogoBlack,
     headerLogoMobile:
-      hotdropsVar === 'true' ? HotDropsLogoMobile : headerLogoBlackMobile
+      hotdropsVar === "true" ? HotDropsLogoMobile : headerLogoBlackMobile,
   },
   dark: {
-    headerLogo: hotdropsVar === 'true' ? HotDropsLogo : headerLogoWhite,
+    headerLogo: hotdropsVar === "true" ? HotDropsLogo : headerLogoWhite,
     headerLogoMobile:
-      hotdropsVar === 'true' ? HotDropsLogoMobile : headerLogoWhiteMobile
-  }
+      hotdropsVar === "true" ? HotDropsLogoMobile : headerLogoWhiteMobile,
+  },
 };
 
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { ServerSettings } from '../types/databaseTypes';
+import { ServerSettings } from "../types/databaseTypes";
 
 const buttons: ButtonInfo = {
   primaryButtonColor: `linear-gradient(to right, ${royalPurple}, ${bubblegum})`,
-  secondaryButtonColor: `linear-gradient(to right, ${bubblegum}, ${royalPurple})`
+  secondaryButtonColor: `linear-gradient(to right, ${bubblegum}, ${royalPurple})`,
 };
 
 const colorThemes: ColorLibrary = {
   light: {
-    primaryColor: rhyno,
+    primaryColor: "#0D1117",
     secondaryColor: charcoal,
     headerLogo: headerLogoBlack,
     headerLogoMobile: headerLogoBlackMobile,
-    textColor: 'black',
-    backgroundImage: bgLogoWhite,
+    textColor: "black",
+    backgroundImage: EclipleImage,
     backgroundImageEffect: { backgroundBlendMode: undefined },
-    iconColor: bubblegum
+    iconColor: bubblegum,
   },
   dark: {
-    primaryColor: charcoal,
+    primaryColor: "#0D1117",
     secondaryColor: rhyno,
     headerLogo: headerLogoWhite,
     headerLogoMobile: headerLogoWhiteMobile,
-    textColor: 'white',
-    backgroundImage: bgLogoBlack,
-    backgroundImageEffect: { backgroundBlendMode: 'lighten' },
-    iconColor: bubblegum
+    textColor: "white",
+    backgroundImage: EclipleImage,
+    backgroundImageEffect: { backgroundBlendMode: undefined },
+    iconColor: bubblegum,
   },
   hotdrops: {
-    primaryColor: '',
-    secondaryColor: '',
-    headerLogo: '',
-    headerLogoMobile: '',
-    textColor: '',
-    backgroundImage: '',
+    primaryColor: "",
+    secondaryColor: "",
+    headerLogo: "",
+    headerLogoMobile: "",
+    textColor: "",
+    backgroundImage: "",
     backgroundImageEffect: {},
-    iconColor: hotdropsOrange
-  }
+    iconColor: hotdropsOrange,
+  },
 };
 
 if (!Object.keys(colorThemes).includes(localStorage.colorScheme)) {
-  localStorage.setItem('colorScheme', 'dark');
+  localStorage.setItem("colorScheme", "dark");
 }
 
 const initialState: ColorState = {
-  isDarkMode: localStorage.colorScheme === 'dark',
-  ...colorThemes[localStorage.colorScheme || 'dark'],
-  ...buttons
+  isDarkMode: localStorage.colorScheme === "dark",
+  ...colorThemes[localStorage.colorScheme || "dark"],
+  ...buttons,
 };
 
 export const colorSlice = createSlice({
-  name: 'settings',
+  name: "settings",
   initialState,
   reducers: {
     setCustomColors: (
@@ -141,10 +141,10 @@ export const colorSlice = createSlice({
         buttonFadeColor,
         buttonPrimaryColor,
         buttonSecondaryColor,
-        iconColor
+        iconColor,
       } = action.payload;
       if (darkModePrimary) {
-        colorThemes.dark.primaryColor = darkModePrimary;
+        colorThemes.dark.primaryColor = "#0D1117";
       }
       if (darkModeSecondary) {
         colorThemes.dark.secondaryColor = darkModeSecondary;
@@ -171,17 +171,17 @@ export const colorSlice = createSlice({
         ...state,
         ...colorThemes[localStorage.colorScheme],
         ...logos[localStorage.colorScheme],
-        ...buttons
+        ...buttons,
       };
     },
     setColorScheme: (state, action: PayloadAction<string>) => {
-      localStorage.setItem('colorScheme', action.payload);
+      localStorage.setItem("colorScheme", action.payload);
       return {
         ...state,
-        isDarkMode: action.payload === 'dark',
+        isDarkMode: action.payload === "dark",
         ...colorThemes[localStorage.colorScheme],
         ...logos[action.payload],
-        ...buttons
+        ...buttons,
       };
     },
     setLightModeCustomLogos: (
@@ -198,7 +198,7 @@ export const colorSlice = createSlice({
         ...state,
         ...colorThemes[localStorage.colorScheme],
         ...logos[localStorage.colorScheme],
-        ...buttons
+        ...buttons,
       };
     },
     setDarkModeCustomLogos: (
@@ -215,16 +215,16 @@ export const colorSlice = createSlice({
         ...state,
         ...colorThemes[localStorage.colorScheme],
         ...logos[localStorage.colorScheme],
-        ...buttons
+        ...buttons,
       };
-    }
-  }
+    },
+  },
 });
 
 export const {
   setCustomColors,
   setColorScheme,
   setLightModeCustomLogos,
-  setDarkModeCustomLogos
+  setDarkModeCustomLogos,
 } = colorSlice.actions;
 export default colorSlice.reducer;

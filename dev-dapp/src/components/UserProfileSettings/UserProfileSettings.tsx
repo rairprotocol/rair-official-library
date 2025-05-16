@@ -1,12 +1,12 @@
-import PopUpSettings from './PopUpSetting';
+import PopUpSettings from "./PopUpSetting";
 
-import { useAppDispatch, useAppSelector } from '../../hooks/useReduxHooks';
-import { SunIcon } from '../../images';
-import { setColorScheme } from '../../redux/colorSlice';
-import { SocialBox } from '../../styled-components/SocialLinkIcons/SocialLinkIcons';
-import { TooltipBox } from '../common/Tooltip/TooltipBox';
+import { useAppDispatch, useAppSelector } from "../../hooks/useReduxHooks";
+import { SunIcon } from "../../images";
+import { setColorScheme } from "../../redux/colorSlice";
+import { SocialBox } from "../../styled-components/SocialLinkIcons/SocialLinkIcons";
+import { TooltipBox } from "../common/Tooltip/TooltipBox";
 
-import './UserProfileSettings.css';
+import "./UserProfileSettings.css";
 
 const UserProfileSettings = ({ showAlert, setTabIndexItems }) => {
   const dispatch = useAppDispatch();
@@ -16,16 +16,18 @@ const UserProfileSettings = ({ showAlert, setTabIndexItems }) => {
   return (
     <div
       style={{
-        display: 'flex',
-        alignContent: 'center'
-      }}>
+        display: "flex",
+        alignContent: "center",
+      }}
+    >
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-        <TooltipBox position={'bottom'} title="Switch Theme">
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* <TooltipBox position={'bottom'} title="Switch Theme">
           <SocialBox
             className="social-sun-icon"
             primaryColor={primaryColor}
@@ -35,16 +37,17 @@ const UserProfileSettings = ({ showAlert, setTabIndexItems }) => {
             }}>
             <SunIcon />
           </SocialBox>
-        </TooltipBox>
+        </TooltipBox> */}
         {isLoggedIn && (
           <div
             style={{
-              marginRight: '12px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
+              marginRight: "12px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            className="user-block">
+            className="user-block"
+          >
             <PopUpSettings
               showAlert={showAlert}
               setTabIndexItems={setTabIndexItems}

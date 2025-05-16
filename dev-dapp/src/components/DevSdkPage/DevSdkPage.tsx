@@ -1,12 +1,19 @@
 //@ts-nocheck
 import { useAppSelector } from "../../hooks/useReduxHooks";
-import { RairProtocol } from "../../images/index";
+import {
+  CommitIcon,
+  DevsIcon,
+  IntegrationIcon,
+  LevelsIcon,
+  RairProtocol,
+} from "../../images/index";
 import "./DevSdkPage.css";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import EarnRewards from "./EarnRewards/EarnRewards";
 import { useCallback, useEffect, useState } from "react";
 import { rairSDK } from "../common/rairSDK";
 import PaginationBox from "../MockUpPage/PaginationBox/PaginationBox";
+import MainDevBlock from "./MainDevBlock/MainDevBlock";
 
 const DevSdkPage = () => {
   const [allRewards, setAllRewards] = useState(false);
@@ -63,7 +70,13 @@ const DevSdkPage = () => {
 
   return (
     <div className="wrapper-splash-page devApp">
-      <div className="template-home-splash-page-dev">
+      <MainDevBlock />
+      <div
+        style={{
+          marginTop: "220px",
+        }}
+      ></div>
+      {/* <div className="template-home-splash-page-dev">
         <div className="template-author-card-dev">
           <div className="left-side">
             <h3>
@@ -79,43 +92,31 @@ const DevSdkPage = () => {
             <img src={RairProtocol} alt="Rair Protocol" />
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="columns-stats">
         <div className="columns-stats-box">
-          <div>Devs</div>
-          <div
-            className="columns-stats-box-numbers"
-            style={{ color: "#A7A6A6", fontWeight: "bold" }}
-          >
-            3800
+          <div>
+            <img src={DevsIcon} alt="Devs" /> 1910
           </div>
+          <div className="columns-stats-box-numbers">Devs</div>
         </div>
         <div className="columns-stats-box">
-          <div>Levels Earned</div>
-          <div
-            className="columns-stats-box-numbers"
-            style={{ color: "#95F619", fontWeight: "bold" }}
-          >
-            12187
+          <div>
+            <img src={LevelsIcon} alt="Levels" /> 12187
           </div>
+          <div className="columns-stats-box-numbers">Levels Earned</div>
         </div>
         <div className="columns-stats-box">
-          <div>Commits</div>
-          <div
-            className="columns-stats-box-numbers"
-            style={{ color: "#fff", fontWeight: "bold" }}
-          >
-            5125 + 120 + 300
+          <div>
+            <img src={CommitIcon} alt="commits" /> 5125
           </div>
+          <div className="columns-stats-box-numbers">Commits</div>
         </div>
         <div className="columns-stats-box">
-          <div>Integrations</div>
-          <div
-            className="columns-stats-box-numbers"
-            style={{ color: "#fff", fontWeight: "bold" }}
-          >
-            87
+          <div>
+            <img src={IntegrationIcon} alt="Integration" /> 87
           </div>
+          <div className="columns-stats-box-numbers">Integrations</div>
         </div>
       </div>
       <div className="title-dev-dapp">
@@ -130,7 +131,7 @@ const DevSdkPage = () => {
         whatPage={"notifications"}
       />
       <div className="title-dev-dapp">
-        <div> Earn Rewards</div>
+        <div>Tasks Overview</div>
         <div>
           {!allRewards && (
             <button

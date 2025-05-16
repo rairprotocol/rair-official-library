@@ -1,0 +1,58 @@
+.main-dev-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 100px;
+
+  width: 80vw;
+}
+
+.main-dev-image img {
+  width: 98px;
+  height: auto;
+  margin-bottom: 47px;
+}
+
+.main-dev-title {
+  font-size: 48px;
+  font-weight: bold;
+  text-align: left;
+  letter-spacing: -1px;
+  line-height: 62px;
+}
+
+.main-dev-button {
+  margin-top: 42px;
+}
+
+.main-dev-button button {
+  width: 378px;
+  height: 64px;
+  border-radius: 64px;
+  border: 1px solid #f66b2f;
+  background: none;
+  color: #f66b2f;
+  transition: all 0.3s ease;
+  background: #0d1117;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-dev-button button:hover {
+  transition: all 0.3s ease;
+  background: #f66b2f;
+  color: #fff;
+}
+
+.main-dev-title span {
+  color: #f66b2f;
+}
+
+.main-dev-paragh {
+  color: #8b949e;
+  font-size: 20px;
+  margin-top: 36px;
+  letter-spacing: 7px;
+}
