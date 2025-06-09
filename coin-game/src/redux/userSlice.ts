@@ -5,6 +5,7 @@ import axios from 'axios';
 import { dataStatuses } from './commonTypes';
 
 import { User } from '../types/databaseTypes';
+import { rairSDK } from '../components/common/rairSDK';
 
 interface WithLoginData extends User {
   loginType?: string;
@@ -40,8 +41,10 @@ const initialState: UserState = {
 export const loadCurrentUser = createAsyncThunk(
   'user/loadCurrentUser',
   async () => {
-    const response = await axios.get<UserDataResponse>('/api/auth/me');
-    return response.data.user;
+
+    const responseData = await rairSDK.auth?.currentUser();
+
+    return responseData?.user;
   }
 );
 
