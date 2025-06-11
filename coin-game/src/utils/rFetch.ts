@@ -9,15 +9,17 @@ import {
   TAuthGetChallengeResponse,
   TUserResponse
 } from '../axios.responseTypes';
+import { rairSDK } from '../components/common/rairSDK';
 
 const signIn = async (provider: Provider) => {
   //let currentUser = await (provider as JsonRpcProvider).getSigner(0);
   if (!provider && window.ethereum) {
     provider = new BrowserProvider(window.ethereum);
   }
-  const responseData = await axios.get<TUserResponse>(`/api/users/me`);
+  // const responseData = await axios.get<TUserResponse>(`/api/users/me`);
+  const responseData = rairSDK.auth?.currentUser();
 
-  const { success } = responseData.data;
+  // const { success } = responseData;
   return false;
   //const loginResponse = await signWeb3Message(currentUser.address);
   //return loginResponse?.success;
@@ -36,26 +38,30 @@ const getChallenge = async (userAddress: Hex, ownerAddress?: Hex) => {
   return response;
 };
 
-const respondChallenge = async (challenge, signedChallenge) => {
-  const loginResponse = await rFetch('/api/auth/login', {
-    method: 'POST',
-    body: JSON.stringify({
-      MetaMessage: JSON.parse(challenge).message.challenge,
-      MetaSignature: signedChallenge,
-      method: 'metamask'
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+const respondChallenge = async (challenge, signedChallenge, userAddress) => {
+  // const loginResponse = await rFetch('/api/auth/login', {
+  //   method: 'POST',
+  //   body: JSON.stringify({
+  //     MetaMessage: JSON.parse(challenge).message.challenge,
+  //     MetaSignature: signedChallenge,
+  //     method: 'metamask'
+  //   }),
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   }
+  // });
+
+  const responseData = await rairSDK.auth?.loginWeb3({
+    MetaMessage: JSON.parse(challenge).message.challenge,
+    MetaSignature: signedChallenge,
+    method: 'metamask'
   });
 
-  const { success, user } = loginResponse;
-
-  if (!success) {
+  if (!responseData) {
     Swal.fire('Error', `Login failed`, 'error');
     return;
   }
-  return { success, user };
+  return { success: responseData.user ? true : false, user: responseData.user };
 };
 
 const signWeb3MessageMetamask = async (userAddress: Hex) => {
@@ -68,7 +74,7 @@ const signWeb3MessageMetamask = async (userAddress: Hex) => {
     };
     const signedChallenge = await window?.ethereum?.request(ethRequest);
     if (signedChallenge) {
-      return await respondChallenge(challenge, signedChallenge);
+      return await respondChallenge(challenge, signedChallenge, userAddress);
     }
   }
 };

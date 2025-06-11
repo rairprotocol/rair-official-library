@@ -26,6 +26,7 @@ import {
 import chainData from '../utils/blockchainData';
 import { rFetch, signWeb3MessageMetamask } from '../utils/rFetch';
 import sockets from '../utils/sockets';
+import { rairSDK } from '../components/common/rairSDK';
 
 const getCoingeckoRates = async () => {
   try {
@@ -384,8 +385,9 @@ const useConnectUser = () => {
   }, [checkMetamask]);
 
   const logoutUser = useCallback(async () => {
-    const { success } = await rFetch('/api/auth/logout');
-    if (success) {
+    const responseData = await rairSDK?.auth.logout();
+
+    if (responseData) {
       document.getElementById('rair-asif')?.replaceChildren();
       dispatch(loadCurrentUser());
       sockets.nodeSocket.emit('logout', currentUserAddress?.toLowerCase());
