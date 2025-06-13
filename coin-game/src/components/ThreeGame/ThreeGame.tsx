@@ -10,6 +10,8 @@ import PhysicalMovements from "./components/PhysicalMovements";
 
 import "./index.css";
 import GameMenu from "./components/GameMenu";
+import ThirdLevel from "./levels/ThirdLevel";
+import FourthLevel from "./levels/FourthLevel";
 
 function Loader() {
   const { progress } = useProgress();
@@ -27,7 +29,13 @@ const ThreeGame = () => {
       case 1:
         return <SampleLevel onLevelComplete={() => setCurrentLevel(2)} onCoinCollect={() => setCoinCount(prev => prev + 1)} />;
       case 2:
-        return <SecondLevel onCoinCollect={() => setCoinCount(prev => prev + 1)} />;
+        return <SecondLevel onCoinCollect={() => setCoinCount(prev => prev + 1)} onLevelComplete={() => setCurrentLevel(3)} />;
+
+        case 3:
+          return <ThirdLevel onCoinCollect={() => setCoinCount(prev => prev + 1)}  onLevelComplete={() => setCurrentLevel(4)} />;
+
+          case 4:
+            return <FourthLevel onCoinCollect={() => setCoinCount(prev => prev + 1)}  />;
       default:
         return <SampleLevel onLevelComplete={() => setCurrentLevel(2)} onCoinCollect={() => setCoinCount(prev => prev + 1)} />;
     }
@@ -48,7 +56,7 @@ const ThreeGame = () => {
         Coins: {coinCount}
       </div>
       {/* <Loader /> */}
-      <PhysicalMovements />
+      {/* <PhysicalMovements /> */}
       <Canvas orthographic camera={{ zoom: 50, position: [0, 5, 0] }}>
         {renderLevel()}
       </Canvas>

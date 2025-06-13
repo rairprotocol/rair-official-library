@@ -53,7 +53,7 @@ const Coin = ({ position, onCollect }) => {
       <meshStandardMaterial
         attach="material"
         transparent={true}
-        map={coin}
+        map={coin || null}
         depthTest={false}
       />
     </mesh>

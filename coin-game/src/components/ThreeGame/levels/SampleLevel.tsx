@@ -105,24 +105,10 @@ const SampleLevel = ({ onLevelComplete, onCoinCollect }) => {
     <>
       <Player />
       <Plane position={[0, 0, 0]} colour={colour} />
-      <ambientLight intensity={0.1} />
       {memoizedMapData}
       <Object position={[10, 0.5, 20]} texture={orb} />
-      <pointLight
-        position={[10, 1.1, 20]}
-        intensity={3}
-        castShadow={true}
-        penumbra={1}
-        color="blue"
-      />
+      
       <Object position={[20, 0.5, 20]} texture={orb} />
-      <pointLight
-        position={[20, 1.1, 20]}
-        intensity={3}
-        castShadow={true}
-        penumbra={1}
-        color="blue"
-      />
       <rectAreaLight
         position={[38.5, 1, 11]}
         intensity={5}
@@ -132,15 +118,6 @@ const SampleLevel = ({ onLevelComplete, onCoinCollect }) => {
         color="yellow"
         name="Portal"
       />
-      <spotLight
-        position={[20, 20, 20]}
-        angle={0.5}
-        intensity={1}
-        castShadow={true}
-        penumbra={1}
-      />
-      {/*<OrbitControls makeDefault />*/}
-      <Stats className="stats" />
     </>
   );
 };

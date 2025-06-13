@@ -8,7 +8,7 @@ const Attack = () => {
   return (
     <mesh ref={ref} position={[1, 0, 0]}>
       <boxGeometry attach="geometry" />
-      <meshStandardMaterial attach="material" transparent={true} map={bomb} />
+      <meshStandardMaterial attach="material" transparent={true} map={bomb || null} />
     </mesh>
   );
 };
