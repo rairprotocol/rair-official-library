@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import { bomb } from "./../utils/textureManager";
+import React, { useEffect, useRef } from 'react';
+
+import { bomb } from './../utils/textureManager';
 
 const ChestExplosion = ({ position = [0, 0, 0], onFinish }) => {
   const ref = useRef();

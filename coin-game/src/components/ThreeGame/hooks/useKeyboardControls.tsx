@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
 
 function actionByValue(key) {
   const value = 10;
@@ -8,18 +8,18 @@ function actionByValue(key) {
     moveBackward: value,
     moveLeft: -value,
     moveRight: value,
-    action: value,
+    action: value
   };
   return keys[key];
 }
 
 function actionByKey(key) {
   const keys = {
-    KeyW: "moveForward",
-    KeyS: "moveBackward",
-    KeyA: "moveLeft",
-    KeyD: "moveRight",
-    KeyE: "action",
+    KeyW: 'moveForward',
+    KeyS: 'moveBackward',
+    KeyA: 'moveLeft',
+    KeyD: 'moveRight',
+    KeyE: 'action'
   };
   return keys[key];
 }
@@ -31,7 +31,7 @@ export const useKeyboardControls = () => {
     moveLeft: 0,
     moveRight: 0,
     action: 0,
-    lastMovement: null,
+    lastMovement: null
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const useKeyboardControls = () => {
         setMovement((state) => ({
           ...state,
           [actionByKey(e.code)]: actionByValue(actionByKey(e.code)),
-          lastMovement: actionByKey(e.code),
+          lastMovement: actionByKey(e.code)
         }));
       }
     };
@@ -50,17 +50,17 @@ export const useKeyboardControls = () => {
       if (actionByKey(e.code)) {
         setMovement((state) => ({
           ...state,
-          [actionByKey(e.code)]: 0,
+          [actionByKey(e.code)]: 0
         }));
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 

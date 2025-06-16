@@ -1,13 +1,15 @@
 //@ts-nocheck
-import { useState, useMemo } from "react";
-import { Stats } from "@react-three/drei";
+import { useEffect, useMemo, useState } from 'react';
+import { Stats } from '@react-three/drei';
+import { useThree } from '@react-three/fiber';
 
-import Plane from "../components/Plane";
-import Player from "../components/Player";
-import Object from "../components/Object";
-import Coin from "../components/Coin";
-import { mapDataString } from "../utils/mapDataString";
-import { chest, orb } from "../utils/textureManager";
+import Coin from '../components/Coin';
+import Object from '../components/Object';
+import Plane from '../components/Plane';
+import Player from '../components/Player';
+import { calcDistance } from '../utils/calcDistance';
+import { mapDataString } from '../utils/mapDataString';
+import { chest, orb } from '../utils/textureManager';
 
 const mapData = mapDataString(`
     # # # # # # # # # # # # # # # # # # # # # #
@@ -33,7 +35,7 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
   const key = `${x}-${y}`;
 
   switch (type) {
-    case "#":
+    case '#':
       return (
         <Object
           key={key}
@@ -42,7 +44,7 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
           name="Blocking"
         />
       );
-    case "T":
+    case 'T':
       return (
         <Object
           key={key}
@@ -51,7 +53,7 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
           name="Draggable"
         />
       );
-    case "C":
+    case 'C':
       return (
         <Coin
           key={key}
@@ -67,13 +69,35 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
   }
 };
 
-const FourthLevel = ({ onCoinCollect }) => {
-  const [colour, setColour] = useState("#a855f7");
+const FourthLevel = ({ onCoinCollect, setOnFinish }) => {
+  const [colour, setColour] = useState('#a855f7');
   const [currentMap, setCurrentMap] = useState(mapData);
+
+  const { scene } = useThree();
+
+  useEffect(() => {
+    const checkPortalCollision = () => {
+      const player = scene.children.find((child) => child.name === 'Player');
+      const portal = scene.children.find((child) => child.name === 'Portal');
+
+      if (player && portal) {
+        const distance = calcDistance(player.position, portal.position);
+        if (distance < 2) {
+          console.log('Game Finished!');
+          setOnFinish(true);
+        }
+      }
+    };
+
+    const interval = setInterval(checkPortalCollision, 100);
+    return () => clearInterval(interval);
+  }, [scene]);
 
   const memoizedMapData = useMemo(() => {
     return currentMap.map((row, y) =>
-      row.map((type, x) => resolveMapTile(type, x, y, mapData, setCurrentMap, onCoinCollect))
+      row.map((type, x) =>
+        resolveMapTile(type, x, y, mapData, setCurrentMap, onCoinCollect)
+      )
     );
   }, [currentMap, onCoinCollect]);
 
@@ -82,15 +106,15 @@ const FourthLevel = ({ onCoinCollect }) => {
       <Player startPosition={[1, 0.5, 1]} />
       <Plane position={[0, 0, 0]} colour={colour} />
       {memoizedMapData}
-      
+
       {/* Decorative lights */}
       <Object position={[5, 0.5, 5]} texture={orb} />
-      
+
       <Object position={[12, 0.5, 5]} texture={orb} />
 
       {/* Portal light to next level */}
       <rectAreaLight
-        position={[10, 1, 12.5]}
+        position={[3, 1, 15.5]}
         intensity={20}
         width={2}
         height={2}
@@ -101,4 +125,4 @@ const FourthLevel = ({ onCoinCollect }) => {
   );
 };
 
-export default FourthLevel; 
+export default FourthLevel;

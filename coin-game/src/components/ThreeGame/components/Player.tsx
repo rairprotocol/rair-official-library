@@ -1,19 +1,20 @@
 // @ts-nocheck
-import React, { useRef, useCallback, useState, useEffect } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
-import throttle from "lodash-es/throttle";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import throttle from 'lodash-es/throttle';
 
+import Attack from './Attack';
+import ChestExplosion from './ChestExplosion';
+
+import { useKeyboardControls } from '../hooks/useKeyboardControls.tsx';
+import { calcDistance, closestObject } from '../utils/calcDistance';
 import {
-  playerUpMovement,
   playerDownMovement,
-  playerRightMovement,
-  playerLeftMovement,
   playerIdleMovement,
-} from "../utils/textureManager.ts";
-import { useKeyboardControls } from "../hooks/useKeyboardControls.tsx";
-import { calcDistance, closestObject } from "../utils/calcDistance";
-import Attack from "./Attack";
-import ChestExplosion from "./ChestExplosion";
+  playerLeftMovement,
+  playerRightMovement,
+  playerUpMovement
+} from '../utils/textureManager.ts';
 
 const Player = ({ startPosition = [2, 0.5, 2] }) => {
   const { moveForward, moveBackward, moveLeft, moveRight, action } =
@@ -33,59 +34,61 @@ const Player = ({ startPosition = [2, 0.5, 2] }) => {
     const handleKeyDown = (e) => {
       const playerPos = ref.current?.position;
       if (!playerPos) return;
-  
+
       // 💥 Взрыв сундука по клавише T
       const chestNearby = scene.children.find(
         (obj) =>
-          obj.name === "T" &&
+          obj.name === 'T' &&
           calcDistance(obj.position, playerPos) <= 1.5 &&
           !chestUsed.includes(obj.uuid)
       );
-  
-      if ((e.key === "t" || e.key === "T") && chestNearby) {
-        console.log("💥 Взрыв сундука!");
-  
+
+      if ((e.key === 't' || e.key === 'T') && chestNearby) {
+        console.log('💥 Взрыв сундука!');
+
         setChestUsed((prev) => [...prev, chestNearby.uuid]);
         setExplosionPos([chestNearby.position.x, 0.5, chestNearby.position.z]);
-  
+
         chestNearby.visible = false;
-  
+
         setTimeout(() => {
           setExplosionPos(null);
-          console.log("💰 Спавн монет после взрыва");
+          console.log('💰 Спавн монет после взрыва');
           // spawnCoinsAround(chestNearby.position);
         }, 600);
-  
+
         return; // прерываем, чтобы не задействовать перетаскивание
       }
-  
+
       // ✅ Перетаскивание (остается как есть)
-      if ((e.key === "e" || e.key === "E") && nearDraggable && !isDragging) {
+      if ((e.key === 'e' || e.key === 'E') && nearDraggable && !isDragging) {
         const draggableObjects = scene.children.filter((e) => {
           return (
             calcDistance(e.position, ref.current.position) <= 1.5 &&
-            e.name === "Draggable"
+            e.name === 'Draggable'
           );
         });
-  
+
         if (draggableObjects.length > 0) {
           setIsDragging(true);
           setDraggedObject(draggableObjects[0]);
-          console.log("Started dragging object");
+          console.log('Started dragging object');
         }
       }
-  
-      if ((e.key === "Escape" || e.key === "e" || e.key === "E") && isDragging) {
+
+      if (
+        (e.key === 'Escape' || e.key === 'e' || e.key === 'E') &&
+        isDragging
+      ) {
         setIsDragging(false);
         setDraggedObject(null);
-        console.log("Released object");
+        console.log('Released object');
       }
     };
-  
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [scene, chestUsed, isDragging, draggedObject, nearDraggable]);
-  
 
   const positionControl = useCallback(
     throttle(() => {
@@ -93,7 +96,9 @@ const Player = ({ startPosition = [2, 0.5, 2] }) => {
 
       // Check if we're near a draggable object
       const draggableObjects = scene.children.filter((e) => {
-        return calcDistance(e.position, position) <= 1.5 && e.name === "Draggable";
+        return (
+          calcDistance(e.position, position) <= 1.5 && e.name === 'Draggable'
+        );
       });
 
       // Update nearDraggable state
@@ -107,7 +112,7 @@ const Player = ({ startPosition = [2, 0.5, 2] }) => {
 
       // Check for collisions with blocking objects
       const collisions = scene.children.filter((e) => {
-        return calcDistance(e.position, position) <= 2 && e.name === "Blocking";
+        return calcDistance(e.position, position) <= 2 && e.name === 'Blocking';
       });
 
       const topCollisions = collisions.filter((e) => {
@@ -227,7 +232,7 @@ const Player = ({ startPosition = [2, 0.5, 2] }) => {
         if (distance > 2) {
           setIsDragging(false);
           setDraggedObject(null);
-          console.log("Stopped dragging object");
+          console.log('Stopped dragging object');
         }
       }
     };
@@ -276,13 +281,12 @@ const Player = ({ startPosition = [2, 0.5, 2] }) => {
         />
         {action && <Attack />}
       </mesh>
-
       {explosionPos && (
         <ChestExplosion
           position={explosionPos}
           onFinish={() => {
             setExplosionPos(null);
-            console.log("💰 Спавн монет завершён");
+            console.log('💰 Спавн монет завершён');
           }}
         />
       )}

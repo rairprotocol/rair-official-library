@@ -1,11 +1,11 @@
 //@ts-nocheck
-import React, { useCallback, useRef, useState } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
-import throttle from "lodash-es/throttle";
+import React, { useCallback, useRef, useState } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import throttle from 'lodash-es/throttle';
 
-import { coin } from "../utils/textureManager.ts";
-import coinSound from "../sounds/coin.wav";
-import { calcDistance } from "../utils/calcDistance";
+import coinSound from '../sounds/coin.wav';
+import { calcDistance } from '../utils/calcDistance';
+import { coin } from '../utils/textureManager.ts';
 
 const Coin = ({ position, onCollect }) => {
   const sound = new Audio(coinSound);
@@ -47,8 +47,7 @@ const Coin = ({ position, onCollect }) => {
       position={position}
       ref={ref}
       name="Coin"
-      rotation={[-Math.PI / 2, 0, 0]}
-    >
+      rotation={[-Math.PI / 2, 0, 0]}>
       <planeGeometry attach="geometry" />
       <meshStandardMaterial
         attach="material"
