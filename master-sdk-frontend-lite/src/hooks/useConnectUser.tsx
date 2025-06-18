@@ -287,7 +287,7 @@ const useConnectUser = () => {
           publicAddress: loginData.userAddress
         });
         let user = userDataResponse.user;
-        if (!userDataResponse.data.success || !user) {
+        if (!userDataResponse.success || !user) {
           const userCreation = await rairSDK.users?.createUser({
             publicAddress: loginData.userAddress
           });
