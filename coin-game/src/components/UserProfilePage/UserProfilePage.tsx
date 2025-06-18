@@ -25,17 +25,18 @@ import { User } from '../../types/databaseTypes';
 import { rFetch } from '../../utils/rFetch';
 import InputField from '../common/InputField';
 import LoadingComponent from '../common/LoadingComponent';
+import { rairSDK } from '../common/rairSDK';
 import { TooltipBox } from '../common/Tooltip/TooltipBox';
 import FilteringBlock from '../MockUpPage/FilteringBlock/FilteringBlock';
 import { ImageLazy } from '../MockUpPage/ImageLazy/ImageLazy';
 import CustomShareButton from '../MockUpPage/NftList/NftData/CustomShareButton';
 import SharePopUp from '../MockUpPage/NftList/NftData/TitleCollection/SharePopUp/SharePopUp';
+import { PersonalProfileIcon } from '../nft/PersonalProfile/PersonalProfileIcon/PersonalProfileIcon';
 import { PersonalProfileMyNftTab } from '../nft/PersonalProfile/PersonalProfileMyNftTab/PersonalProfileMyNftTab';
 import { PersonalProfileMyVideoTab } from '../nft/PersonalProfile/PersonalProfileMyVideoTab/PersonalProfileMyVideoTab';
 import { TSortChoice } from '../ResalePage/listOffers.types';
 import { SvgUserIcon } from '../UserProfileSettings/SettingsIcons/SettingsIcons';
 
-import { PersonalProfileIcon } from '../nft/PersonalProfile/PersonalProfileIcon/PersonalProfileIcon';
 import UserProfileCreated from './UserProfileCreated/UserProfileCreated';
 import UserProfileFavoritesTab from './UserProfileFavorites/UserProfileFavoritesTab';
 
@@ -85,21 +86,25 @@ const UserProfilePage: React.FC = () => {
     async (number, page) => {
       if (userAddress && isAddress(userAddress)) {
         setIsLoading(true);
+        try {
+          const response = await rairSDK?.nft?.getTokensForUser({
+            userAddress: userAddress as `0x${string}`,
+            itemsPerPage: number,
+            pageNum: page,
+            onResale
+          });
 
-        const response = await rFetch(
-          `/api/nft/${userAddress}?itemsPerPage=${number}&pageNum=${page}&onResale=${onResale}`
-        );
-        if (response.success) {
-          setTotalCount(response.totalCount);
-          setCollectedTokens(response.result.filter((token) => token.isMinted));
+          if (response?.result) {
+            setTotalCount(response.totalCount);
+            setCollectedTokens(
+              response?.result?.filter((token) => token.isMinted)
+            );
+            setIsLoading(false);
+            setIsResaleLoding(false);
+          }
+        } catch (error) {
           setIsLoading(false);
           setIsResaleLoding(false);
-        }
-
-        if (response.error && response.message) {
-          setIsLoading(false);
-          setIsResaleLoding(false);
-          return;
         }
       }
     },
@@ -108,13 +113,15 @@ const UserProfilePage: React.FC = () => {
   );
 
   const handleNewUserStatus = useCallback(async () => {
-    const requestContract = await rFetch('/api/contracts/full?itemsPerPage=5');
-    const { success, contracts } = await rFetch(
-      `/api/contracts/full?itemsPerPage=${requestContract.totalNumber || '5'}`
-    );
+    const requestContract = await rairSDK?.contracts?.getContractList({
+      itemsPerPage: 5
+    });
+    const result = await rairSDK?.contracts?.getContractList({
+      itemsPerPage: requestContract?.totalCount || 5
+    });
 
-    if (success) {
-      const contractsFiltered = contracts.filter(
+    if (result?.result) {
+      const contractsFiltered = result?.result.filter(
         (el) => el.user === userAddress
       );
 
@@ -127,11 +134,13 @@ const UserProfilePage: React.FC = () => {
       const userAddressChanged = userAddress.toLowerCase();
       setTabIndexItems(0);
       setUserData(undefined);
-      const response = await rFetch(`/api/users/${userAddressChanged}`);
+      const response = await rairSDK?.users?.findUserByUserAddress({
+        publicAddress: userAddressChanged
+      });
 
-      if (response.success) {
-        if (response.user) {
-          setUserData(response.user);
+      if (response?.user) {
+        if (response?.user) {
+          setUserData(response?.user);
         } else {
           const defaultUser: User = {
             avatar: '',

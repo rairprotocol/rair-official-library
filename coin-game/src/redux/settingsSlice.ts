@@ -9,6 +9,7 @@ import {
 } from './colorSlice';
 import { dataStatuses } from './commonTypes';
 
+import { rairSDK } from '../components/common/rairSDK';
 import { Blockchain, Category, ServerSettings } from '../types/databaseTypes';
 
 interface CategoriesResponse {
@@ -61,31 +62,31 @@ const initialState: SettingsState = {
 export const loadSettings = createAsyncThunk(
   'settings/loadSettings',
   async (_, { dispatch }) => {
-    const response = await axios.get('/api/settings');
+    const response = await rairSDK?.settings?.getSettings();
     dispatch(
       setCustomColors({
-        ...response.data.settings
+        ...response?.settings
       })
     );
     dispatch(
       setDarkModeCustomLogos({
-        ...response.data.settings
+        ...response?.settings
       })
     );
     dispatch(
       setLightModeCustomLogos({
-        ...response.data.settings
+        ...response?.settings
       })
     );
-    return response.data;
+    return response;
   }
 );
 
 export const loadCategories = createAsyncThunk(
   'settings/loadCategories',
   async () => {
-    const response = await axios.get('/api/categories');
-    return response.data;
+    const response = await rairSDK?.categories?.getCategories();
+    return response;
   }
 );
 

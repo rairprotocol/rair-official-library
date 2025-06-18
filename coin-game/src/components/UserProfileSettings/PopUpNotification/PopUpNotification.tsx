@@ -7,6 +7,7 @@ import { BellIcon } from '../../../images';
 import { fetchNotifications } from '../../../redux/notificationsSlice';
 import { SocialBox } from '../../../styled-components/SocialLinkIcons/SocialLinkIcons';
 import { rFetch } from '../../../utils/rFetch';
+import { rairSDK } from '../../common/rairSDK';
 import PaginationBox from '../../MockUpPage/PaginationBox/PaginationBox';
 
 import NotificationBox from './NotificationBox/NotificationBox';
@@ -44,12 +45,11 @@ const PopUpNotification = ({ realDataNotification, notificationCount }) => {
 
   const deleteAllNotificaiton = useCallback(async () => {
     if (currentUserAddress) {
-      const result = await rFetch(`/api/notifications`, {
-        method: 'DELETE',
-        body: JSON.stringify([])
+      const result = await rairSDK?.notifications?.deleteNotification({
+        ids: [el._id]
       });
 
-      if (result.success) {
+      if (result?.deleted) {
         dispatch(fetchNotifications(0));
         reactSwal.fire({
           title: 'Success',

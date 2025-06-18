@@ -5,6 +5,7 @@ import { Hex } from 'viem';
 
 import { dataStatuses } from './commonTypes';
 
+import { rairSDK } from '../components/common/rairSDK';
 import {
   ApiCallResponse,
   CatalogVideoItem,
@@ -38,26 +39,10 @@ const initialState: VideoState = {
 export const loadVideoList = createAsyncThunk(
   'video/loadVideoList',
   async (searchParams: VideoQueryParams) => {
-    const queryParams = new URLSearchParams();
-    Object.keys(searchParams).forEach((paramName) => {
-      const value = searchParams[paramName];
-      if (value) {
-        if (Array.isArray(value)) {
-          if (!value.length) {
-            return;
-          }
-          value.forEach((internalValue) => {
-            queryParams.append(`${paramName}[]`, internalValue);
-          });
-        } else {
-          queryParams.append(paramName, value.toString());
-        }
-      }
+    const response = await rairSDK?.files?.listMedia({
+      author: searchParams.userAddress
     });
-    const response = await axios.get<VideoQueryResponse>(
-      `/api/files/list?${queryParams.toString()}`
-    );
-    return response.data;
+    return response;
   }
 );
 
