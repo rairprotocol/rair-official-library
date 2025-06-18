@@ -16,11 +16,21 @@ function actionByValue(key) {
 function actionByKey(key) {
   const keys = {
     KeyW: 'moveForward',
+    ArrowUp: 'moveForward',
+
     KeyS: 'moveBackward',
+    ArrowDown: 'moveBackward',
+
     KeyA: 'moveLeft',
+    ArrowLeft: 'moveLeft',
+
     KeyD: 'moveRight',
-    KeyE: 'action'
+    ArrowRight: 'moveRight',
+
+    KeyE: 'action',
+    Enter: 'action'
   };
+
   return keys[key];
 }
 
@@ -35,27 +45,34 @@ export const useKeyboardControls = () => {
   });
 
   useEffect(() => {
-    // Primary movements
     const handleKeyDown = (e) => {
-      if (actionByKey(e.code)) {
-        setMovement((state) => ({
-          ...state,
-          [actionByKey(e.code)]: actionByValue(actionByKey(e.code)),
-          lastMovement: actionByKey(e.code)
-        }));
+      if (
+        ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)
+      ) {
+        e.preventDefault();
       }
-    };
-    // Used to reset keys
-    const handleKeyUp = (e) => {
-      if (actionByKey(e.code)) {
+
+      const action = actionByKey(e.code);
+      if (action) {
         setMovement((state) => ({
           ...state,
-          [actionByKey(e.code)]: 0
+          [action]: actionByValue(action),
+          lastMovement: action
         }));
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    const handleKeyUp = (e) => {
+      const action = actionByKey(e.code);
+      if (action) {
+        setMovement((state) => ({
+          ...state,
+          [action]: 0
+        }));
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown, { passive: false });
     document.addEventListener('keyup', handleKeyUp);
 
     return () => {

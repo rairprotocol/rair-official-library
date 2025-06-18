@@ -84,7 +84,7 @@ const ThreeGame = () => {
     <>
       <div className="coin-counter">Coins: {coinCount}</div>
       {/* <Loader /> */}
-      {/* <PhysicalMovements /> */}
+      <PhysicalMovements />
       <Canvas orthographic camera={{ zoom: 50, position: [0, 5, 0] }}>
         {renderLevel()}
       </Canvas>
