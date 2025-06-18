@@ -284,12 +284,12 @@ const useConnectUser = () => {
       try {
         // Check if user exists in DB
         const userDataResponse = await rairSDK.users?.findUserByUserAddress({
-          publicAddress: loginData.userAddress
+          publicAddress: loginData.userAddress.toLowerCase()
         });
         let user = userDataResponse.user;
         if (!userDataResponse.success || !user) {
           const userCreation = await rairSDK.users?.createUser({
-            publicAddress: loginData.userAddress
+            publicAddress: loginData.userAddress.toLowerCase()
           });
           user = userCreation.user;
         }
