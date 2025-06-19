@@ -46,7 +46,7 @@ const PopUpNotification = ({ realDataNotification, notificationCount }) => {
   const deleteAllNotificaiton = useCallback(async () => {
     if (currentUserAddress) {
       const result = await rairSDK?.notifications?.deleteNotification({
-        ids: [el._id]
+        ids: []
       });
 
       if (result?.deleted) {

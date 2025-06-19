@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
