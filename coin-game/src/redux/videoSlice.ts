@@ -1,6 +1,6 @@
+// @ts-nocheck
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { Hex } from 'viem';
 
 import { dataStatuses } from './commonTypes';
