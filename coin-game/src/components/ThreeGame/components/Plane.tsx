@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 const Plane = (props) => {
   const ref = useRef();
@@ -8,8 +8,7 @@ const Plane = (props) => {
       position={props.position}
       rotation={[-Math.PI / 2, 0, 0]}
       ref={ref}
-      name="plane"
-    >
+      name="plane">
       <planeGeometry attach="geometry" args={[200, 200]} />
       <meshStandardMaterial attach="material" color={props.colour} />
     </mesh>

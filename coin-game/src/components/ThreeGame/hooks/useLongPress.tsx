@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from 'react';
 
 const useLongPress = (
   onLongPress,
@@ -13,8 +13,8 @@ const useLongPress = (
   const start = useCallback(
     (event) => {
       if (shouldPreventDefault && event.target) {
-        event.target.addEventListener("touchend", preventDefault, {
-          passive: false,
+        event.target.addEventListener('touchend', preventDefault, {
+          passive: false
         });
         target.current = event.target;
       }
@@ -32,7 +32,7 @@ const useLongPress = (
       shouldTriggerClick && !longPressTriggered && onClick();
       setLongPressTriggered(false);
       if (shouldPreventDefault && target.current) {
-        target.current.removeEventListener("touchend", preventDefault);
+        target.current.removeEventListener('touchend', preventDefault);
       }
       onClear();
     },
@@ -44,12 +44,12 @@ const useLongPress = (
     onTouchStart: (e) => start(e),
     onMouseUp: (e) => clear(e),
     onMouseLeave: (e) => clear(e, false),
-    onTouchEnd: (e) => clear(e),
+    onTouchEnd: (e) => clear(e)
   };
 };
 
 const isTouchEvent = (event) => {
-  return "touches" in event;
+  return 'touches' in event;
 };
 
 const preventDefault = (event) => {

@@ -1,15 +1,15 @@
 //@ts-nocheck
-import { useState, useMemo, useEffect } from "react";
-import { Stats, OrbitControls } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useEffect, useMemo, useState } from 'react';
+import { OrbitControls, Stats } from '@react-three/drei';
+import { useThree } from '@react-three/fiber';
 
-import Plane from "../components/Plane";
-import Player from "../components/Player";
-import Object from "../components/Object";
-import Coin from "../components/Coin";
-import { mapDataString } from "../utils/mapDataString";
-import { chest, orb } from "../utils/textureManager";
-import { calcDistance } from "../utils/calcDistance";
+import Coin from '../components/Coin';
+import Object from '../components/Object';
+import Plane from '../components/Plane';
+import Player from '../components/Player';
+import { calcDistance } from '../utils/calcDistance';
+import { mapDataString } from '../utils/mapDataString';
+import { chest, orb } from '../utils/textureManager';
 
 const mapData = mapDataString(`
 # # # # # # # # # # # # # # # # #
@@ -35,7 +35,7 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
   const key = `${x}-${y}`;
 
   switch (type) {
-    case "#":
+    case '#':
       return (
         <Object
           key={key}
@@ -44,7 +44,7 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
           name="Blocking"
         />
       );
-    case "T":
+    case 'T':
       return (
         <Object
           key={key}
@@ -53,7 +53,7 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
           name="Draggable"
         />
       );
-    case "C":
+    case 'C':
       return (
         <Coin
           key={key}
@@ -70,20 +70,20 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
 };
 
 const SampleLevel = ({ onLevelComplete, onCoinCollect }) => {
-  const [colour, setColour] = useState("#7E370C");
+  const [colour, setColour] = useState('#7E370C');
   const [currentMap, setCurrentMap] = useState(mapData);
   const { scene } = useThree();
 
   // Check for portal collision
   useEffect(() => {
     const checkPortalCollision = () => {
-      const player = scene.children.find(child => child.name === "Player");
-      const portal = scene.children.find(child => child.name === "Portal");
-      
+      const player = scene.children.find((child) => child.name === 'Player');
+      const portal = scene.children.find((child) => child.name === 'Portal');
+
       if (player && portal) {
         const distance = calcDistance(player.position, portal.position);
         if (distance < 2) {
-          console.log("Portal reached!");
+          console.log('Portal reached!');
           onLevelComplete();
         }
       }
@@ -95,34 +95,22 @@ const SampleLevel = ({ onLevelComplete, onCoinCollect }) => {
 
   const memoizedMapData = useMemo(() => {
     return currentMap.map((row, y) =>
-      row.map((type, x) => resolveMapTile(type, x, y, mapData, setCurrentMap, onCoinCollect))
+      row.map((type, x) =>
+        resolveMapTile(type, x, y, mapData, setCurrentMap, onCoinCollect)
+      )
     );
   }, [currentMap, onCoinCollect]);
 
-  console.log("World rendering...");
+  console.log('World rendering...');
 
   return (
     <>
       <Player />
       <Plane position={[0, 0, 0]} colour={colour} />
-      <ambientLight intensity={0.1} />
       {memoizedMapData}
       <Object position={[10, 0.5, 20]} texture={orb} />
-      <pointLight
-        position={[10, 1.1, 20]}
-        intensity={3}
-        castShadow={true}
-        penumbra={1}
-        color="blue"
-      />
+
       <Object position={[20, 0.5, 20]} texture={orb} />
-      <pointLight
-        position={[20, 1.1, 20]}
-        intensity={3}
-        castShadow={true}
-        penumbra={1}
-        color="blue"
-      />
       <rectAreaLight
         position={[38.5, 1, 11]}
         intensity={5}
@@ -132,15 +120,6 @@ const SampleLevel = ({ onLevelComplete, onCoinCollect }) => {
         color="yellow"
         name="Portal"
       />
-      <spotLight
-        position={[20, 20, 20]}
-        angle={0.5}
-        intensity={1}
-        castShadow={true}
-        penumbra={1}
-      />
-      {/*<OrbitControls makeDefault />*/}
-      <Stats className="stats" />
     </>
   );
 };

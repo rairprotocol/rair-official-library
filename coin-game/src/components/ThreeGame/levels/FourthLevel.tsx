@@ -1,4 +1,4 @@
-// @ts-nocheck
+//@ts-nocheck
 import { useEffect, useMemo, useState } from 'react';
 import { Stats } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
@@ -12,21 +12,24 @@ import { mapDataString } from '../utils/mapDataString';
 import { chest, orb } from '../utils/textureManager';
 
 const mapData = mapDataString(`
-# # # # # # # # # # # # # # # # #
-# · · · · · · · · · · · · · · · #
-# · C · · · · · · · · · · C · · #
-# · · # # # · · · · · # # # · · #
-# · · # · · · · T · · · · # · · #
-# · · # · · · · · · · · · # · · #
-# · · · · · · · · · · · · · · · #
-# · · · · · C · · · C · · · · · #
-# · · # · · · · · · · · · # · · #
-# · · # · · · · · · · · · # · · #
-# · C # · · · · · · · · · # C · #
-# · · # # # · · · · · # # # · · #
-# · · · · · · · · · · · · · · · #
-# # # # # # # # # # # # # # # # #
-`);
+    # # # # # # # # # # # # # # # # # # # # # #
+    # · · · · C · · · · # · · C · · · · · · · #
+    # · # # # # # · # · # · # # # # · # # # · #
+    # · # · · · · · # · · · · · · · · · # · · #
+    # · # · # # · # # · # # # · # # # · # · C #
+    # · # · # C · · · · · C · · · # · · # · · #
+    # · · · · · · # # # # # # · · # · · · · · #
+    # · # · # # · · · · · # · · · # # # # # · #
+    # · # · # · · # # # · # · · · · · · · # · #
+    # · # · # · C · · · · · C · · # # # · # · #
+    # · # · # # # # # # # # # · # · · # · # · #
+    # · · · · · · · · · · · · # · C # · # · · #
+    # · # # # # # · # # # · # # · # # · # # · #
+    # C · · · · # · · · # · · · · · · · · T · #
+    # · # # · # # · # · # # · # # # # # · # # #
+    # · · · · · C · # · · · · · · C · · · · · #
+    # # # # # # # # # # # # # # # # # # # # # #
+    `);
 
 const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
   const key = `${x}-${y}`;
@@ -66,8 +69,8 @@ const resolveMapTile = (type, x, y, mapData, setCurrentMap, onCoinCollect) => {
   }
 };
 
-const SecondLevel = ({ onCoinCollect, onLevelComplete }) => {
-  const [colour, setColour] = useState('#2E8B57');
+const FourthLevel = ({ onCoinCollect, setOnFinish }) => {
+  const [colour, setColour] = useState('#a855f7');
   const [currentMap, setCurrentMap] = useState(mapData);
 
   const { scene } = useThree();
@@ -80,15 +83,15 @@ const SecondLevel = ({ onCoinCollect, onLevelComplete }) => {
       if (player && portal) {
         const distance = calcDistance(player.position, portal.position);
         if (distance < 2) {
-          console.log('Portal reached!');
-          onLevelComplete();
+          console.log('Game Finished!');
+          setOnFinish(true);
         }
       }
     };
 
     const interval = setInterval(checkPortalCollision, 100);
     return () => clearInterval(interval);
-  }, [scene, onLevelComplete]);
+  }, [scene]);
 
   const memoizedMapData = useMemo(() => {
     return currentMap.map((row, y) =>
@@ -100,7 +103,7 @@ const SecondLevel = ({ onCoinCollect, onLevelComplete }) => {
 
   return (
     <>
-      <Player />
+      <Player startPosition={[1, 0.5, 1]} />
       <Plane position={[0, 0, 0]} colour={colour} />
       {memoizedMapData}
 
@@ -110,18 +113,16 @@ const SecondLevel = ({ onCoinCollect, onLevelComplete }) => {
       <Object position={[12, 0.5, 5]} texture={orb} />
 
       {/* Portal light to next level */}
-
       <rectAreaLight
-        position={[15.5, 1, 11]}
-        intensity={10}
+        position={[3, 1, 15.5]}
+        intensity={20}
         width={2}
         height={2}
-        rotation={[0, 20.4, 0]}
-        color="yellow"
+        color="#3b82f6"
         name="Portal"
       />
     </>
   );
 };
 
-export default SecondLevel;
+export default FourthLevel;
