@@ -5,6 +5,11 @@
 [![Discord](https://img.shields.io/badge/Discord-4950AF)](https://discord.gg/vuBUfB7w)
 [![Twitter](https://img.shields.io/twitter/follow/rairprotocol)](https://twitter.com/rairprotocol)
 
+Clone this repository on your own GitHub account and deploy it to Netlify:
+
+[![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rairprotocol/rair-official-library/tree/main/coin-game)
+
+
 # rair-templates
 Official repository for first-party simple distributed application templates new users can deploy
 
