@@ -8,6 +8,7 @@ import { loadCategories } from '../../redux/settingsSlice';
 import { Category } from '../../types/databaseTypes';
 import { rFetch } from '../../utils/rFetch';
 import InputField from '../common/InputField';
+import { rairSDK } from '../common/rairSDK';
 
 const CategorySettings = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const CategorySettings = () => {
   const [categoryListCopy, setCategoryListCopy] = useState<Array<Category>>([]);
 
   const setCategoryList = useCallback(async () => {
-    const result = await rFetch('/api/categories', {
+    const result = await rairSDK rFetch('/api/categories', {
       method: 'POST',
       body: JSON.stringify({
         list: categoryListCopy.map((item) => ({
