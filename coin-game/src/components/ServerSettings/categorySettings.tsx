@@ -19,19 +19,13 @@ const CategorySettings = () => {
   const [categoryListCopy, setCategoryListCopy] = useState<Array<Category>>([]);
 
   const setCategoryList = useCallback(async () => {
-    const result = await rairSDK rFetch('/api/categories', {
-      method: 'POST',
-      body: JSON.stringify({
-        list: categoryListCopy.map((item) => ({
-          _id: item._id,
-          name: item.name
-        }))
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const result = await rairSDK.categories?.updateCategory({
+      list: categoryListCopy.map((item) => ({
+        _id: item._id,
+        name: item.name
+      }))
     });
-    if (result.success) {
+    if (result?.success) {
       reactSwal.fire('Success', 'Categories updated', 'success');
       dispatch(loadCategories());
     }

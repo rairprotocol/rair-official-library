@@ -380,6 +380,7 @@ const useConnectUser = () => {
     const responseData = await rairSDK?.auth.logout();
 
     if (responseData) {
+      localStorage.removeItem('rair-jwt');
       document.getElementById('rair-asif')?.replaceChildren();
       dispatch(loadCurrentUser());
       sockets.nodeSocket.emit('logout', currentUserAddress?.toLowerCase());
