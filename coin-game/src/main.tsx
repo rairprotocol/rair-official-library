@@ -8,7 +8,6 @@ import Axios from 'axios';
 import { GlobalModalStateProvider } from './providers/ModalProvider/ModalProvider';
 import { store } from './redux/store';
 
-
 Axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('rair-jwt');
@@ -19,6 +18,16 @@ Axios.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
+  }
+);
+Axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (['jwt invalid', 'jwt expired'].includes(error.data.message)) {
+      localStorage.removeItem('rair-jwt');
+    }
   }
 );
 
