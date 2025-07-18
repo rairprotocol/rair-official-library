@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useReduxHooks';
 import useSwal from '../../hooks/useSwal';
 import { loadCategories } from '../../redux/settingsSlice';
 import { Category } from '../../types/databaseTypes';
-import { rFetch } from '../../utils/rFetch';
 import InputField from '../common/InputField';
+import { rairSDK } from '../common/rairSDK';
 
 const CategorySettings = () => {
   const dispatch = useAppDispatch();
@@ -18,19 +18,13 @@ const CategorySettings = () => {
   const [categoryListCopy, setCategoryListCopy] = useState<Array<Category>>([]);
 
   const setCategoryList = useCallback(async () => {
-    const result = await rFetch('/api/categories', {
-      method: 'POST',
-      body: JSON.stringify({
-        list: categoryListCopy.map((item) => ({
-          _id: item._id,
-          name: item.name
-        }))
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const result = await rairSDK.categories?.updateCategory({
+      list: categoryListCopy.map((item) => ({
+        _id: item._id,
+        name: item.name
+      }))
     });
-    if (result.success) {
+    if (result?.success) {
       reactSwal.fire('Success', 'Categories updated', 'success');
       dispatch(loadCategories());
     }

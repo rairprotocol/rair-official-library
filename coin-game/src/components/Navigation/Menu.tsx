@@ -19,6 +19,7 @@ import {
   VerifiedIcon
 } from '../../images';
 import { dataStatuses } from '../../redux/commonTypes';
+import { fetchNotifications } from '../../redux/notificationsSlice';
 import {
   SocialBox,
   SocialBoxSearch,
@@ -26,7 +27,6 @@ import {
   UserIconMobile
 } from '../../styled-components/SocialLinkIcons/SocialLinkIcons';
 import { User } from '../../types/databaseTypes';
-import { rFetch } from '../../utils/rFetch';
 import { SvgUserIcon } from '../UserProfileSettings/SettingsIcons/SettingsIcons';
 
 import MobileChoiseNav from './MenuComponents/MobileChoiseNav';
@@ -39,7 +39,6 @@ import {
 } from './NavigationItems/NavigationItems';
 
 import './Menu.css';
-import { fetchNotifications } from '../../redux/notificationsSlice';
 
 interface IMenuNavigation {
   renderBtnConnect: boolean;

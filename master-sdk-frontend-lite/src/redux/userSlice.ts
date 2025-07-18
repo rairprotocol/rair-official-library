@@ -1,22 +1,16 @@
 // @ts-nocheck
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import { dataStatuses } from './commonTypes';
 
-import { User } from '../types/databaseTypes';
 import { rairSDK } from '../components/common/rairSDK';
+import { User } from '../types/databaseTypes';
 
 interface WithLoginData extends User {
   loginType?: string;
   adminRights?: boolean;
   superAdmin?: boolean;
-}
-
-interface UserDataResponse {
-  user: WithLoginData;
-  success: boolean;
 }
 
 interface UserState extends WithLoginData {
@@ -42,7 +36,6 @@ const initialState: UserState = {
 export const loadCurrentUser = createAsyncThunk(
   'user/loadCurrentUser',
   async () => {
-
     const responseData = await rairSDK.auth?.currentUser();
 
     return responseData?.user;

@@ -10,21 +10,21 @@ import axios from 'axios';
 
 import { IMainHeader, TAxiosCollectionData } from './header.types';
 
-import { SvgUserIcon } from '../UserProfileSettings/SettingsIcons/SettingsIcons';
 import useComponentVisible from '../../hooks/useComponentVisible';
 import useConnectUser from '../../hooks/useConnectUser';
 import { useAppDispatch, useAppSelector } from '../../hooks/useReduxHooks';
 import { dataStatuses } from '../../redux/commonTypes';
-import { clearResults, startSearch } from '../../redux/searchbarSlice';
 import { fetchNotifications } from '../../redux/notificationsSlice';
+import { clearResults, startSearch } from '../../redux/searchbarSlice';
 import InputField from '../common/InputField';
 import { TooltipBox } from '../common/Tooltip/TooltipBox';
 import MainLogo from '../GroupLogos/MainLogo';
 import ImageCustomForSearch from '../MockUpPage/utils/image/ImageCustomForSearch';
 import PopUpNotification from '../UserProfileSettings/PopUpNotification/PopUpNotification';
-
+import { SvgUserIcon } from '../UserProfileSettings/SettingsIcons/SettingsIcons';
 //imports components
 import UserProfileSettings from '../UserProfileSettings/UserProfileSettings';
+
 import AdminPanel from './AdminPanel/AdminPanel';
 import {
   HeaderContainer /*, SocialHeaderBox */
@@ -63,7 +63,9 @@ const MainHeader: FC<IMainHeader> = ({
     (store) => store.user
   );
 
-  const { totalCount: notificationCount, notifications } = useAppSelector(store => store.notifications);
+  const { totalCount: notificationCount, notifications } = useAppSelector(
+    (store) => store.notifications
+  );
 
   const { currentUserAddress } = useAppSelector((store) => store.web3);
 
@@ -121,7 +123,7 @@ const MainHeader: FC<IMainHeader> = ({
   };
 
   useEffect(() => {
-    if(currentUserAddress && isLoggedIn) {
+    if (currentUserAddress && isLoggedIn) {
       dispatch(fetchNotifications(0));
     }
   }, [currentUserAddress, isLoggedIn]);
@@ -166,7 +168,7 @@ const MainHeader: FC<IMainHeader> = ({
 
   useEffect(() => {
     dispatch(fetchNotifications());
-  }, [])
+  }, []);
 
   return (
     <HeaderContainer

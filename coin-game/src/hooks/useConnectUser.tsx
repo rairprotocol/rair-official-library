@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector } from './useReduxHooks';
 import useServerSettings from './useServerSettings';
 import useSwal from './useSwal';
 
-import { TUserResponse } from '../axios.responseTypes';
 import { OnboardingButton } from '../components/common/OnboardingButton/OnboardingButton';
+import { rairSDK } from '../components/common/rairSDK';
 import { dataStatuses } from '../redux/commonTypes';
 import { loadCurrentUser } from '../redux/userSlice';
 import {
@@ -24,9 +24,8 @@ import {
 // import { CombinedBlockchainData } from '../types/commonTypes';
 // import { User } from '../types/databaseTypes';
 import chainData from '../utils/blockchainData';
-import { rFetch, signWeb3MessageMetamask } from '../utils/rFetch';
+import { signWeb3MessageMetamask } from '../utils/rFetch';
 import sockets from '../utils/sockets';
-import { rairSDK } from '../components/common/rairSDK';
 
 const getCoingeckoRates = async () => {
   try {
@@ -284,22 +283,15 @@ const useConnectUser = () => {
 
       try {
         // Check if user exists in DB
-        const userDataResponse = await axios.get<TUserResponse>(
-          `/api/users/${loginData.userAddress}`
-        );
-        let user = userDataResponse.data.user;
-        if (!userDataResponse.data.success || !user) {
-          const userCreation = await axios.post<TUserResponse>(
-            '/api/users',
-            JSON.stringify({ publicAddress: loginData.userAddress }),
-            {
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-          user = userCreation.data.user;
+        const userDataResponse = await rairSDK.users?.findUserByUserAddress({
+          publicAddress: loginData.userAddress.toLowerCase()
+        });
+        let user = userDataResponse.user;
+        if (!userDataResponse.success || !user) {
+          const userCreation = await rairSDK.users?.createUser({
+            publicAddress: loginData.userAddress.toLowerCase()
+          });
+          user = userCreation.user;
         }
 
         // Authorize user
@@ -350,12 +342,12 @@ const useConnectUser = () => {
           }
 
           if (Object.keys(updateData).length) {
-            console.info(updateData);
-            const newUserResponse = await axios.patch(
-              `/api/users/${loginData.userAddress.toLowerCase()}`,
-              updateData
-            );
-            user = newUserResponse.data.user;
+            const newUserResponse =
+              await rairSDK.users?.updateUserByUserAddress({
+                publicAddress: loginData.userAddress.toLowerCase(),
+                ...updateData
+              });
+            user = newUserResponse.user;
           }
           dispatch(loadCurrentUser());
           if (loginResponse.success) {
@@ -388,6 +380,7 @@ const useConnectUser = () => {
     const responseData = await rairSDK?.auth.logout();
 
     if (responseData) {
+      localStorage.removeItem('rair-jwt');
       document.getElementById('rair-asif')?.replaceChildren();
       dispatch(loadCurrentUser());
       sockets.nodeSocket.emit('logout', currentUserAddress?.toLowerCase());

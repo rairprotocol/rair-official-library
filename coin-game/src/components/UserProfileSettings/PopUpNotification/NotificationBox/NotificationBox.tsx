@@ -1,21 +1,21 @@
 import { useCallback } from 'react';
 import { Provider, useStore } from 'react-redux';
 
-import { useAppDispatch, useAppSelector } from '../../../../hooks/useReduxHooks';
+import {
+  useAppDispatch,
+  useAppSelector
+} from '../../../../hooks/useReduxHooks';
 import useSwal from '../../../../hooks/useSwal';
 import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import { CloseIconMobile } from '../../../../images';
 import { fetchNotifications } from '../../../../redux/notificationsSlice';
 import { SocialMenuMobile } from '../../../../styled-components/SocialLinkIcons/SocialLinkIcons';
-import { rFetch } from '../../../../utils/rFetch';
+import { rairSDK } from '../../../common/rairSDK';
 import NotificationPage from '../../NotificationPage/NotificationPage';
 
 import './NotificationBox.css';
 
-const NotificationBox = ({
-  title,
-  el,
-}) => {
+const NotificationBox = ({ title, el }) => {
   const { headerLogoMobile, primaryColor, isDarkMode } = useAppSelector(
     (store) => store.colors
   );
@@ -30,41 +30,29 @@ const NotificationBox = ({
 
   const removeItem = useCallback(async () => {
     if (currentUserAddress) {
-      const result = await rFetch(`/api/notifications`, {
-        method: 'DELETE',
-        body: JSON.stringify({
-          ids: [el._id]
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      const result = await rairSDK.notifications?.deleteNotification({
+        ids: [el._id]
       });
 
-      if (result.success) {
+      if (result?.success) {
         dispatch(fetchNotifications(0));
       }
     }
-  }, [currentUserAddress, el._id]);
+  }, [currentUserAddress, dispatch, el._id]);
 
   const readNotification = useCallback(async () => {
     if (currentUserAddress) {
-      if(!el.read) {
-        const result = await rFetch(`/api/notifications`, {
-          method: 'PUT',
-          body: JSON.stringify({
-            ids: [el._id]
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      if (!el.read) {
+        const result = await rairSDK.notifications?.markNotificationAsRead({
+          ids: [el._id]
         });
 
-        if (result.success) {
+        if (result?.success) {
           dispatch(fetchNotifications(0));
         }
       }
     }
-  }, [currentUserAddress, el._id]);
+  }, [currentUserAddress, dispatch, el._id, el.read]);
 
   const showMoreDetails = () => {
     reactSwal.fire({
@@ -84,9 +72,12 @@ const NotificationBox = ({
 
   return (
     <div className="notification-from-factory">
-      <div className="box-notification"  style={{
-        border: width < 1024 ? `1px solid ${isDarkMode ? "#fff" : "#000"}` : 'none'
-      }}>
+      <div
+        className="box-notification"
+        style={{
+          border:
+            width < 1024 ? `1px solid ${isDarkMode ? '#fff' : '#000'}` : 'none'
+        }}>
         <div className="box-dot-img">
           {!el.read && <div className="dot-notification" />}
           <div className="notification-img">
