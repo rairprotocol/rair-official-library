@@ -10,7 +10,6 @@ import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import { CloseIconMobile } from '../../../../images';
 import { fetchNotifications } from '../../../../redux/notificationsSlice';
 import { SocialMenuMobile } from '../../../../styled-components/SocialLinkIcons/SocialLinkIcons';
-import { rFetch } from '../../../../utils/rFetch';
 import { rairSDK } from '../../../common/rairSDK';
 import NotificationPage from '../../NotificationPage/NotificationPage';
 
