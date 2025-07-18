@@ -1,14 +1,13 @@
-// @ts-nocheck
 import { useCallback, useEffect } from 'react';
 import { Hex } from 'viem';
 
 import { useAppDispatch, useAppSelector } from './useReduxHooks';
 import useSwal from './useSwal';
 
-import { HotdropsFavicon, RairFavicon } from '../images';
+import { rairSDK } from '../components/common/rairSDK';
+import { RairFavicon } from '../images';
 import { loadSettings } from '../redux/settingsSlice';
 import chainData from '../utils/blockchainData';
-import { rFetch } from '../utils/rFetch';
 
 const useServerSettings = () => {
   const dispatch = useAppDispatch();
@@ -38,9 +37,7 @@ const useServerSettings = () => {
       document.createElement('link');
     link.type = 'image/x-icon';
     link.rel = 'icon';
-    link.href = favicon
-      ? favicon
-      : RairFavicon;
+    link.href = favicon ? favicon : RairFavicon;
     document.getElementsByTagName('head')[0].appendChild(link);
 
     return () => {
@@ -63,14 +60,8 @@ const useServerSettings = () => {
 
   const updateServerSetting = useCallback(
     async (setting) => {
-      const { success } = await rFetch(`/api/settings/`, {
-        method: 'POST',
-        body: JSON.stringify(setting),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (success) {
+      const response = await rairSDK.settings?.setSetting(setting);
+      if (response?.success) {
         dispatch(loadSettings());
         reactSwal.fire('Success', 'Setting updated', 'success');
       }

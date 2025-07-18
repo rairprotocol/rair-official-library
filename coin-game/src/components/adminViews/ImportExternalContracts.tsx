@@ -9,10 +9,10 @@ import { useAppSelector } from '../../hooks/useReduxHooks';
 import useSwal from '../../hooks/useSwal';
 import useWeb3Tx from '../../hooks/useWeb3Tx';
 import { validateInteger } from '../../utils/metamaskUtils';
-import { rFetch } from '../../utils/rFetch';
 import sockets from '../../utils/sockets';
 import InputField from '../common/InputField';
 import InputSelect from '../common/InputSelect';
+import { rairSDK } from '../common/rairSDK';
 
 const ImportExternalContract = () => {
   const [selectedContract, setSelectedContract] = useState<string>('');
@@ -71,19 +71,13 @@ const ImportExternalContract = () => {
     }
     setSendingData(true);
 
-    const { success } = await rFetch(`/api/contracts/import/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        networkId: selectedBlockchain,
-        contractAddress: selectedContract.toLowerCase(),
-        limit: limit,
-        contractCreator: owner.toLowerCase()
-      })
+    const response = await rairSDK.contracts?.importContract({
+      networkId: selectedBlockchain,
+      contractAddress: selectedContract.toLowerCase(),
+      limit,
+      contractCreator: owner.toLowerCase()
     });
-    if (success) {
+    if (response?.success) {
       reactSwal.fire(
         'Importing contract',
         'You can navigate away while the tokens are being imported',
