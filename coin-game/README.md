@@ -1,5 +1,3 @@
-[![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rairprotocol/rair-official-library&create_from_path=coin-game)
-
 [![RAIRmarket](https://img.shields.io/badge/RAIR-market-C67FD1)](https://rair.market)
 [![RAIRprotocol](https://img.shields.io/badge/RAIR-protocol-C67FD1)](https://rairprotocol.org)
 ![License](https://img.shields.io/badge/License-Apache2.0-yellow)
