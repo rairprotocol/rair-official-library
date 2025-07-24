@@ -6,7 +6,7 @@ import useSwal from '../../../hooks/useSwal';
 import { BellIcon } from '../../../images';
 import { fetchNotifications } from '../../../redux/notificationsSlice';
 import { SocialBox } from '../../../styled-components/SocialLinkIcons/SocialLinkIcons';
-import { rFetch } from '../../../utils/rFetch';
+import { rairSDK } from '../../common/rairSDK';
 import PaginationBox from '../../MockUpPage/PaginationBox/PaginationBox';
 
 import NotificationBox from './NotificationBox/NotificationBox';
@@ -44,12 +44,11 @@ const PopUpNotification = ({ realDataNotification, notificationCount }) => {
 
   const deleteAllNotificaiton = useCallback(async () => {
     if (currentUserAddress) {
-      const result = await rFetch(`/api/notifications`, {
-        method: 'DELETE',
-        body: JSON.stringify([])
+      const result = await rairSDK.notifications?.markNotificationAsRead({
+        ids: []
       });
 
-      if (result.success) {
+      if (result?.success) {
         dispatch(fetchNotifications(0));
         reactSwal.fire({
           title: 'Success',
@@ -57,7 +56,7 @@ const PopUpNotification = ({ realDataNotification, notificationCount }) => {
         });
       }
     }
-  }, [currentUserAddress, reactSwal]);
+  }, [currentUserAddress, dispatch, reactSwal]);
 
   useEffect(() => {
     if (openModal) {

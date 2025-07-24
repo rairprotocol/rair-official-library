@@ -54,7 +54,7 @@ const respondChallenge = async (challenge, signedChallenge, userAddress) => {
     Swal.fire('Error', `Login failed`, 'error');
     return;
   }
-  return { success: responseData.user ? true : false, user: responseData.user };
+  return responseData;
 };
 
 const signWeb3MessageMetamask = async (userAddress: Hex) => {

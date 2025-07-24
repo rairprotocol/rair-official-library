@@ -1,6 +1,7 @@
+import { GetCategoriesResult } from '@rair-protocol/sdk/src/types/categories';
+import { GetSettingsResult } from '@rair-protocol/sdk/src/types/settings';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import {
   setCustomColors,
@@ -9,23 +10,14 @@ import {
 } from './colorSlice';
 import { dataStatuses } from './commonTypes';
 
+import { rairSDK } from '../components/common/rairSDK';
 import { Blockchain, Category, ServerSettings } from '../types/databaseTypes';
 
-interface CategoriesResponse {
-  success: boolean;
-  result: Array<Category>;
-}
 export interface SettingsState extends ServerSettings {
   dataStatus: dataStatuses;
   blockchainSettings: Array<Blockchain>;
   categoriesStatus: dataStatuses;
   categories: Array<Category>;
-}
-
-interface SettingsResponse {
-  success: boolean;
-  blockchainSettings: Array<Blockchain>;
-  settings: ServerSettings;
 }
 
 const initialState: SettingsState = {
@@ -61,31 +53,33 @@ const initialState: SettingsState = {
 export const loadSettings = createAsyncThunk(
   'settings/loadSettings',
   async (_, { dispatch }) => {
-    const response = await axios.get('/api/settings');
-    dispatch(
-      setCustomColors({
-        ...response.data.settings
-      })
-    );
-    dispatch(
-      setDarkModeCustomLogos({
-        ...response.data.settings
-      })
-    );
-    dispatch(
-      setLightModeCustomLogos({
-        ...response.data.settings
-      })
-    );
-    return response.data;
+    const response = await rairSDK.settings?.getSettings();
+    if (response) {
+      dispatch(
+        setCustomColors({
+          ...response.settings
+        })
+      );
+      dispatch(
+        setDarkModeCustomLogos({
+          ...response.settings
+        })
+      );
+      dispatch(
+        setLightModeCustomLogos({
+          ...response.settings
+        })
+      );
+      return response;
+    }
   }
 );
 
 export const loadCategories = createAsyncThunk(
   'settings/loadCategories',
   async () => {
-    const response = await axios.get('/api/categories');
-    return response.data;
+    const response = await rairSDK.categories?.getCategories();
+    return response;
   }
 );
 
@@ -100,13 +94,15 @@ export const settingsSlice = createSlice({
       })
       .addCase(
         loadSettings.fulfilled,
-        (state, action: PayloadAction<SettingsResponse>) => {
-          return {
-            ...state,
-            ...action.payload.settings,
-            dataStatus: dataStatuses.Complete,
-            blockchainSettings: action.payload.blockchainSettings
-          };
+        (state, action: PayloadAction<GetSettingsResult | undefined>) => {
+          if (action.payload) {
+            return {
+              ...state,
+              ...action.payload.settings,
+              dataStatus: dataStatuses.Complete,
+              blockchainSettings: action.payload.blockchainSettings
+            };
+          }
         }
       )
       .addCase(loadSettings.rejected, (state) => {
@@ -117,10 +113,10 @@ export const settingsSlice = createSlice({
       })
       .addCase(
         loadCategories.fulfilled,
-        (state, action: PayloadAction<CategoriesResponse>) => {
+        (state, action: PayloadAction<GetCategoriesResult | undefined>) => {
           return {
             ...state,
-            categories: action.payload.result,
+            categories: action.payload?.result || [],
             categoriesStatus: dataStatuses.Complete
           };
         }

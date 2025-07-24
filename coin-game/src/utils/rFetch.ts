@@ -1,14 +1,9 @@
-
 // import { Web3AuthSigner } from '@alchemy/aa-signers/web3auth';
-import axios from 'axios';
+import { Intents } from '@rair-protocol/sdk/src/types/auth';
 import { BrowserProvider, Provider } from 'ethers';
 import Swal from 'sweetalert2';
 import { Hex } from 'viem';
 
-import {
-  TAuthGetChallengeResponse,
-  TUserResponse
-} from '../axios.responseTypes';
 import { rairSDK } from '../components/common/rairSDK';
 
 const signIn = async (provider: Provider) => {
@@ -16,26 +11,24 @@ const signIn = async (provider: Provider) => {
   if (!provider && window.ethereum) {
     provider = new BrowserProvider(window.ethereum);
   }
-  // const responseData = await axios.get<TUserResponse>(`/api/users/me`);
-  const responseData = rairSDK.auth?.currentUser();
+  const responseData = await rairSDK.auth?.currentUser();
 
-  // const { success } = responseData;
-  return false;
-  //const loginResponse = await signWeb3Message(currentUser.address);
-  //return loginResponse?.success;
+  if (responseData?.success && responseData.user) {
+    const loginResponse = await signWeb3MessageMetamask(
+      responseData.user.publicAddress!
+    );
+    return loginResponse?.success;
+  }
 };
 
 const getChallenge = async (userAddress: Hex, ownerAddress?: Hex) => {
-  const responseData = await axios.post<TAuthGetChallengeResponse>(
-    `/api/auth/get_challenge/`,
-    {
-      userAddress,
-      intent: 'login',
-      ownerAddress: ownerAddress || userAddress
-    }
-  );
-  const { response } = responseData.data;
-  return response;
+  const responseData = await rairSDK.auth?.getChallenge({
+    userAddress,
+    intent: Intents.Login,
+    ownerAddress: ownerAddress || userAddress
+  });
+
+  return responseData?.response;
 };
 
 const respondChallenge = async (challenge, signedChallenge, userAddress) => {
