@@ -89,10 +89,8 @@ const UserProfilePage: React.FC = () => {
 
         const response = await rairSDK.nft?.getTokensForUser({
           userAddress: userAddress,
-          PaginationParams: {
-            itemsPerPage: number,
-            pageNum: page
-          },
+          itemsPerPage: number,
+          pageNum: page,
           onResale: onResale
         });
 
