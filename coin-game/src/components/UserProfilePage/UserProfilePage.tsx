@@ -413,9 +413,11 @@ const UserProfilePage: React.FC = () => {
               <CustomShareButton title="Share" handleClick={handleClickOpen} />
             )}
 
-            <div className="block-score">
-              {score && <>{`${score.label}: ${score.value}`}</>}
-            </div>
+            {score && (
+              <div className="block-score">
+                <>{`${score.label}: ${score.value}`}</>
+              </div>
+            )}
           </div>
           <div className="tabs-section">
             <Tabs
