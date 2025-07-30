@@ -249,6 +249,19 @@
   background-color: var(--bubblegum);
 }
 
+.block-score {
+  font-size: 1.2rem;
+  background: var(--royal-ice);
+  border-radius: 12px;
+  padding: 5px 10px;
+  margin: 10px 0 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 120px;
+}
+
 @media screen and (max-width: 1280px) {
   .user-page-background.rhyno,
   .user-page-background.charcoal {

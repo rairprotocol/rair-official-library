@@ -70,6 +70,7 @@ const UserProfilePage: React.FC = () => {
     undefined
   );
   const [metadataFilter, setMetadataFilter] = useState<boolean>(false);
+  const [score, setScore] = useState<number>();
 
   const rSwal = useSwal();
   const { width } = useWindowDimensions();
@@ -112,6 +113,21 @@ const UserProfilePage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [userAddress, onResale, setIsResaleLoding]
   );
+
+  const getScore = useCallback(async () => {
+    if (currentUserAddress) {
+      const score = await rairSDK.users.getUserValue({
+        userAddress: currentUserAddress,
+        namespace: 'coin-game',
+        label: 'score'
+      });
+      setScore(score);
+
+      if (score.success && score.data.length > 0) {
+        setScore(score.data[0]);
+      }
+    }
+  }, [currentUserAddress]);
 
   const handleNewUserStatus = useCallback(async () => {
     const requestContract = await rairSDK?.contracts?.getContractList({
@@ -256,6 +272,10 @@ const UserProfilePage: React.FC = () => {
   }, [handleNewUserStatus]);
 
   useEffect(() => {
+    getScore();
+  }, [getScore]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -392,6 +412,10 @@ const UserProfilePage: React.FC = () => {
             {!editMode && (
               <CustomShareButton title="Share" handleClick={handleClickOpen} />
             )}
+
+            <div className="block-score">
+              {score && <>{`${score.label}: ${score.value}`}</>}
+            </div>
           </div>
           <div className="tabs-section">
             <Tabs
