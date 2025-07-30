@@ -142,10 +142,10 @@ const UserProfilePage: React.FC = () => {
       setTabIndexItems(0);
       setUserData(undefined);
       const response = await rairSDK.users?.findUserByUserAddress({
-        publicAddress: userAddressChanged;
+        publicAddress: userAddressChanged
       });
 
-      if (response.user) {
+      if (response?.user) {
         if (response.user) {
           setUserData(response.user);
         } else {
