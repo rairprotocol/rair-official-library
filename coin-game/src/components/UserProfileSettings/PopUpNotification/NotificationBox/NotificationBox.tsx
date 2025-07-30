@@ -10,7 +10,6 @@ import useWindowDimensions from '../../../../hooks/useWindowDimensions';
 import { CloseIconMobile } from '../../../../images';
 import { fetchNotifications } from '../../../../redux/notificationsSlice';
 import { SocialMenuMobile } from '../../../../styled-components/SocialLinkIcons/SocialLinkIcons';
-import { rFetch } from '../../../../utils/rFetch';
 import { rairSDK } from '../../../common/rairSDK';
 import NotificationPage from '../../NotificationPage/NotificationPage';
 
@@ -31,27 +30,29 @@ const NotificationBox = ({ title, el }) => {
 
   const removeItem = useCallback(async () => {
     if (currentUserAddress) {
-      const result = await rairSDK?.notifications?.deleteNotification({
+      const result = await rairSDK.notifications?.deleteNotification({
         ids: [el._id]
       });
-      if (result?.deleted) {
+
+      if (result?.success) {
         dispatch(fetchNotifications(0));
       }
     }
-  }, [currentUserAddress, el._id]);
+  }, [currentUserAddress, dispatch, el._id]);
 
   const readNotification = useCallback(async () => {
     if (currentUserAddress) {
       if (!el.read) {
-        const result = await rairSDK?.notifications?.markNotificationAsRead({
+        const result = await rairSDK.notifications?.markNotificationAsRead({
           ids: [el._id]
         });
-        if (result?.updated) {
+
+        if (result?.success) {
           dispatch(fetchNotifications(0));
         }
       }
     }
-  }, [currentUserAddress, el._id]);
+  }, [currentUserAddress, dispatch, el._id, el.read]);
 
   const showMoreDetails = () => {
     reactSwal.fire({

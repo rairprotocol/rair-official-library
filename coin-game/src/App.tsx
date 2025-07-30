@@ -17,16 +17,13 @@ import ListCollections from './components/creatorStudio/ListCollections';
 import WorkflowSteps from './components/creatorStudio/workflowSteps';
 import DemoMediaUpload from './components/DemoMediaUpload/DemoMediaUpload';
 import Footer from './components/Footer/Footer';
-import WelcomeHeader from './components/FrontPage/WelcomeHeader';
 import MainHeader from './components/Header/MainHeader';
 import IframePage from './components/iframePage/IframePage';
 import TestIframe from './components/iframePage/testIframe';
 import InquiriesPage from './components/InquiriesPage/InquiriesPage';
-import MainPage from './components/MainPage/MainPage';
 import MinterMarketplace from './components/marketplace/MinterMarketplace';
 import MockUpPage from './components/MockUpPage/MockUpPage';
-import { NftDataCommonLink } from './components/MockUpPage/NftList/NftData/NftDataCommonLink';
-import NftDataExternalLink from './components/MockUpPage/NftList/NftData/NftDataExternalLink';
+import MomentsGame from './components/MomentsGame/MomentsGame';
 import MenuNavigation from './components/Navigation/Menu';
 import RairProduct from './components/nft/rairCollection';
 import Token from './components/nft/Token';
@@ -76,7 +73,6 @@ import ErrorFallback from './views/ErrorFallback/ErrorFallback';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import MomentsGame from './components/MomentsGame/MomentsGame';
 /* Track a page view */
 // const analytics = getInformationGoogleAnalytics();
 // analytics.page();
@@ -85,7 +81,6 @@ const SentryRoutes = withSentryReactRouterV6Routing(Routes);
 
 function App() {
   const dispatch = useAppDispatch();
-  const { blockchainSettings } = useAppSelector((store) => store.settings);
   const [renderBtnConnect, setRenderBtnConnect] = useState(false);
   const [showAlert, setShowAlert] = useState(true);
   const [isSplashPage, setIsSplashPage] = useState(false);
@@ -411,7 +406,7 @@ function App() {
                   {
                     path: '/about-page',
                     content: <AboutPageNew {...{ setIsSplashPage }} />
-                  },
+                  }
                   // {
                   //   path: '/main-page',
                   //   content: (
