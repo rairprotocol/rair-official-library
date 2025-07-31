@@ -1,5 +1,5 @@
 //@ts-nocheck
-import useLongPress from "../hooks/useLongPress.tsx";
+import useLongPress from '../hooks/useLongPress.tsx';
 
 const PhysicalMovements = () => {
   const onKeyLongPress = (type, key, keyCode, code) => {
@@ -11,48 +11,48 @@ const PhysicalMovements = () => {
         which: keyCode,
         shiftKey: false,
         ctrlKey: false,
-        metaKey: false,
+        metaKey: false
       })
     );
   };
 
   const longWPressEvent = useLongPress(
-    () => onKeyLongPress("keydown", "W", 87, "KeyW"),
+    () => onKeyLongPress('keydown', 'W', 87, 'KeyW'),
     null,
     {
       shouldPreventDefault: true,
       delay: 0,
-      onClear: () => onKeyLongPress("keyup", "W", 87, "KeyW"),
+      onClear: () => onKeyLongPress('keyup', 'W', 87, 'KeyW')
     }
   );
 
   const longSPressEvent = useLongPress(
-    () => onKeyLongPress("keydown", "S", 83, "KeyS"),
+    () => onKeyLongPress('keydown', 'S', 83, 'KeyS'),
     null,
     {
       shouldPreventDefault: true,
       delay: 0,
-      onClear: () => onKeyLongPress("keyup", "S", 83, "KeyS"),
+      onClear: () => onKeyLongPress('keyup', 'S', 83, 'KeyS')
     }
   );
 
   const longDPressEvent = useLongPress(
-    () => onKeyLongPress("keydown", "D", 68, "KeyD"),
+    () => onKeyLongPress('keydown', 'D', 68, 'KeyD'),
     null,
     {
       shouldPreventDefault: true,
       delay: 0,
-      onClear: () => onKeyLongPress("keyup", "D", 68, "KeyD"),
+      onClear: () => onKeyLongPress('keyup', 'D', 68, 'KeyD')
     }
   );
 
   const longAPressEvent = useLongPress(
-    () => onKeyLongPress("keydown", "A", 65, "KeyA"),
+    () => onKeyLongPress('keydown', 'A', 65, 'KeyA'),
     null,
     {
       shouldPreventDefault: true,
       delay: 0,
-      onClear: () => onKeyLongPress("keyup", "A", 65, "KeyA"),
+      onClear: () => onKeyLongPress('keyup', 'A', 65, 'KeyA')
     }
   );
 

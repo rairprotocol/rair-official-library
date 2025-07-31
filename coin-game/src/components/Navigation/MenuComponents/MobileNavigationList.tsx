@@ -15,6 +15,7 @@ import { RairFavicon, RairTokenLogo } from '../../../images';
 import { fetchNotifications } from '../../../redux/notificationsSlice';
 import { rFetch } from '../../../utils/rFetch';
 import LoadingComponent from '../../common/LoadingComponent';
+import { rairSDK } from '../../common/rairSDK';
 import { TooltipBox } from '../../common/Tooltip/TooltipBox';
 import { NavFooter, NavFooterBox } from '../../Footer/FooterItems/FooterItems';
 import PaginationBox from '../../MockUpPage/PaginationBox/PaginationBox';
@@ -109,12 +110,12 @@ const MobileNavigationList: React.FC<IMobileNavigationList> = ({
   const deleteAllNotificaiton = useCallback(async () => {
     if (currentUserAddress) {
       setFlagLoading(true);
-      const result = await rFetch(`/api/notifications`, {
-        method: 'DELETE',
-        body: JSON.stringify([])
+
+      const result = await rairSDK?.notifications?.deleteNotification({
+        ids: [el._id]
       });
 
-      if (result.success) {
+      if (result?.deleted) {
         dispatch(fetchNotifications());
         reactSwal.fire({
           title: 'Success',

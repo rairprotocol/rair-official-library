@@ -1,7 +1,7 @@
 //@ts-nocheck
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
-import { wood } from "../utils/textureManager.ts";
+import { wood } from '../utils/textureManager.ts';
 
 const Object = ({ texture, position, name }) => {
   const ref = useRef();

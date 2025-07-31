@@ -18,6 +18,7 @@ import { BillTransferIcon, defaultHotDrops } from '../../../images';
 import { checkIPFSanimation } from '../../../utils/checkIPFSanimation';
 import { getRGBValue } from '../../../utils/determineColorRange';
 import { rFetch } from '../../../utils/rFetch';
+import { rairSDK } from '../../common/rairSDK';
 import ResaleModal from '../../nft/PersonalProfile/PersonalProfileMyNftTab/ResaleModal/ResaleModal';
 import defaultImage from '../../UserProfileSettings/images/defaultUserPictures.png';
 import { ImageLazy } from '../ImageLazy/ImageLazy';
@@ -157,14 +158,11 @@ const NftItemForCollectionViewComponent: React.FC<
 
   const getTokenData = useCallback(async () => {
     if (!contract && item) {
-      const response = await rFetch(
-        `/api/tokens/id/${item._id}`,
-        undefined,
-        undefined,
-        undefined
-      );
-      if (response.success) {
-        setTokenInfo(response.tokenData);
+      const response = await rairSDK?.tokens?.getFullTokenInfo({
+        id: item._id
+      });
+      if (response?.tokenData) {
+        setTokenInfo(response?.tokenData);
       }
     }
   }, [item, contract]);

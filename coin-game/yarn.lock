@@ -1695,10 +1695,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@rair-protocol/sdk@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@rair-protocol/sdk/-/sdk-0.1.5.tgz#f0b2a9c9d7011fa7fe799512696c97339f1542f0"
-  integrity sha512-uxDZoI3/TtJQDEaKcM5cpmQlBzOj7LhXebhIXGps+vIBHXMx86Ty6zEVqH9qbIdoUW78M5pfYV41AEFlU3ob1A==
+"@rair-protocol/sdk@^0.1.18":
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/@rair-protocol/sdk/-/sdk-0.1.18.tgz#f43f0eb2026ffb8e1c5960cbd3556d39e1933dd2"
+  integrity sha512-XOizbD5Lj03/3LpE7RMX6J+56LrO2H1zc+3Fib7nybJeiltB//mF4+UJqEYkHzeiJL53uWhSbzs3ey50t+9bQg==
 
 "@react-spring/animated@~9.6.1":
   version "9.6.1"
