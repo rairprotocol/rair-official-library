@@ -124,7 +124,7 @@ const UserProfilePage: React.FC = () => {
       setScore(score);
 
       if (score.success && score.data.length > 0) {
-        setScore(score.data[0]);
+        setScore(score.data[score.data.length - 1]);
       }
     }
   }, [currentUserAddress]);
