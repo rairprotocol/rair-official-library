@@ -1,13 +1,8 @@
-<<<<<<< 40-login-fix
-[![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rairprotocol/rair-official-library&create_from_path=coin-game)
-
-=======
-Clone this repository on your own GitHub account and deploy it to Netlify:
+Clone this repository on your own GitHub account and deploy it to Netlify with one click: fully working web3 game with connected backend!
 
 [![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rairprotocol/rair-official-library&create_from_path=coin-game)
 
-![Banner](../assets/img/banner.webp)
->>>>>>> main
+Switchout the backend env URL with your back easy to deploy backend for complete open-source sovereign dapp infrastructure. 
 
 [![RAIRmarket](https://img.shields.io/badge/RAIR-market-C67FD1)](https://rair.market)
 [![RAIRprotocol](https://img.shields.io/badge/RAIR-protocol-C67FD1)](https://rairprotocol.org)
